@@ -162,7 +162,44 @@
             font-size: 1.15rem;
             color: var(--text-muted);
             max-width: 780px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+        }
+
+        .hero-callout {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin-bottom: 28px;
+            font-size: 0.92rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-callout-tag {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .hero-callout-text {
+            color: var(--text-muted);
+        }
+
+        .hero-callout-link {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .hero-callout-link:hover {
+            color: #fff;
         }
 
         .hero-actions {
@@ -918,10 +955,18 @@
                 математически точные разрешения для апскейлинга, освобождение оперативной памяти под видеочип,
                 экранный Ambilight без нагрузки на процессор и локальное голосовое управление на встроенном Intel NPU.
             </p>
+
+            <div class="hero-callout">
+                <span class="hero-callout-tag">Инструкция</span>
+                <span class="hero-callout-text">Чистая установка и порядок стека:</span>
+                <a href="guides/setup-guide.html" class="hero-callout-link">Пошаговая настройка с нуля до полной готовности к играм →</a>
+            </div>
+
             <div class="hero-actions">
-                <a href="#downloads" class="btn btn-primary">Каталог загрузок</a>
-                <a href="#resolutions" class="btn btn-secondary">Подробнее о разрешениях 16:10</a>
-                <a href="#optimize" class="btn btn-secondary">Скрипт Optimize-Handheld</a>
+                <a href="guides/setup-guide.html" class="btn btn-primary">Пошаговая установка стека с нуля →</a>
+                <a href="#downloads" class="btn btn-secondary">Каталог загрузок</a>
+                <a href="#resolutions" class="btn btn-secondary">Разрешения 16:10</a>
+                <a href="#optimize" class="btn btn-secondary">Очистка ОС</a>
             </div>
 
             <div class="stats-grid">
@@ -1284,6 +1329,18 @@
             </div>
 
             <div class="guides-grid">
+                <a href="guides/setup-guide.html" class="portal-guide-card" style="border-color: rgba(16, 185, 129, 0.35); background: linear-gradient(180deg, rgba(16, 185, 129, 0.06) 0%, var(--bg-card) 100%);">
+                    <div>
+                        <span class="card-badge badge-power">Установка с нуля</span>
+                        <h3>Пошаговая установка стека: с чистой Windows 11 до игр</h3>
+                        <p>
+                            Полная последовательность развертывания системы для геймеров: BIOS (12-16 ГБ VRAM),
+                            снятие заводского ограничения кулеров 75%, драйверы, ClawTweaks, очистка Windows и кастомные разрешения.
+                        </p>
+                    </div>
+                    <span class="read-link" style="color: var(--accent-green);">Читать пошаговый гайд →</span>
+                </a>
+
                 <a href="guides/vrr-display.html" class="portal-guide-card">
                     <div>
                         <span class="card-badge badge-vrr">Дисплей и VRR</span>
