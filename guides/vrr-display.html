@@ -59,7 +59,7 @@
         }
 
         /* Навигация */
-        header {
+        .site-header {
             position: sticky;
             top: 0;
             z-index: 100;
@@ -413,8 +413,30 @@
         }
 
         @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .site-header {
+                position: static;
+            }
+
+            .guide-header {
+                padding: 16px 0 24px;
+            }
+
             .guide-header h1 {
-                font-size: 1.7rem;
+                font-size: 1.55rem;
+                line-height: 1.25;
+            }
+
+            .guide-header p.lead {
+                font-size: 0.95rem;
+            }
+
+            .guide-meta {
+                flex-direction: column;
+                gap: 8px;
             }
 
             .guide-nav-grid {
@@ -426,7 +448,7 @@
 <body>
 
     <!-- Навигация -->
-    <header>
+    <header class="site-header">
         <div class="container nav-container">
             <a href="../index.html" class="logo">
                 <span>MSI Claw Suite</span>
@@ -454,7 +476,7 @@
         </div>
 
         <!-- Заголовок статьи -->
-        <header class="guide-header">
+        <div class="guide-header">
             <span class="guide-badge">Аппаратная часть: Дисплей</span>
             <h1>Экран и переменная частота обновления (VRR) на MSI Claw</h1>
             <p class="lead">
@@ -475,7 +497,7 @@
                     <strong style="color: var(--text-main);">7 минут</strong>
                 </div>
             </div>
-        </header>
+        </div>
 
         <!-- Статья -->
         <article>
