@@ -1112,10 +1112,12 @@
                     <h3>Базовая оптимизация</h3>
                     <p>Безопасный набор для любых сценариев. Отключает компоненты, не нужные на игровом устройстве.</p>
                     <ul class="opt-list">
-                        <li>• Удаление 28 фоновых пакетов ИИ (Recall, Click-to-Do)</li>
+                        <li>• Удаление фоновых пакетов ИИ (Recall, Copilot)</li>
                         <li>• Отключение телеметрии и службы DiagTrack</li>
-                        <li>• Блокировка рекламы и предложений в меню «Пуск»</li>
-                        <li>• Перевод спящего режима S0 в гибернацию S4</li>
+                        <li>• Полная гибернация S4: отключение S0, автогибернация (10м DC / 60м AC), кнопки на гибернацию</li>
+                        <li>• Фиксированный файл подкачки 16 ГБ для защиты от вылетов DirectX DXGI</li>
+                        <li>• Аппаратное масштабирование GPU с сохранением пропорций (Maintain Aspect Ratio)</li>
+                        <li>• Сенсорная клавиатура на экране входа (отключение политики ARSO)</li>
                     </ul>
                 </div>
 
@@ -1124,10 +1126,10 @@
                     <h3>Глубокая разгрузка</h3>
                     <p>Стандартный уровень плюс выгрузка второстепенных фоновых утилит и служб синхронизации.</p>
                     <ul class="opt-list">
-                        <li>• Блокировка синхронизации OneDrive</li>
+                        <li>• Блокировка фоновой синхронизации OneDrive</li>
                         <li>• Выгрузка фонового агента обновления Intel DSA</li>
                         <li>• Остановка неиспользуемых фоновых служб аудиоэффектов</li>
-                        <li>• Настройка размера файла подкачки под объем VRAM</li>
+                        <li>• Удаление устаревших компонентов (WMIC, Media Player, Phone Link)</li>
                     </ul>
                 </div>
 
@@ -1151,7 +1153,7 @@
             </div>
 
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                <a href="https://github.com/carbonumbrella/optimize-handheld/releases/tag/v1.0.3" target="_blank" class="btn btn-primary">Скачать Optimize-Handheld (v1.0.3 ZIP)</a>
+                <a href="https://github.com/carbonumbrella/optimize-handheld/releases" target="_blank" class="btn btn-primary">Скачать Optimize-Handheld (v1.1.0 ZIP)</a>
                 <a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank" class="btn btn-secondary">Репозиторий на GitHub</a>
             </div>
         </div>
@@ -1405,9 +1407,9 @@
                         </tr>
                         <tr>
                             <td><strong>Optimize-Handheld</strong></td>
-                            <td>Очистка Windows 11, удаление Recall/ИИ, фикс спящего режима S0/S4</td>
-                            <td><span class="tag-version">v1.0.3</span></td>
-                            <td><a href="https://github.com/carbonumbrella/optimize-handheld/releases/tag/v1.0.3" target="_blank" class="btn-download-link">Скачать ZIP (v1.0.3)</a></td>
+                            <td>Очистка Windows 11, удаление Recall/ИИ, автонастройка S4 гибернации, 16 ГБ pagefile, масштабирование GPU</td>
+                            <td><span class="tag-version">v1.1.0</span></td>
+                            <td><a href="https://github.com/carbonumbrella/optimize-handheld/releases" target="_blank" class="btn-download-link">Скачать ZIP (v1.1.0)</a></td>
                             <td><a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">optimize-handheld</a></td>
                         </tr>
                         <tr>
