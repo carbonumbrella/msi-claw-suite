@@ -601,7 +601,7 @@
             <section id="step-7">
                 <h2><span class="step-num">7</span> Очистка Windows: Optimize-Handheld</h2>
                 <p>
-                    Запускаем скрипт <code>Optimize-Handheld</code> с правами администратора после завершения всех обновлений Windows Update:
+                    Скачиваем пакет очистки из репозитория <a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">carbonumbrella/optimize-handheld</a> и запускаем скрипт <code>Optimize-Handheld.ps1</code> с правами администратора после завершения всех обновлений Windows Update:
                 </p>
                 <ol>
                     <li>Выбираем профиль <strong>Standard</strong>: удаление пакетов Recall и Copilot, отключение службы телеметрии DiagTrack.</li>
@@ -617,7 +617,7 @@
                     Добавляем промежуточные режимы 1536x960 (коэффициент 1.25x) и 1600x1000 (коэффициент 1.20x):
                 </p>
                 <ol>
-                    <li>Запускаем командный файл <code>Apply_Claw_1536x960.bat</code> (или <code>Apply_Claw_1600x1000.bat</code>) из пакета <code>handheld-resolution-pack</code>.</li>
+                    <li>Скачиваем набор из репозитория <a href="https://github.com/carbonumbrella/handheld-resolution-pack" target="_blank">carbonumbrella/handheld-resolution-pack</a> и запускаем командный файл <code>Apply_Claw_1536x960.bat</code> (или <code>Apply_Claw_1600x1000.bat</code>).</li>
                     <li>Скрипт вносит ключи в реестр видеокарты и патчит вспомогательную службу виджета ClawTweaks.</li>
                     <li>Перезагружаем графический драйвер комбинацией <code>Win + Ctrl + Shift + B</code> или перезагружаем консоль.</li>
                     <li>Новые режимы доступны в настройках дисплея Windows, внутри игровых меню и в оверлее ClawTweaks по правой кнопке Claw.</li>
@@ -643,9 +643,9 @@
                     Открытые утилиты, подключаемые по личным предпочтениям:
                 </p>
                 <ul>
-                    <li><strong>SaySo:</strong> голосовой ввод текста и системные команды на встроенном нейропроцессоре Intel NPU по удержанию заднего лепестка M1/M2.</li>
-                    <li><strong>ClawAmbilight:</strong> фоновая подсветка стиков и кнопок цветами экрана с усреднением кадров на графическом чипе.</li>
-                    <li><strong>kbdhaptic:</strong> виброотклик моторов при вводе текста на экранной сенсорной клавиатуре и автоповорот экрана.</li>
+                    <li><strong><a href="https://github.com/carbonumbrella/sayso" target="_blank">SaySo</a>:</strong> голосовой ввод текста и системные команды на встроенном нейропроцессоре Intel NPU по удержанию заднего лепестка M1/M2.</li>
+                    <li><strong><a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank">ClawAmbilight</a>:</strong> фоновая подсветка стиков и кнопок цветами экрана с усреднением кадров на графическом чипе.</li>
+                    <li><strong><a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank">kbdhaptic</a>:</strong> виброотклик моторов при вводе текста на экранной сенсорной клавиатуре и автоповорот экрана.</li>
                 </ul>
             </section>
         </article>
