@@ -2,7 +2,7 @@
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://carbonumbrella.github.io/msi-claw-suite/)
 
-Сайт-руководство и центральный хаб оптимизаций и открытых утилит для портативных игровых консолей MSI Claw (Claw 8 AI+, Claw 7 AI+, Claw A1M, Claw A8).
+Сайт-руководство и центральный хаб оптимизаций и открытых утилит для портативных игровых консолей MSI Claw (Claw 8 AI+, Claw 7 AI+, Claw A1M).
 
 - **Разрешения 16:10:** математически выверенные промежуточные разрешения 1600x1000 (1.20x) и 1536x960 (1.25x / 80%) для качественной работы темпоральных апскейлеров (XeSS, FSR, TAAU) с сохранением VRR 48-120 Гц.
 - **Очистка Windows 11:** освобождение оперативной памяти под видеочип (снижение потребления памяти Windows с > 5.7 ГБ до 3.5 ГБ), удаление 28 пакетов локального ИИ, перевод сна в гибернацию S4.
@@ -16,7 +16,7 @@
 - [SaySo](https://github.com/carbonumbrella/sayso)
 - [ClawAmbilight](https://github.com/carbonumbrella/claw-ambilight)
 - [kbdhaptic](https://github.com/carbonumbrella/kbdhaptic)
-- Сторонняя интеграция: [ClawTweaks](https://github.com/enterTheVoidCode/ClawTweaksCenter)
+- Сторонняя интеграция: [ClawTweaks](https://github.com/enterTheVoidCode/ClawTweaks)
 
 ## Лицензия
 
