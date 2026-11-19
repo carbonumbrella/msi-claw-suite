@@ -242,6 +242,11 @@
             border-bottom: 1px solid var(--border-color);
         }
 
+        /* Компенсация высоты фиксированной шапки при переходе по якорям */
+        section[id] {
+            scroll-margin-top: 80px;
+        }
+
         .section-header {
             margin-bottom: 36px;
         }
@@ -804,6 +809,16 @@
             .swipe-hint {
                 display: flex;
             }
+
+            section[id] {
+                scroll-margin-top: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section[id] {
+                scroll-margin-top: 125px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1257,42 +1272,6 @@
         </div>
     </section>
 
-    <!-- Калибровка -->
-    <section id="calibration">
-        <div class="container">
-            <div class="section-header">
-                <h2>Аппаратная калибровка и системные параметры</h2>
-                <p>Дополнительные точечные настройки, улучшающие поведение экрана, клавиатуры и графической памяти.</p>
-            </div>
-
-            <div class="calib-grid">
-                <div class="calib-card">
-                    <h3>Цветовой профиль матрицы CSW PN8007QB1-2</h3>
-                    <p>
-                        Опциональный теплый профиль ICC от лаборатории Notebookcheck для любителей кинематографичной палитры (6500K)
-                        вместо яркого заводского холодного белого (7200K).
-                    </p>
-                </div>
-
-                <div class="calib-card">
-                    <h3>Сенсорная клавиатура на экране входа</h3>
-                    <p>
-                        Отключение системной политики Automatic Restart Sign-On (ARSO) через реестр Windows.
-                        Предотвращает внезапное сворачивание сенсорной экранной клавиатуры при попытке ввода PIN-кода на экране блокировки.
-                    </p>
-                </div>
-
-                <div class="calib-card">
-                    <h3>Выделение до 24 ГБ памяти GPU в BIOS</h3>
-                    <p>
-                        Настройка параметра Shared GPU Memory Override в BIOS Performance Mode.
-                        Позволяет графическому ядру Intel Arc адресовать до 24.5 ГБ объединенной памяти LPDDR5x для тяжелых текстурных пакетов и локальных нейросетей.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- База знаний и руководства -->
     <section id="guides">
         <div class="container">
@@ -1340,6 +1319,42 @@
                     </div>
                     <span class="read-link">Читать руководство →</span>
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Калибровка -->
+    <section id="calibration">
+        <div class="container">
+            <div class="section-header">
+                <h2>Аппаратная калибровка и системные параметры</h2>
+                <p>Дополнительные точечные настройки, улучшающие поведение экрана, клавиатуры и графической памяти.</p>
+            </div>
+
+            <div class="calib-grid">
+                <div class="calib-card">
+                    <h3>Цветовой профиль матрицы CSW PN8007QB1-2</h3>
+                    <p>
+                        Опциональный теплый профиль ICC от лаборатории Notebookcheck для любителей кинематографичной палитры (6500K)
+                        вместо яркого заводского холодного белого (7200K).
+                    </p>
+                </div>
+
+                <div class="calib-card">
+                    <h3>Сенсорная клавиатура на экране входа</h3>
+                    <p>
+                        Отключение системной политики Automatic Restart Sign-On (ARSO) через реестр Windows.
+                        Предотвращает внезапное сворачивание сенсорной экранной клавиатуры при попытке ввода PIN-кода на экране блокировки.
+                    </p>
+                </div>
+
+                <div class="calib-card">
+                    <h3>Выделение до 24 ГБ памяти GPU в BIOS</h3>
+                    <p>
+                        Настройка параметра Shared GPU Memory Override в BIOS Performance Mode.
+                        Позволяет графическому ядру Intel Arc адресовать до 24.5 ГБ объединенной памяти LPDDR5x для тяжелых текстурных пакетов и локальных нейросетей.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
