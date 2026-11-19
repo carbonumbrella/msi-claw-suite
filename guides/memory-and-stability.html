@@ -485,8 +485,8 @@
             <span class="guide-badge">Операционная система и архитектура</span>
             <h1>Оптимизация памяти, файл подкачки и стабильность системы на MSI Claw</h1>
             <p class="lead">
-                Архитектура объединенной памяти LPDDR5x, предотвращение сбоев DirectX через фиксацию 16 ГБ pagefile,
-                архитектурные причины отказа от HandheldCompanion и нюансы безопасности ядра.
+                Архитектура объединенной памяти LPDDR5x, предотвращение сбоев DirectX через фиксацию 16 ГБ pagefile
+                и нюансы безопасности ядра Windows 11.
             </p>
             <div class="guide-meta">
                 <div class="guide-meta-item">
@@ -593,52 +593,19 @@
             </section>
 
             <section id="software-choice">
-                <h2>4. Выбор софта: почему ClawTweaks, а не HandheldCompanion</h2>
+                <h2>4. Выбор софта для управления консолью</h2>
                 <p>
-                    Среди сообщества портативных ПК популярен универсальный пакет HandheldCompanion.
-                    Однако на архитектуре MSI Claw использование этой утилиты настоятельно не рекомендуется.
+                    На портативном ПК с объединенной памятью LPDDR5x и строгим теплопакетом выбор управляющего софта напрямую влияет на стабильность кадров.
+                    Тяжелые фоновые службы отбирают оперативную память у видеокарты, а непрерывный опрос датчиков может забивать шину управления.
                 </p>
 
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Критерий</th>
-                                <th><a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank" style="color: var(--accent-cyan);">ClawTweaks</a> (Рекомендуется)</th>
-                                <th>HandheldCompanion (Не рекомендуется)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Способ взаимодействия</strong></td>
-                                <td>Прямая однократная запись в регистры TDP по запросу</td>
-                                <td>Постоянный цикл опроса через ACPI WMI и EC-контроллер</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Влияние на фреймтайм</strong></td>
-                                <td>Нулевое (отсутствие фоновых прерываний)</td>
-                                <td>Периодические микростаттеры и фризы в игровом потоке</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Интеграция с оболочкой</strong></td>
-                                <td>Легковесный виджет Xbox Game Bar</td>
-                                <td>Тяжелый отдельный процесс с собственным оверлеем</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Расход батареи в фоне</strong></td>
-                                <td>Около 0.0% CPU</td>
-                                <td>Постоянная загрузка одного ядра до 2-4%</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="info-box">
+                    <strong>Подробный разбор управляющих утилит:</strong>
+                    Анализ аппаратного конфликта HandheldCompanion на шине EC, системного оверхеда штатного MSI Center M,
+                    а также возможностей пакета ClawTweaks с консольным режимом FSE и нативным виджетом вынесен в отдельную статью:
+                    <br><br>
+                    <a href="software-choice.html" style="font-weight: 600; color: var(--accent-cyan);">Читать руководство: почему ClawTweaks, а не MSI Center M и HandheldCompanion →</a>
                 </div>
-
-                <p>
-                    Контроллер встроенного управления питанием (Embedded Controller) на материнских платах MSI
-                    медленно обрабатывает запросы WMI. Когда сторонняя программа начинает опрашивать его датчики каждые 50-100 миллисекунд,
-                    шина обмена данными забивается, вызывая кратковременные подвисания системы.
-                    ClawTweaks лишен этой проблемы, так как не производит поллинг шины в непрерывном цикле.
-                </p>
             </section>
 
             <section id="hvci-audio">
@@ -669,10 +636,10 @@
 
         <!-- Навигация по другим статьям -->
         <div class="guide-nav-grid">
-            <a href="setup-guide.html" class="guide-nav-card" style="border-color: rgba(16, 185, 129, 0.35);">
+            <a href="software-choice.html" class="guide-nav-card" style="border-color: rgba(168, 85, 247, 0.35);">
                 <div>
-                    <div class="guide-nav-label" style="color: var(--accent-green);">Базовое руководство</div>
-                    <div class="guide-nav-title">Пошаговая установка стека с нуля до игр →</div>
+                    <div class="guide-nav-label" style="color: var(--accent-purple);">Управляющий софт</div>
+                    <div class="guide-nav-title">Выбор софта: почему ClawTweaks, а не MSI Center M →</div>
                 </div>
             </a>
             <a href="power-and-sleep.html" class="guide-nav-card">

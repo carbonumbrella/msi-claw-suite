@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор софта для MSI Claw: ClawTweaks, MSI Center M и HandheldCompanion</title>
+    <meta name="description" content="Инженерное сравнение софта для MSI Claw: аппаратный конфликт HandheldCompanion на шине EC, фоновый оверхед MSI Center M и преимущества ClawTweaks с консольным режимом FSE.">
+    <style>
+        :root {
+            --bg-main: #0b0e14;
+            --bg-card: #151922;
+            --bg-card-alt: #1a202c;
+            --border-color: #242b3b;
+            --border-hover: #3b455b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-subtle: #64748b;
+            --accent-cyan: #00d2ff;
+            --accent-blue: #38bdf8;
+            --accent-red: #ef4444;
+            --accent-green: #10b981;
+            --accent-purple: #a855f7;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-cyan);
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 14, 20, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .logo {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-badge {
+            background: linear-gradient(135deg, var(--accent-red), #b91c1c);
+            color: #fff;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #1a202c;
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-back:hover {
+            background: #242b3b;
+            text-decoration: none;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 28px 0 16px;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+            flex-wrap: wrap;
+        }
+
+        .breadcrumbs a {
+            color: var(--text-muted);
+        }
+
+        .guide-header {
+            margin-bottom: 36px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .guide-badge {
+            display: inline-block;
+            background: rgba(168, 85, 247, 0.12);
+            color: var(--accent-purple);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .guide-header h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .guide-header .lead {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .guide-meta {
+            display: flex;
+            gap: 20px;
+            margin-top: 18px;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+            flex-wrap: wrap;
+        }
+
+        .guide-meta-item strong {
+            color: var(--text-main);
+        }
+
+        article section {
+            margin-bottom: 44px;
+        }
+
+        article h2 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 32px 0 16px;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        article h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin: 24px 0 12px;
+        }
+
+        article p {
+            margin-bottom: 14px;
+            color: #cbd5e1;
+        }
+
+        article ul, article ol {
+            margin: 0 0 18px 24px;
+            color: #cbd5e1;
+        }
+
+        article li {
+            margin-bottom: 8px;
+        }
+
+        .info-box {
+            background: rgba(56, 189, 248, 0.07);
+            border-left: 4px solid var(--accent-blue);
+            padding: 16px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.08);
+            border-left: 4px solid var(--accent-red);
+            padding: 16px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            color: #fca5a5;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.08);
+            border-left: 4px solid var(--accent-green);
+            padding: 16px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            color: #a7f3d0;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin: 20px 0 28px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-card);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: rgba(0, 0, 0, 0.25);
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.88em;
+            color: var(--accent-cyan);
+        }
+
+        .guide-nav-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 50px 0 20px;
+        }
+
+        .guide-nav-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 18px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .guide-nav-card:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-alt);
+            text-decoration: none;
+        }
+
+        .guide-nav-label {
+            font-size: 0.75rem;
+            color: var(--text-subtle);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .guide-nav-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 40px 0;
+            margin-top: 60px;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .guide-header h1 {
+                font-size: 1.65rem;
+            }
+
+            .guide-nav-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">
+                <span>MSI CLAW SUITE</span>
+                <span class="logo-badge">Guide</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html#guides">Все статьи</a></li>
+                <li><a href="../index.html#resolutions">Разрешения 16:10</a></li>
+                <li><a href="../index.html#optimize">Очистка ОС</a></li>
+                <li><a href="../index.html#downloads">Загрузки</a></li>
+            </ul>
+            <a href="../index.html" class="btn-back">
+                <span>← На главную</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="breadcrumbs">
+            <a href="../index.html">Главная</a>
+            <span>/</span>
+            <a href="../index.html#guides">База знаний</a>
+            <span>/</span>
+            Выбор софта для MSI Claw
+        </div>
+
+        <div class="guide-header">
+            <span class="guide-badge">Управляющий софт и экосистема</span>
+            <h1>Выбор софта: почему ClawTweaks, а не MSI Center M и HandheldCompanion</h1>
+            <p class="lead">
+                Инженерное сопоставление управляющего программного обеспечения для консолей MSI Claw:
+                аппаратные причины конфликта HandheldCompanion на шине EC, системный оверхед фонового стека MSI Center M,
+                а также архитектура и консольный режим FSE в открытом пакете ClawTweaks.
+            </p>
+            <div class="guide-meta">
+                <div class="guide-meta-item">
+                    <span>Устройства:</span>
+                    <strong>MSI Claw 8 AI+, Claw 7 AI+, Claw A1M</strong>
+                </div>
+                <div class="guide-meta-item">
+                    <span>Стек утилит:</span>
+                    <strong>ClawTweaks, MSI Center M, HandheldCompanion</strong>
+                </div>
+                <div class="guide-meta-item">
+                    <span>Время чтения:</span>
+                    <strong>6 минут</strong>
+                </div>
+            </div>
+        </div>
+
+        <article>
+            <section id="intro">
+                <h2>Введение: специфика софта на портативном ПК</h2>
+                <p>
+                    В отличие от настольного компьютера или игрового ноутбука, портативная консоль работает в жестких физических ограничениях:
+                </p>
+                <ul>
+                    <li><strong>Объединенная память LPDDR5x:</strong> Видеочип Intel Arc не имеет собственной набортной видеопамяти VRAM и динамически забирает адресное пространство из системной оперативной памяти. Любые 300:500 МБ, постоянно занятые фоновыми утилитами, безвозвратно теряются для графики в современных играх.</li>
+                    <li><strong>Бюджет мощности и процессора:</strong> Фоновые службы, опрашивающие датчики или обновляющие экранные интерфейсы, конкурируют за такты ядер процессора и крадут милливатты мощности у графического кристалла.</li>
+                    <li><strong>Удобство управления:</strong> Доступ к настройкам прямо из полноэкранного игрового процесса должен происходить мгновенно, без задержек и без риска сбоя эксклюзивного видеоконтекста DirectX.</li>
+                </ul>
+            </section>
+
+            <section id="handheld-companion">
+                <h2>1. Почему не HandheldCompanion: аппаратный конфликт и порог входа</h2>
+                <p>
+                    Среди владельцев портативных ПК популярен универсальный пакет HandheldCompanion (HC), рассчитанный на широкий спектр устройств различных производителей.
+                    Однако на аппаратной платформе MSI Claw использование этой утилиты приводит к серьезным эксплуатационным проблемам.
+                </p>
+
+                <div class="warning-box">
+                    <strong>Аппаратный конфликт шины EC (Embedded Controller):</strong>
+                    Архитектура HandheldCompanion опирается на непрерывный высокочастотный цикл опроса датчиков (поллинг каждые 50:100 мс) через программный интерфейс ACPI WMI.
+                    Микроконтроллер управления питанием (EC) на материнских платах MSI Claw обрабатывает запросы WMI относительно медленно.
+                    Постоянный опрос перегружает шину обмена данными ядра, что приводит к микрофризам во фреймтайме игр и заметным задержкам отклика кнопок (зафиксировано в аппаратном журнале тестов консоли).
+                </div>
+
+                <h3>Высокий порог входа и долгая ручная настройка</h3>
+                <p>
+                    HandheldCompanion спроектирован как модульный универсальный конструктор.
+                    После чистой установки устройство не готово к комфортной игре:
+                </p>
+                <ul>
+                    <li>Требуется с нуля вручную собирать цепочки виртуального контроллера (ViGEm / VIIPER) и скрывать физический геймпад.</li>
+                    <li>Необходимо вручную калибровать оси стиков, подбирать пороги мертвых зон и сглаживания.</li>
+                    <li>Требуется создавать профили под каждую отдельную игру и привязывать горячие клавиши.</li>
+                </ul>
+
+                <h3>Тяжелый внешний процесс</h3>
+                <p>
+                    HandheldCompanion функционирует как громоздкое отдельное настольное приложение с собственной графической оболочкой оверлея, создающей дополнительную нагрузку на процессорные ядра.
+                </p>
+            </section>
+
+            <section id="msi-center-m">
+                <h2>2. Почему не MSI Center M: фоновый оверхед и задержка вызова</h2>
+                <p>
+                    Штатный пакет MSI Center M поставляется производителем по умолчанию.
+                    Несмотря на то, что в актуальных версиях доступно базовое ручное управление вентиляторами и профилями мощности, архитектура приложения унаследована от тяжелых десктопных версий MSI Center.
+                </p>
+
+                <h3>Фоновая нагрузка на память и процессор</h3>
+                <p>
+                    При установке MSI Center M внедряет в операционную систему постоянный стек служб Windows:
+                    <code>MSI_Center_M_Server</code>, <code>MSI_Center_M_Updater</code>, <code>MSI Foundation Service</code> (<code>MSIAPService.exe</code>),
+                    а также фоновые процессы управления контроллером <code>MSI_Center_M_Server_ControlMode</code> и модули подсветки Mystic Light.
+                </p>
+                <ul>
+                    <li><strong>Расход RAM:</strong> Службы постоянно удерживают в оперативной памяти от 350 до 600+ МБ в фоновом режиме, сокращая доступный видеобуфер Intel Arc.</li>
+                    <li><strong>Нагрузка на SSD:</strong> Фоновый модуль OSD в MSI Center M ведет непрерывное протоколирование отладочной информации, ежедневно записывая на накопитель текстовые файлы логов (<code>intelGEDll_debug_*.txt</code>) размером по 10:17 МБ каждый.</li>
+                </ul>
+
+                <h3>Задержка вызова быстрого меню (Quick Settings)</h3>
+                <p>
+                    Панель быстрых настроек MSI регистрируется в реестре Windows как системный обработчик <code>OEMGameBarWidget</code> (пакет <code>MSIQuickSettings</code>).
+                    При нажатии правой физической кнопки быстрого доступа в тяжелых 3D-играх штатный оверлей MSI открывается с задержкой в 1:3 секунды.
+                    В моменты переключения игра может кратковременно терять фокус ввода, а в редких случаях служба <code>ControlMode</code> теряет привязку к физическому контроллеру.
+                </p>
+
+                <h3>Ограничения игрового функционала</h3>
+                <p>
+                    В официальном пакете MSI Center M отсутствует полноценная эмуляция гироскопа в режимы виртуальной мыши или стика для произвольных игр,
+                    нет продвинутой настройки анти-мертвых зон и отсутствует прямая интеграция со сторонними инструментами масштабирования (Lossless Scaling / LSFG).
+                </p>
+
+                <div class="info-box">
+                    <strong>Принцип сосуществования: почему MSI Center M не удаляют, а отключают</strong>
+                    <p style="margin-top: 6px;">
+                        Пакет ClawTweaks не требует деинсталляции MSI Center M.
+                        Официальный софт MSI необходим в операционной системе по двум причинам:
+                    </p>
+                    <ol style="margin-top: 6px; margin-bottom: 0;">
+                        <li>Он регистрирует низкоуровневые системные драйверы WMI и интерфейсы ACPI, через которые внешние утилиты могут управлять питанием.</li>
+                        <li>Он обеспечивает обновление встроенного микрокода контроллера и служебных модулей через раздел Live Update.</li>
+                    </ol>
+                    <p style="margin-top: 8px; margin-bottom: 0;">
+                        Встроенный менеджер <code>MsiCenterManager</code> в ClawTweaks (а также открытая утилита <code>MsiCenterToggle</code>)
+                        просто выключает автозапуск и фоновые процессы MSI Center M, высвобождая ресурсы памяти без удаления драйверной базы.
+                    </p>
+                </div>
+            </section>
+
+            <section id="clawtweaks-advantages">
+                <h2>3. Преимущества ClawTweaks: нативный оверлей, лаунчер FSE и готовый стек</h2>
+                <p>
+                    Открытый пакет <a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank">ClawTweaks</a> (разработчик enterTheVoidCode)
+                    создан исключительно для консолей MSI Claw и оптимизирован под их аппаратные особенности.
+                </p>
+
+                <h3>1. Готовность к игре сразу после установки</h3>
+                <p>
+                    В отличие от универсальных утилит, требующих кропотливой ручной калибровки, в ClawTweaks все параметры откалиброваны под заводское железо Claw:
+                    предустановлены оптимальные базовые кривые кулеров, корректные аппаратные лимиты TDP, отклик стиков и стандартные раскладки кнопок.
+                    Устройство готово к запуску игр сразу после установки без предварительного многочасового подбора параметров.
+                </p>
+
+                <h3>2. Мгновенный вызов через нативный виджет Xbox Game Bar</h3>
+                <p>
+                    ClawTweaks очищает системную привязку <code>OEMGameBarWidget</code> и занимает первый слот в нативном системном слое Windows Game Bar.
+                    При нажатии правой аппаратной кнопки консоли меню быстрого доступа всплывает мгновенно.
+                    Отрисовка производится системным композитором Windows DWM: фокус ввода игры не теряется, а риск сбоя эксклюзивного полноэкранного режима исключен.
+                </p>
+
+                <h3>3. Консольный лаунчер с поддержкой режима FSE (Full Screen Experience)</h3>
+                <p>
+                    В состав пакета входит выделенное приложение библиотеки <code>ClawTweaksCenterFSE</code>:
+                </p>
+                <ul>
+                    <li><strong>Режим FSE:</strong> Позволяет запускать консольный интерфейс библиотеки на весь экран при старте Windows или по нажатию кнопки, превращая устройство в удобную портативную консоль без необходимости взаимодействия с рабочим столом.</li>
+                    <li><strong>Интеграция всех магазинов из коробки:</strong> Лаунчер автоматически сканирует установленные игры и объединяет каталоги Steam (с поддержкой прямого входа в режим Big Picture), Epic Games Store, Xbox, GOG Galaxy, EA App, Ubisoft Connect, Battle.net, а также коллекцию ретро-игр через Playnite.</li>
+                </ul>
+
+                <h3>4. Продвинутый контроль геймпада и эмуляция гироскопа</h3>
+                <p>
+                    Подсистема эмуляции контроллера использует драйверы ViGEm и <code>HidHide</code>:
+                </p>
+                <ul>
+                    <li><strong>Защита от двойного ввода:</strong> Физический контроллер скрывается драйвером <code>HidHide</code>, предотвращая конфликт виртуального и аппаратного геймпада в играх.</li>
+                    <li><strong>Аппаратный гироскоп:</strong> Преобразование наклонов консоли в перемещение мыши (Gyro-to-Mouse) или правого стика (Gyro-to-Stick) с анти-мертвыми зонами, фильтрацией дрожания рук и кнопками активации (Gyro Gate).</li>
+                    <li><strong>Задние лепестки M1 и M2:</strong> Свободное назначение на любые сочетания клавиш клавиатуры, клики мыши или системные действия.</li>
+                    <li><strong>Экранная подсветка стиков:</strong> Фирменный Ambilight для светодиодных колец вокруг стиков, рассчитываемый видеочипом без нагрузки на процессор.</li>
+                </ul>
+
+                <h3>5. Автоматические профили под каждую игру (Per-Game Profiles)</h3>
+                <p>
+                    ClawTweaks отслеживает активный процесс игры и автоматически применяет сохраненные параметры:
+                    лимиты мощности PL1 и PL2, частоту обновления экрана (60 или 120 Гц), ограничение кадров FPS и параметры масштабирования Lossless Scaling.
+                </p>
+            </section>
+
+            <section id="comparison-table">
+                <h2>4. Итоговая сравнительная таблица</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Критерий</th>
+                                <th><a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank" style="color: var(--accent-cyan);">ClawTweaks</a></th>
+                                <th>MSI Center M</th>
+                                <th>HandheldCompanion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Готовность к игре «из коробки»</strong></td>
+                                <td><span style="color: var(--accent-green);">Полная:</span> заводские привязки и калибровки готовы сразу</td>
+                                <td><span style="color: var(--accent-green);">Полная:</span> предустановлен по умолчанию</td>
+                                <td><span style="color: var(--accent-red);">Низкая:</span> требует долгой ручной сборки профилей и осей</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Потребление RAM в простое</strong></td>
+                                <td>Около 0 МБ (активен только по вызову виджета)</td>
+                                <td>350:600+ МБ (постоянный стек служб)</td>
+                                <td>150:300 МБ (отдельный процесс с оверлеем)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Влияние на шину EC и фреймтайм</strong></td>
+                                <td><span style="color: var(--accent-green);">Нулевое:</span> разовая запись в регистры по событию</td>
+                                <td><span style="color: var(--accent-green);">Корректное:</span> умеренный опрос через драйвер вендора</td>
+                                <td><span style="color: var(--accent-red);">Негативное:</span> забивание шины EC постоянным поллингом, микрофризы</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Интерфейс быстрого доступа</strong></td>
+                                <td>Нативный системный виджет Xbox Game Bar</td>
+                                <td>Кастомное окно <code>OEMGameBarWidget</code> с задержкой 1:3 сек</td>
+                                <td>Сторонний графический оверлей приложения</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Консольный лаунчер (режим FSE)</strong></td>
+                                <td>Встроенный <code>ClawTweaksCenterFSE</code> (Steam, Epic, Xbox, GOG, EA, Playnite)</td>
+                                <td>Базовый лаунчер MSI Center</td>
+                                <td>Отсутствует (только панель настроек)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Эмуляция гироскопа (мышь/стик)</strong></td>
+                                <td>Полноценная (Gyro-to-Mouse, Gyro Gate, анти-мертвые зоны)</td>
+                                <td>Отсутствует или базовые функции</td>
+                                <td>Присутствует, но требует сложной ручной калибровки</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Профили под отдельные игры</strong></td>
+                                <td>Автоматическое применение на лету</td>
+                                <td>Базовые пользовательские сценарии</td>
+                                <td>Ручная привязка профилей</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Роль в операционной системе</strong></td>
+                                <td>Основной рабочий инструмент управления консолью</td>
+                                <td>Держится с отключенным автозапуском ради драйверов и Live Update</td>
+                                <td>Не рекомендуется к установке на MSI Claw</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </article>
+
+        <div class="guide-nav-grid">
+            <a href="setup-guide.html" class="guide-nav-card" style="border-color: rgba(16, 185, 129, 0.35);">
+                <div>
+                    <div class="guide-nav-label" style="color: var(--accent-green);">Базовое руководство</div>
+                    <div class="guide-nav-title">Пошаговая установка стека с нуля до игр →</div>
+                </div>
+            </a>
+            <a href="memory-and-stability.html" class="guide-nav-card">
+                <div>
+                    <div class="guide-nav-label">Руководство по памяти</div>
+                    <div class="guide-nav-title">← Память GPU, файл подкачки и стабильность системы</div>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div>
+                <p>MSI Claw Suite • Выбор управляющего софта • Автор: <a href="https://github.com/carbonumbrella" target="_blank">carbonumbrella</a></p>
+                <p style="font-size: 0.8rem; margin-top: 4px;">Лицензия MIT. Проверено на аппаратной платформе MSI Claw 8 AI+.</p>
+            </div>
+            <div>
+                <a href="../index.html" style="color: var(--text-subtle);">На главную страницу</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
