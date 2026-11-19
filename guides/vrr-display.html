@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Экран и переменная частота VRR на MSI Claw: DisplayID 2.0, LFC и калибровка</title>
+    <meta name="description" content="Подробный технический разбор работы экрана MSI Claw: блоки DisplayID 2.0, динамический диапазон 48-120 Гц, механизм LFC, риски мода на 30 Гц и калибровка ICC.">
+    <style>
+        :root {
+            --bg-main: #0b0e14;
+            --bg-card: #151922;
+            --bg-card-alt: #1a202c;
+            --border-color: #242b3b;
+            --border-hover: #3b455b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-subtle: #64748b;
+            --accent-cyan: #00d2ff;
+            --accent-blue: #38bdf8;
+            --accent-red: #ef4444;
+            --accent-green: #10b981;
+            --accent-purple: #a855f7;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-cyan);
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Навигация */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 14, 20, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .logo {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-badge {
+            background: linear-gradient(135deg, var(--accent-red), #b91c1c);
+            color: #fff;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #19202e;
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-back:hover {
+            background: #232c3f;
+            text-decoration: none;
+        }
+
+        /* Хлебные крошки */
+        .breadcrumbs {
+            padding: 24px 0 0;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-muted);
+        }
+
+        .breadcrumbs span {
+            margin: 0 8px;
+        }
+
+        /* Шапка статьи */
+        .guide-header {
+            padding: 24px 0 40px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .guide-badge {
+            display: inline-block;
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 210, 255, 0.25);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .guide-header h1 {
+            font-size: 2.25rem;
+            line-height: 1.25;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+        .guide-header p.lead {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .guide-meta {
+            margin-top: 20px;
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+        }
+
+        .guide-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Контент статьи */
+        article {
+            padding: 48px 0;
+        }
+
+        article section {
+            margin-bottom: 48px;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin: 28px 0 14px;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        ul, ol {
+            margin: 0 0 20px 24px;
+            color: var(--text-muted);
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            font-family: Consolas, Monaco, "Courier New", monospace;
+            background: #141a24;
+            color: var(--accent-blue);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+
+        pre {
+            background: #121620;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: Consolas, Monaco, "Courier New", monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+
+        /* Информационные плашки */
+        .info-box {
+            background: rgba(56, 189, 248, 0.05);
+            border-left: 4px solid var(--accent-blue);
+            padding: 18px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+        }
+
+        .info-box strong {
+            color: var(--accent-blue);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .info-box p {
+            margin-bottom: 0;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.06);
+            border-left: 4px solid var(--accent-red);
+            padding: 18px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+        }
+
+        .warning-box strong {
+            color: var(--accent-red);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .warning-box p {
+            margin-bottom: 0;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.06);
+            border-left: 4px solid var(--accent-green);
+            padding: 18px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+        }
+
+        .success-box strong {
+            color: var(--accent-green);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .success-box p {
+            margin-bottom: 0;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+
+        /* Таблицы */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 24px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-card);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: #181e2b;
+            color: var(--text-main);
+            padding: 12px 16px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Навигация по другим статьям */
+        .guide-nav-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .guide-nav-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .guide-nav-card:hover {
+            border-color: var(--border-hover);
+            background: #19202c;
+            text-decoration: none;
+        }
+
+        .guide-nav-label {
+            font-size: 0.75rem;
+            color: var(--text-subtle);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .guide-nav-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        /* Подвал */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 36px 0;
+            background: #0d1117;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .guide-header h1 {
+                font-size: 1.7rem;
+            }
+
+            .guide-nav-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Навигация -->
+    <header>
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">
+                <span>MSI Claw Suite</span>
+                <span class="logo-badge">Hub</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html#resolutions">Разрешения</a></li>
+                <li><a href="../index.html#optimize">Оптимизация</a></li>
+                <li><a href="../index.html#downloads">Загрузки</a></li>
+            </ul>
+            <a href="../index.html" class="btn-back">
+                <span>← На главную</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Хлебные крошки -->
+        <div class="breadcrumbs">
+            <a href="../index.html">Главная</a>
+            <span>/</span>
+            <a href="../index.html#guides">База знаний</a>
+            <span>/</span>
+            Экран и переменная частота (VRR)
+        </div>
+
+        <!-- Заголовок статьи -->
+        <header class="guide-header">
+            <span class="guide-badge">Аппаратная часть: Дисплей</span>
+            <h1>Экран и переменная частота обновления (VRR) на MSI Claw</h1>
+            <p class="lead">
+                Техническое устройство дисплея CSW PN8007QB1-2, дескриптор DisplayID 2.0,
+                причины разделения диапазонов 48-120 Гц и 60-120 Гц, физика процесса LFC и цветовая калибровка.
+            </p>
+            <div class="guide-meta">
+                <div class="guide-meta-item">
+                    <span>Устройства:</span>
+                    <strong style="color: var(--text-main);">MSI Claw 8 AI+, Claw 7 AI+, Claw A1M</strong>
+                </div>
+                <div class="guide-meta-item">
+                    <span>Матрица:</span>
+                    <strong style="color: var(--text-main);">8" IPS 1920x1200 120Hz VRR</strong>
+                </div>
+                <div class="guide-meta-item">
+                    <span>Время чтения:</span>
+                    <strong style="color: var(--text-main);">7 минут</strong>
+                </div>
+            </div>
+        </header>
+
+        <!-- Статья -->
+        <article>
+            <section id="hardware">
+                <h2>1. Аппаратная основа: матрица CSW PN8007QB1-2 и блок DisplayID 2.0</h2>
+                <p>
+                    В портативной консоли MSI Claw 8 AI+ установлена 8-дюймовая матрица IPS с нативным разрешением 1920x1200 пикселей (соотношение сторон 16:10)
+                    и максимальной частотой обновления 120 Гц. Для реализации адаптивной синхронизации без разрывов кадров (VRR)
+                    используется блок расширения DisplayID 2.0, прошитый непосредственно в контроллер панели (TCON).
+                </p>
+                <p>
+                    В стандартной структуре EDID 1.4 диапазон частот описывается базовым блоком Range Limits,
+                    однако современные протоколы eDP (embedded DisplayPort) для гибкого управления вертикальной синхронизацией
+                    используют дескрипторы DisplayID версии 2.0. Именно в них заложен аппаратный паспорт экрана.
+                </p>
+            </section>
+
+            <section id="ranges">
+                <h2>2. Разделение частотных диапазонов: максимальный и текущий статус Windows</h2>
+                <p>
+                    Пользователи часто замечают расхождение: диагностические утилиты и паспорт устройства указывают диапазон от 48 до 120 Гц,
+                    тогда как в свойствах экрана Windows 11 отображается текущий статус от 60 до 120 Гц.
+                    Это не программная ошибка, а результат скоординированной работы графического драйвера Intel и дисплейной подсистемы ОС.
+                </p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Параметр</th>
+                                <th>Максимальный диапазон</th>
+                                <th>Текущий диапазон (Рабочий стол)</th>
+                                <th>Игровой режим (3D Fullscreen)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Значения частоты</strong></td>
+                                <td>от 48 до 120 Гц</td>
+                                <td>от 60 до 120 Гц</td>
+                                <td>от 48 до 120 Гц + LFC</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Источник данных</strong></td>
+                                <td>Блок DisplayID 2.0 (паспорт панели)</td>
+                                <td>Драйвер Intel Graphics + Windows DRR</td>
+                                <td>Прямой вывод DirectX/Vulkan через eDP</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Главная задача</strong></td>
+                                <td>Предел физических возможностей стекла</td>
+                                <td>Защита от мерцания и стабильность глаз</td>
+                                <td>Плавность кадров без разрывов</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Почему на рабочем столе отображается от 60 до 120 Гц:</h3>
+                <ul>
+                    <li>
+                        <strong>Защита от мерцания подсветки (VRR Flicker):</strong>
+                        При работе с окнами, текстом и статичными страницами браузера падение частоты обновления до 48 Гц
+                        приводило бы к заметным микроколебаниям яркости. Жидкие кристаллы IPS при длительном удержании одного заряда
+                        начинают терять потенциал, вызывая едва уловимую пульсацию подсветки на светлом фоне.
+                        Драйвер Intel искусственно фиксирует нижнюю планку на 60 Гц, гарантируя ровное статичное изображение без усталости глаз.
+                    </li>
+                    <li>
+                        <strong>Динамическая частота Windows 11 (Dynamic Refresh Rate, DRR):</strong>
+                        На поддерживаемых дисплеях операционная система использует энергосберегающий профиль с двумя базовыми состояниями:
+                        60 Гц в покое при чтении или простое системы для сохранения заряда аккумулятора,
+                        и мгновенный подъем до 120 Гц при движении курсора мыши, сенсорном скроллинге и системных анимациях.
+                    </li>
+                    <li>
+                        <strong>Автоматический переход в играх:</strong>
+                        При запуске трехмерной игры в полноэкранном режиме графический драйвер переключается в специализированный игровой профиль.
+                        Ограничение 60 Гц мгновенно снимается, открывая полный диапазон 48-120 Гц и подключая алгоритм компенсации низкой частоты кадров (LFC).
+                    </li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Итог разделения диапазонов:</strong>
+                    Максимальный диапазон показывает физический потолок матрицы от производителя оборудования.
+                    Текущий диапазон отражает безопасный рабочий режим с защитой от мерцания, активный прямо сейчас в 2D-интерфейсе Windows.
+                </div>
+            </section>
+
+            <section id="why-not-30hz">
+                <h2>3. Почему опасно и бессмысленно модифицировать VRR до 30 Гц</h2>
+                <p>
+                    В среде владельцев портативных ПК периодически возникают попытки модифицировать нижнюю границу VRR до 30 или 36 Гц
+                    через стороннюю утилиту Custom Resolution Utility (CRU), рассчитывая получить плавность при 30 FPS.
+                    На матрице MSI Claw этот шаг приводит к обратному эффекту: поломке компенсации кадров, мерцанию и нестабильности видеовывода.
+                </p>
+
+                <h3>Механизм LFC (Low Framerate Compensation)</h3>
+                <p>
+                    Компенсация низкой частоты кадров работает корректно только тогда, когда максимальная частота дисплея превышает минимальную
+                    хотя бы в два раза:
+                </p>
+                <pre>Коэффициент LFC = Максимальная частота / Минимальная частота >= 2.0</pre>
+                <p>
+                    Для экрана MSI Claw расчет выглядит следующим образом:
+                </p>
+                <pre>120 Гц / 48 Гц = 2.5x (условие выполняется с запасом)</pre>
+                <p>
+                    Благодаря запасу 2.5x графический драйвер и аппаратный контроллер умеют дублировать или утраивать кадры при просадках:
+                </p>
+                <ul>
+                    <li>Если игра идет с частотой 35 FPS, экран обновляется на частоте 70 Гц (каждый кадр показывается ровно 2 цикла обновления).</li>
+                    <li>Если игра заблокирована на 30 FPS, экран обновляется на частоте 60 Гц (каждый кадр показывается 2 цикла) или 90 Гц (3 цикла).</li>
+                    <li>При 40 FPS дисплей работает на 80 Гц.</li>
+                </ul>
+                <p>
+                    В результате даже при падении ниже 48 FPS картинка остается плавной, а технология переменной синхронизации продолжает функционировать.
+                </p>
+
+                <div class="warning-box">
+                    <strong>Физические последствия искусственного занижения границы до 30 Гц:</strong>
+                    <p style="margin-top: 8px;">
+                        <strong>1. Стробоскопическое мерцание кристаллов:</strong> При частоте 30 Гц время удержания заряда на субпикселе
+                        составляет около 33 миллисекунд. Конденсаторы ячеек IPS-матрицы не рассчитаны на столь длительное хранение заряда без обновления:
+                        происходит физический спад яркости субпикселя к концу кадра, что проявляется как тяжелое стробоскопическое мерцание экрана.
+                    </p>
+                    <p style="margin-top: 8px;">
+                        <strong>2. Поломка множителя LFC:</strong> При ручном сдвиге диапазона до 30-120 Гц (соотношение 4.0x)
+                        алгоритм LFC в драйвере Intel теряет стабильные точки кратности, переключаясь между 2x, 3x и 4x.
+                        Это порождает микрозаикания (stuttering) и неравномерный шаг времени кадра.
+                    </p>
+                    <p style="margin-top: 8px;">
+                        <strong>3. Черные экраны контроллера TCON:</strong> Внутренние тайминги синхронизации чипа TCON
+                        рассчитаны на граничную частоту пиксельного генератора (Pixel Clock). При выходе за паспортные 48 Гц
+                        наблюдаются срывы фазы, проявляющиеся как кратковременное погасание дисплея на 1-2 секунды.
+                    </p>
+                </div>
+            </section>
+
+            <section id="resolutions-vrr">
+                <h2>4. Кастомные разрешения 1600x1000 и 1536x960 без потери VRR</h2>
+                <p>
+                    Пакет разрешений <code>handheld-resolution-pack</code> добавляет режимы 1600x1000 (коэффициент 1.20x)
+                    и 1536x960 (коэффициент 1.25x) через добавление дескрипторов в системный реестр Windows
+                    без изменения блока DisplayID 2.0.
+                </p>
+                <p>
+                    Это сохраняет полную функциональность диапазона 48-120 Гц, не сбивает калибровку частот
+                    и дает чистую математическую сетку пикселей для апскейлеров XeSS, FSR и TAAU.
+                </p>
+            </section>
+
+            <section id="calibration-icc">
+                <h2>5. Цветовая калибровка матрицы CSW PN8007QB1-2</h2>
+                <p>
+                    Заводская калибровка матрицы MSI Claw 8 AI+ отличается смещением точки белого в холодную синеву
+                    (цветовая температура около 7200K вместо эталонных 6500K).
+                    Лаборатория Notebookcheck в ходе аппаратного тестирования панели опубликовала точный профиль ICC,
+                    выравнивающий гамма-кривую 2.2 и цветовую температуру.
+                </p>
+
+                <h3>Установка и закрепление профиля в системе:</h3>
+                <ol>
+                    <li>Скачайте откалиброванный профиль ICC для экрана MSI Claw.</li>
+                    <li>Откройте системную утилиту «Управление цветом» (<code>colorcpl.exe</code>).</li>
+                    <li>Выберите встроенный экран, установите флажок «Использовать мои параметры для этого устройства».</li>
+                    <li>Добавьте загруженный файл ICC и нажмите «Сделать профилем по умолчанию».</li>
+                    <li>
+                        Перейдите на вкладку «Подробно», нажмите «Изменить параметры по умолчанию»
+                        и включите пункт «Использовать калибровку экрана Windows».
+                    </li>
+                </ol>
+
+                <div class="success-box">
+                    <strong>Защита от сброса цветов играми:</strong>
+                    Некоторые полноэкранные игры сбрасывают аппаратную таблицу соответствия цветов (LUT) видеокарты на дефолтную при запуске.
+                    Для гарантированного удержания калибровки рекомендуется использовать автозагрузку профиля через встроенный планировщик задач
+                    Windows или легкую утилиту <code>vcgt Calibration Loader</code> при входе пользователя в систему.
+                </div>
+            </section>
+        </article>
+
+        <!-- Навигация по другим статьям -->
+        <div class="guide-nav-grid">
+            <a href="power-and-sleep.html" class="guide-nav-card">
+                <div>
+                    <div class="guide-nav-label">Следующее руководство</div>
+                    <div class="guide-nav-title">Питание, спящий режим S4 и настройка TDP (PL1/PL2) →</div>
+                </div>
+            </a>
+            <a href="memory-and-stability.html" class="guide-nav-card">
+                <div>
+                    <div class="guide-nav-label">Руководство по памяти</div>
+                    <div class="guide-nav-title">Память GPU до 24 ГБ, файл подкачки и стабильность системы →</div>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container footer-content">
+            <div>
+                <p>MSI Claw Suite • Руководство по дисплею • Автор: <a href="https://github.com/carbonumbrella" target="_blank">carbonumbrella</a></p>
+                <p style="font-size: 0.8rem; margin-top: 4px;">Лицензия MIT. Проверено на аппаратной платформе MSI Claw 8 AI+.</p>
+            </div>
+            <div>
+                <a href="../index.html" style="color: var(--text-subtle);">На главную страницу</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

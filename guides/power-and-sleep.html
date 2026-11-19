@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Питание, спящий режим S4 и настройка TDP (PL1/PL2) на MSI Claw</title>
+    <meta name="description" content="Полное руководство по энергоэффективности MSI Claw: перевод с опасного S0 Modern Standby на S4 гибернацию, акустический комфорт правила PL2 = PL1 + 1W и профили мощности.">
+    <style>
+        :root {
+            --bg-main: #0b0e14;
+            --bg-card: #151922;
+            --bg-card-alt: #1a202c;
+            --border-color: #242b3b;
+            --border-hover: #3b455b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-subtle: #64748b;
+            --accent-cyan: #00d2ff;
+            --accent-blue: #38bdf8;
+            --accent-red: #ef4444;
+            --accent-green: #10b981;
+            --accent-purple: #a855f7;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-cyan);
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Навигация */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 14, 20, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .logo {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-badge {
+            background: linear-gradient(135deg, var(--accent-red), #b91c1c);
+            color: #fff;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #19202e;
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-back:hover {
+            background: #232c3f;
+            text-decoration: none;
+        }
+
+        /* Хлебные крошки */
+        .breadcrumbs {
+            padding: 24px 0 0;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+        }
+
+        .breadcrumbs a {
+            color: var(--text-muted);
+        }
+
+        .breadcrumbs span {
+            margin: 0 8px;
+        }
+
+        /* Шапка статьи */
+        .guide-header {
+            padding: 24px 0 40px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .guide-badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .guide-header h1 {
+            font-size: 2.25rem;
+            line-height: 1.25;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+        .guide-header p.lead {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .guide-meta {
+            margin-top: 20px;
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+        }
+
+        .guide-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Контент статьи */
+        article {
+            padding: 48px 0;
+        }
+
+        article section {
+            margin-bottom: 48px;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin: 28px 0 14px;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        ul, ol {
+            margin: 0 0 20px 24px;
+            color: var(--text-muted);
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            font-family: Consolas, Monaco, "Courier New", monospace;
+            background: #141a24;
+            color: var(--accent-blue);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+
+        pre {
+            background: #121620;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: Consolas, Monaco, "Courier New", monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+
+        /* Информационные плашки */
+        .info-box {
+            background: rgba(56, 189, 248, 0.05);
+            border-left: 4px solid var(--accent-blue);
+            padding: 18px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+        }
+
+        .info-box strong {
+            color: var(--accent-blue);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .info-box p {
+            margin-bottom: 0;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.06);
+            border-left: 4px solid var(--accent-red);
+            padding: 18px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+        }
+
+        .warning-box strong {
+            color: var(--accent-red);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .warning-box p {
+            margin-bottom: 0;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.06);
+            border-left: 4px solid var(--accent-green);
+            padding: 18px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+        }
+
+        .success-box strong {
+            color: var(--accent-green);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .success-box p {
+            margin-bottom: 0;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+
+        /* Таблицы */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 24px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-card);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: #181e2b;
+            color: var(--text-main);
+            padding: 12px 16px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Навигация по другим статьям */
+        .guide-nav-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .guide-nav-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .guide-nav-card:hover {
+            border-color: var(--border-hover);
+            background: #19202c;
+            text-decoration: none;
+        }
+
+        .guide-nav-label {
+            font-size: 0.75rem;
+            color: var(--text-subtle);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .guide-nav-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        /* Подвал */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 36px 0;
+            background: #0d1117;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .guide-header h1 {
+                font-size: 1.7rem;
+            }
+
+            .guide-nav-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Навигация -->
+    <header>
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">
+                <span>MSI Claw Suite</span>
+                <span class="logo-badge">Hub</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html#resolutions">Разрешения</a></li>
+                <li><a href="../index.html#optimize">Оптимизация</a></li>
+                <li><a href="../index.html#downloads">Загрузки</a></li>
+            </ul>
+            <a href="../index.html" class="btn-back">
+                <span>← На главную</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Хлебные крошки -->
+        <div class="breadcrumbs">
+            <a href="../index.html">Главная</a>
+            <span>/</span>
+            <a href="../index.html#guides">База знаний</a>
+            <span>/</span>
+            Питание, спящий режим и TDP
+        </div>
+
+        <!-- Заголовок статьи -->
+        <header class="guide-header">
+            <span class="guide-badge">Энергоэффективность и охлаждение</span>
+            <h1>Настройка питания, спящего режима S4 и теплопакета (TDP) на MSI Claw</h1>
+            <p class="lead">
+                Почему стандартный режим S0 Modern Standby губителен для портативных консолей,
+                как правильно перейти на гибернацию S4 и почему формула PL2 = PL1 + 1W дает идеальный акустический комфорт.
+            </p>
+            <div class="guide-meta">
+                <div class="guide-meta-item">
+                    <span>Устройства:</span>
+                    <strong style="color: var(--text-main);">MSI Claw 8 AI+, Claw 7 AI+, Claw A1M</strong>
+                </div>
+                <div class="guide-meta-item">
+                    <span>Платформа:</span>
+                    <strong style="color: var(--text-main);">Intel Core Ultra (Lunar Lake, Meteor Lake)</strong>
+                </div>
+                <div class="guide-meta-item">
+                    <span>Время чтения:</span>
+                    <strong style="color: var(--text-main);">6 минут</strong>
+                </div>
+            </div>
+        </header>
+
+        <!-- Статья -->
+        <article>
+            <section id="s0-standby">
+                <h2>1. Проблема S0 Modern Standby на портативных устройствах</h2>
+                <p>
+                    По умолчанию в современных редакциях Windows 11 для портативных ПК активирован режим сна S0 Low Power Idle
+                    (также известный как Modern Standby). В отличие от классического глубокого сна S3, в режиме S0 система не обесточивает компоненты:
+                    процессор продолжает работать в ультранизком энергопотреблении, поддерживая активность Wi-Fi, фоновые проверки Windows Update,
+                    синхронизацию почты и системную телеметрию.
+                </p>
+
+                <div class="warning-box">
+                    <strong>Опасности режима S0 для портативной консоли:</strong>
+                    <p style="margin-top: 8px;">
+                        <strong>Тепловой карман в чехле:</strong> Если вы нажимаете кнопку сна и убираете консоль в закрытый чехол или рюкзак,
+                        любое фоновое обновление или системное событие может вывести процессор на полную мощность.
+                        Так как вентиляционные решетки закрыты тканью чехла, устройство разогревается до 90-95°C.
+                        Это приводит к аварийному термоотключению и ускоренной деградации литиевого аккумулятора.
+                    </p>
+                    <p style="margin-top: 8px;">
+                        <strong>Глубокий саморазряд:</strong> В режиме S0 устройство постоянно расходует заряд на поддержание сетевых служб.
+                        Оставленная на ночь в режиме сна консоль к утру может потерять от 25% до 100% заряда аккумулятора.
+                    </p>
+                </div>
+            </section>
+
+            <section id="s4-hibernation">
+                <h2>2. Переход на режим S4 (Гибернация): надежность и нулевой расход</h2>
+                <p>
+                    Единственным безопасным и надежным способом усыпления игрового портативного ПК является режим S4 (Гибернация).
+                    При уходе в гибернацию операционная система Windows копирует точный снимок содержимого оперативной памяти в файл
+                    <code>hiberfil.sys</code> на накопителе SSD, после чего контроллер питания полностью обесточивает все компоненты материнской платы.
+                </p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Характеристика</th>
+                                <th>S0 Modern Standby (Заводской)</th>
+                                <th>S4 Гибернация (Рекомендуемый)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Расход батареи в покое</strong></td>
+                                <td>3-8% в час (постоянный разряд)</td>
+                                <td>0% (полное обесточивание)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Риск нагрева в рюкзаке</strong></td>
+                                <td>Крайне высокий (фоновые пробуждения)</td>
+                                <td>Полностью исключен</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Сохранение запущенной игры</strong></td>
+                                <td>Нестабильно (возможны вылеты при сне)</td>
+                                <td>100% сохранение состояния памяти</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Время возобновления</strong></td>
+                                <td>1-2 секунды</td>
+                                <td>6-9 секунд с быстрого SSD PCIe 4.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Команды для настройки гибернации:</h3>
+                <p>
+                    Откройте терминал PowerShell от имени администратора и выполните включение гибернации:
+                </p>
+                <pre>powercfg /hibernate on
+powercfg /h /type full</pre>
+                <p>
+                    Затем перейдите в панель управления электропитанием Windows:
+                </p>
+                <ol>
+                    <li>Нажмите комбинацию клавиш <code>Win + R</code> и введите <code>control powercfg.cpl</code>.</li>
+                    <li>В левой колонке откройте пункт «Действие кнопки питания».</li>
+                    <li>Нажмите «Изменение параметров, которые сейчас недоступны».</li>
+                    <li>В графе «При нажатии кнопки питания» выберите значение <strong>«Гибернация»</strong> для обоих режимов (от батареи и от сети).</li>
+                    <li>Сохраните изменения.</li>
+                </ol>
+
+                <div class="success-box">
+                    <strong>Результат:</strong> Одиночное нажатие кнопки питания теперь мгновенно сбрасывает память на SSD и выключает питание.
+                    Консоль можно без опасений убирать в любой чехол: она гарантированно сохранит заряд и останется холодной.
+                </div>
+            </section>
+
+            <section id="tdp-tuning">
+                <h2>3. Тонкая настройка TDP (PL1 и PL2) в ClawTweaks</h2>
+                <p>
+                    Процессоры линейки Intel Core Ultra (Lunar Lake и Meteor Lake) обладают гибкими лимитами мощности питания:
+                </p>
+                <ul>
+                    <li><strong>PL1 (Power Limit 1):</strong> Долговременный лимит мощности (Sustained). Теплопакет, на котором процессор работает в продолжительных игровых сессиях.</li>
+                    <li><strong>PL2 (Power Limit 2):</strong> Кратковременный лимит мощности (Burst). Энергия, выдаваемая процессору на короткий промежуток времени (от пары секунд до полуминуты) для ускорения загрузки сцен.</li>
+                </ul>
+
+                <h3>Заводская проблема агрессивного буста PL2:</h3>
+                <p>
+                    По умолчанию разница между PL1 и PL2 в стандартных профилях составляет от 10 до 15 Ватт.
+                    Например, при установке базового лимита 20 Вт кратковременный буст PL2 может подскакивать до 35 Вт.
+                    На компактной портативной системе этот резкий скачок мгновенно нагревает кристалл процессора до 85-90°C.
+                </p>
+                <p>
+                    Встроенный контроллер охлаждения реагирует на спайк температуры резким раскручиванием кулеров до максимальных оборотов.
+                    Игрок слышит громкий вой турбин, после чего процессор сбрасывает частоты, вентиляторы затихают, а через минуту при новой нагрузке цикл повторяется.
+                    Это создает акустический дискомфорт и вызывает рывки графика времени кадра (frametime).
+                </p>
+
+                <div class="info-box">
+                    <strong>Золотое правило акустического комфорта: PL2 = PL1 + 1W</strong>
+                    <p style="margin-top: 6px;">
+                        В виджете ClawTweaks ограничьте параметр кратковременного буста PL2 величиной, превышающей базовый PL1 ровно на один ватт.
+                        Например: при <code>PL1 = 20W</code> установите <code>PL2 = 21W</code>.
+                    </p>
+                    <p style="margin-top: 6px;">
+                        Это устраняет температурные спайки: кристалл прогревается плавно без температурного шока,
+                        обороты кулеров остаются на одном ровном и тихом уровне, а график времени кадра становится стабильным.
+                    </p>
+                </div>
+            </section>
+
+            <section id="profiles">
+                <h2>4. Рекомендуемые профили теплопакета для игр</h2>
+                <p>
+                    Для удобства управления в утилите ClawTweaks и голосовом помощнике SaySo рекомендуется сформировать три базовых пресета мощности:
+                </p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Профиль</th>
+                                <th>Значения PL1 / PL2</th>
+                                <th>Сценарий использования</th>
+                                <th>Автономность</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Тихий (Эко)</strong></td>
+                                <td>12 Вт / 13 Вт</td>
+                                <td>2D-платформеры, визуальные новеллы, инди (Dead Cells, Hollow Knight), ретро-эмуляторы</td>
+                                <td>от 3.5 до 4.5 часов</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Баланс (Основной)</strong></td>
+                                <td>18 Вт / 19 Вт</td>
+                                <td>Игры прошлых лет, 3D-экшены (Witcher 3, GTA V, Dark Souls 3, Hades II) в 1536x960</td>
+                                <td>от 2.2 до 2.8 часов</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Турбо (AAA)</strong></td>
+                                <td>25 Вт / 26 Вт</td>
+                                <td>Тяжелые новинки (Cyberpunk 2077, Space Marine 2) с апскейлингом XeSS в 1600x1000</td>
+                                <td>от 1.5 до 1.8 часов</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="warning-box">
+                    <strong>Почему не стоит выставлять TDP выше 30 Вт:</strong>
+                    Зависимость частоты графических ядер от подводимой мощности носит логарифмический характер.
+                    Прирост TDP с 25 до 35 Вт увеличивает энергопотребление на 40%, но дает всего 4-7% реальной прибавки частоты кадров,
+                    сокращая время автономной работы до 50 минут и приводя к перегреву элементов питания VRM.
+                </div>
+            </section>
+        </article>
+
+        <!-- Навигация по другим статьям -->
+        <div class="guide-nav-grid">
+            <a href="vrr-display.html" class="guide-nav-card">
+                <div>
+                    <div class="guide-nav-label">Предыдущее руководство</div>
+                    <div class="guide-nav-title">← Экран, переменная частота VRR, LFC и калибровка ICC</div>
+                </div>
+            </a>
+            <a href="memory-and-stability.html" class="guide-nav-card">
+                <div>
+                    <div class="guide-nav-label">Следующее руководство</div>
+                    <div class="guide-nav-title">Память GPU до 24 ГБ, файл подкачки и стабильность системы →</div>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container footer-content">
+            <div>
+                <p>MSI Claw Suite • Руководство по питанию • Автор: <a href="https://github.com/carbonumbrella" target="_blank">carbonumbrella</a></p>
+                <p style="font-size: 0.8rem; margin-top: 4px;">Лицензия MIT. Проверено на аппаратной платформе MSI Claw 8 AI+.</p>
+            </div>
+            <div>
+                <a href="../index.html" style="color: var(--text-subtle);">На главную страницу</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
