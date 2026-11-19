@@ -489,10 +489,28 @@
             </div>
         </div>
 
+        <!-- Развилка сценариев -->
+        <div class="branch-card" style="background: var(--bg-card); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-cyan); border-radius: 8px; padding: 16px 20px; margin-bottom: 30px;">
+            <strong style="color: var(--accent-cyan); font-size: 1rem; display: block; margin-bottom: 8px;">Выбор начальной точки:</strong>
+            <ul style="margin-left: 20px; color: var(--text-muted); font-size: 0.95rem;">
+                <li style="margin-bottom: 6px;">
+                    <strong style="color: var(--text-main);">Консоль из магазина (заводская Windows):</strong>
+                    Если операционная система уже установлена производителем, шаги 1 и 2 пропускаются. Начинайте сразу с <a href="#step-3">Шага 3 (Обновления системы)</a>.
+                </li>
+                <li>
+                    <strong style="color: var(--text-main);">Чистая установка с накопителя:</strong>
+                    Если вы переустанавливаете систему на чистый SSD, выполняйте все пункты по порядку, начиная с <a href="#step-1">Шага 1</a>.
+                </li>
+            </ul>
+        </div>
+
         <!-- Статья -->
         <article>
             <section id="step-1">
-                <h2><span class="step-num">1</span> Чистая установка Windows 11 Home</h2>
+                <h2><span class="step-num">1</span> Чистая установка Windows 11 Home (при переустановке)</h2>
+                <div class="info-box" style="margin-bottom: 14px;">
+                    <strong>Если система уже установлена с завода:</strong> этот шаг не требуется, переходите сразу к <a href="#step-3">Шагу 3</a>.
+                </div>
                 <p>
                     Установка чистой системы Windows 11 Home с установочного накопителя.
                     Заводской ключ лицензии вшит в материнскую плату устройства (MSDM), поэтому при установке редакция Home активируется автоматически.
@@ -506,9 +524,12 @@
             </section>
 
             <section id="step-2">
-                <h2><span class="step-num">2</span> Базовые драйверы и MSI Center M</h2>
+                <h2><span class="step-num">2</span> Базовые драйверы и MSI Center M (при чистой установке)</h2>
+                <div class="info-box" style="margin-bottom: 14px;">
+                    <strong>Если система установлена с завода:</strong> драйверы и MSI Center M уже присутствуют. Проверьте актуальность прошивок через встроенный раздел обновления и переходите к <a href="#step-3">Шагу 3</a>.
+                </div>
                 <p>
-                    Устанавливаем официальный управляющий пакет MSI Center M и базовые драйверы оборудования с сайта технической поддержки MSI.
+                    При чистой установке скачиваем официальный управляющий пакет MSI Center M и базовые драйверы оборудования с сайта технической поддержки MSI.
                 </p>
                 <ul>
                     <li>
