@@ -514,27 +514,25 @@
             margin-bottom: 6px;
         }
 
-        /* Утилиты и скриншоты */
-        .app-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            align-items: center;
-            margin-bottom: 48px;
+        /* Утилиты и скриншоты (единообразная структура) */
+        .app-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 14px;
             padding: 28px;
+            margin-bottom: 36px;
         }
 
-        .app-row.reverse {
-            grid-template-columns: 1fr 1fr;
+        .app-card-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(36, 43, 59, 0.5);
+            padding-bottom: 14px;
         }
 
-        .app-text h3 {
+        .app-card-header h3 {
             font-size: 1.45rem;
-            margin-bottom: 10px;
             color: var(--text-main);
+            margin-top: 6px;
         }
 
         .app-badge {
@@ -545,8 +543,26 @@
             font-weight: 600;
             padding: 3px 8px;
             border-radius: 4px;
-            margin-bottom: 12px;
             border: 1px solid var(--border-color);
+        }
+
+        .app-card-content {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .app-img-wrap {
+            text-align: center;
+        }
+
+        .app-img-wrap img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
         }
 
         .app-text p {
@@ -558,7 +574,7 @@
 
         .app-features {
             list-style: none;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .app-features li {
@@ -576,16 +592,8 @@
             font-weight: bold;
         }
 
-        .app-img-wrap {
-            text-align: center;
-        }
-
-        .app-img-wrap img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        .app-actions {
+            margin-top: 8px;
         }
 
         /* Внешние интеграции */
@@ -698,8 +706,18 @@
                 border: 1px solid var(--border-color);
             }
 
-            .app-row, .app-row.reverse {
+            .app-card-content {
                 grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .app-card {
+                padding: 18px;
+                margin-bottom: 24px;
+            }
+
+            .app-card-header h3 {
+                font-size: 1.25rem;
             }
 
             .swipe-hint {
@@ -748,16 +766,6 @@
 
             .section-header p {
                 font-size: 0.92rem;
-            }
-
-            .app-row {
-                padding: 18px;
-                gap: 20px;
-                margin-bottom: 24px;
-            }
-
-            .app-text h3 {
-                font-size: 1.25rem;
             }
 
             .res-card, .opt-card {
@@ -1059,71 +1067,89 @@
             </div>
 
             <!-- SaySo -->
-            <div class="app-row">
-                <div class="app-text">
+            <div class="app-card">
+                <div class="app-card-header">
                     <span class="app-badge">Whisper int8 • Intel NPU • Push-to-Talk</span>
                     <h3>SaySo: Голосовой помощник и диктовка</h3>
-                    <p>
-                        Голосовой помощник для Windows, работающий прямо на встроенном нейропроцессоре Intel NPU (Lunar Lake).
-                        Позволяет вводить текст в любые поля ввода в играх и приложениях, удерживая назначенную кнопку,
-                        а также управлять системными функциями консоли.
-                    </p>
-                    <ul class="app-features">
-                        <li>Диктовка с голосовой правкой («удали слово», «замени на») без облачных задержек</li>
-                        <li>Прямое управление мощностью TDP, вентиляторами и паузой игр через интеграцию с ClawTweaks</li>
-                        <li>Автоматическое назначение действий на задние лепестки M1 и M2, включая профили конкретных игр</li>
-                        <li>Интерфейс на C# WPF с автоматической перестройкой в одну колонку при вертикальной ориентации экрана</li>
-                    </ul>
-                    <a href="https://github.com/carbonumbrella/sayso" target="_blank" class="btn btn-secondary">Репозиторий SaySo на GitHub</a>
                 </div>
-                <div class="app-img-wrap">
-                    <img src="assets/img/sayso-main.png" alt="Окно настроек SaySo на MSI Claw">
+                <div class="app-card-content">
+                    <div class="app-img-wrap">
+                        <img src="assets/img/sayso-main.png" alt="Окно настроек SaySo на MSI Claw">
+                    </div>
+                    <div class="app-text">
+                        <p>
+                            Голосовой помощник для Windows, работающий прямо на встроенном нейропроцессоре Intel NPU (Lunar Lake).
+                            Позволяет вводить текст в любые поля ввода в играх и приложениях, удерживая назначенную кнопку,
+                            а также управлять системными функциями консоли.
+                        </p>
+                        <ul class="app-features">
+                            <li>Диктовка с голосовой правкой («удали слово», «замени на») без облачных задержек</li>
+                            <li>Прямое управление мощностью TDP, вентиляторами и паузой игр через интеграцию с ClawTweaks</li>
+                            <li>Автоматическое назначение действий на задние лепестки M1 и M2, включая профили конкретных игр</li>
+                            <li>Интерфейс на C# WPF с автоматической перестройкой в одну колонку при вертикальной ориентации экрана</li>
+                        </ul>
+                        <div class="app-actions">
+                            <a href="https://github.com/carbonumbrella/sayso" target="_blank" class="btn btn-secondary">Репозиторий SaySo на GitHub</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- ClawAmbilight -->
-            <div class="app-row reverse">
-                <div class="app-img-wrap">
-                    <img src="assets/img/ambilight-main.png" alt="Панель ClawAmbilight">
-                </div>
-                <div class="app-text">
+            <div class="app-card">
+                <div class="app-card-header">
                     <span class="app-badge">Direct HID • DXGI Desktop Duplication • GPU Averaging</span>
                     <h3>ClawAmbilight: Динамическая подсветка стиков</h3>
-                    <p>
-                        Адаптивная подсветка колец аналоговых стиков и кнопок ABXY по картинке на экране, работающая по принципу телевизоров Ambilight.
-                        Кадр захватывается через DXGI Desktop Duplication и усредняется прямо на видеокарте,
-                        потребляя около 1.5% одного ядра центрального процессора и не снижая FPS в играх.
-                    </p>
-                    <ul class="app-features">
-                        <li>Режимы «Мягкий» (спокойные цвета сцены) и «Яркий» (динамический акцент на полной яркости)</li>
-                        <li>Пресет «Как Joy-Con» с классическими неоновыми синим и красным цветами Nintendo Switch</li>
-                        <li>Прямая запись байтов через HID vendor-отчет 0x0F в RAM контроллера без износа микросхемы флеш-памяти</li>
-                        <li>Автоматическое снижение частоты обновления кадров при переходе на питание от аккумулятора</li>
-                    </ul>
-                    <a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank" class="btn btn-secondary">Репозиторий ClawAmbilight на GitHub</a>
+                </div>
+                <div class="app-card-content">
+                    <div class="app-img-wrap">
+                        <img src="assets/img/ambilight-main.png" alt="Панель ClawAmbilight">
+                    </div>
+                    <div class="app-text">
+                        <p>
+                            Адаптивная подсветка колец аналоговых стиков и кнопок ABXY по картинке на экране, работающая по принципу телевизоров Ambilight.
+                            Кадр захватывается через DXGI Desktop Duplication и усредняется прямо на видеокарте,
+                            потребляя около 1.5% одного ядра центрального процессора и не снижая FPS в играх.
+                        </p>
+                        <ul class="app-features">
+                            <li>Режимы «Мягкий» (спокойные цвета сцены) и «Яркий» (динамический акцент на полной яркости)</li>
+                            <li>Пресет «Как Joy-Con» с классическими неоновыми синим и красным цветами Nintendo Switch</li>
+                            <li>Прямая запись байтов через HID vendor-отчет 0x0F в RAM контроллера без износа микросхемы флеш-памяти</li>
+                            <li>Автоматическое снижение частоты обновления кадров при переходе на питание от аккумулятора</li>
+                        </ul>
+                        <div class="app-actions">
+                            <a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank" class="btn btn-secondary">Репозиторий ClawAmbilight на GitHub</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- kbdhaptic -->
-            <div class="app-row">
-                <div class="app-text">
+            <div class="app-card">
+                <div class="app-card-header">
                     <span class="app-badge">XInput Haptics • WinRT Reflection • Auto-Rotate</span>
                     <h3>kbdhaptic: Виброотклик и автоповорот</h3>
-                    <p>
-                        Утилита решает две аппаратные особенности портативных консолей на Windows 11:
-                        добавляет тактильную виброотдачу встроенных моторов геймпада при наборе текста на сенсорной клавиатуре
-                        и восстанавливает аппаратный автоповорот экрана.
-                    </p>
-                    <ul class="app-features">
-                        <li>Короткий импульс моторов XInput на каждое экранное нажатие по интерфейсу IFrameworkInputPane</li>
-                        <li>Навигация в окнах Проводника кнопками геймпада (A: открыть, B: назад, Y: вверх, X: меню)</li>
-                        <li>Обход ограничения датчика Simple Device Orientation через WinRT с вызовом ChangeDisplaySettingsEx</li>
-                        <li>Синхронизация с системным тумблером «Автоповорот» в быстрых настройках панели задач Windows</li>
-                    </ul>
-                    <a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank" class="btn btn-secondary">Репозиторий kbdhaptic на GitHub</a>
                 </div>
-                <div class="app-img-wrap">
-                    <img src="assets/img/kbdhaptic-main.png" alt="Окно конфигурации kbdhaptic">
+                <div class="app-card-content">
+                    <div class="app-img-wrap">
+                        <img src="assets/img/kbdhaptic-main.png" alt="Окно конфигурации kbdhaptic">
+                    </div>
+                    <div class="app-text">
+                        <p>
+                            Утилита решает две аппаратные особенности портативных консолей на Windows 11:
+                            добавляет тактильную виброотдачу встроенных моторов геймпада при наборе текста на сенсорной клавиатуре
+                            и восстанавливает аппаратный автоповорот экрана.
+                        </p>
+                        <ul class="app-features">
+                            <li>Короткий импульс моторов XInput на каждое экранное нажатие по интерфейсу IFrameworkInputPane</li>
+                            <li>Навигация в окнах Проводника кнопками геймпада (A: открыть, B: назад, Y: вверх, X: меню)</li>
+                            <li>Обход ограничения датчика Simple Device Orientation через WinRT с вызовом ChangeDisplaySettingsEx</li>
+                            <li>Синхронизация с системным тумблером «Автоповорот» в быстрых настройках панели задач Windows</li>
+                        </ul>
+                        <div class="app-actions">
+                            <a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank" class="btn btn-secondary">Репозиторий kbdhaptic на GitHub</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
