@@ -1,0 +1,9 @@
+# CHANGELOG
+
+## Decisions and Architectural Rules
+
+### 2026-11-19: Remove BIOS VRAM Configuration and Marketing Buzzwords
+- **Decision:** Eliminate all instructions requiring users to enter BIOS for VRAM/Shared GPU Memory on MSI Claw.
+- **Reason:** Intel Core Ultra 200V (Lunar Lake) uses unified Memory-on-Package LPDDR5x (32 GB). The standard MSI Claw BIOS contains no UMA Frame Buffer setting. Windows Display Driver Model (WDDM) dynamically allocates up to 50% of system RAM (16 GB) as Shared GPU Memory automatically.
+- **Decision:** Remove marketing fluff and evaluative adjectives ("выверенная для геймеров", "идеальный комфорт", "математически выверенные") across all guides and portal pages.
+- **Reason:** Strict adherence to factual, concise, and laconic technical documentation standards without AI tells.
