@@ -75,6 +75,50 @@
             height: 64px;
         }
 
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .lang-switch {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #151a24;
+            border: 1px solid var(--border-color);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .lang-switch .lang-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 4px 7px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lang-switch .lang-btn:hover {
+            color: var(--text-main);
+        }
+
+        .lang-switch .lang-btn.active {
+            background: rgba(0, 210, 255, 0.15);
+            color: var(--accent-cyan);
+        }
+
+        .lang-switch .lang-divider {
+            color: var(--border-color);
+            font-size: 0.75rem;
+        }
+
         .logo {
             font-size: 1.15rem;
             font-weight: 700;
@@ -889,9 +933,16 @@
     <!-- Навигация -->
     <header>
         <div class="container nav-container">
-            <div class="logo">
-                <span>MSI Claw Suite</span>
-                <span class="logo-badge">Hub</span>
+            <div class="nav-brand">
+                <div class="logo">
+                    <span>MSI Claw Suite</span>
+                    <span class="logo-badge">Hub</span>
+                </div>
+                <div class="lang-switch">
+                    <span class="lang-btn active">RU</span>
+                    <span class="lang-divider">/</span>
+                    <a href="en/index.html" class="lang-btn" data-lang="en">EN</a>
+                </div>
             </div>
             <a href="https://github.com/carbonumbrella" target="_blank" class="btn-github">
                 <span>GitHub @carbonumbrella</span>
@@ -1465,5 +1516,30 @@
         </div>
     </footer>
 
+    <script>
+        (function() {
+            var stored = localStorage.getItem('site_lang');
+            if (!stored) {
+                var userLang = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+                if (userLang && !userLang.toLowerCase().startsWith('ru')) {
+                    localStorage.setItem('site_lang', 'en');
+                    window.location.replace('en/index.html');
+                    return;
+                }
+                localStorage.setItem('site_lang', 'ru');
+            } else if (stored === 'en') {
+                window.location.replace('en/index.html');
+                return;
+            }
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var lang = this.getAttribute('data-lang');
+                    if (lang) {
+                        localStorage.setItem('site_lang', lang);
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 </html>
