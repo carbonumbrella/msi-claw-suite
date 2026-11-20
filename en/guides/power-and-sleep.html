@@ -595,15 +595,14 @@ powercfg /h /type full</pre>
                 </p>
 
                 <div class="info-box">
-                    <strong>Golden Rule: Keep the TDP Boost Toggle Turned Off</strong>
+                    <strong>Golden Rule: Keep the PL2 Switch Turned Off</strong>
                     <p style="margin-top: 6px;">
-                        In the ClawTweaks widget, the <strong>TDP Boost</strong> switch (short-term PL2 burst limit) is off by default, and should remain off for the vast majority of gaming workloads.
-                        When turned off, PL2 tracks the steady-state PL1 baseline:
+                        In the ClawTweaks widget, this toggle is labeled <strong>PL2</strong>. It is off by default, and should remain off for the vast majority of gaming workloads.
+                        When turned off, the short-term burst limit PL2 strictly tracks the steady-state PL1 baseline:
                         <code>PL2 = PL1 + 1W</code>. This eliminates 37W power spikes and sudden fan revving during asset streaming.
                     </p>
                     <p style="margin-top: 6px;">
-                        Target GPU clock rates for monitoring via overlay:
-                        <strong>1950 MHz</strong> on Lunar Lake (MSI Claw 8 AI+) and <strong>2250 MHz</strong> on Meteor Lake (MSI Claw A1M).
+                        Target GPU clock rates for monitoring via overlay: flat at maximum <strong>1950 MHz</strong> without clock drop on Lunar Lake (MSI Claw 8 AI+) and <strong>2250 MHz</strong> on Meteor Lake (MSI Claw A1M).
                     </p>
                 </div>
 
@@ -612,25 +611,25 @@ powercfg /h /type full</pre>
                     Launch your game, enable the performance overlay, and evaluate the workload:
                 </p>
 
-                <h4>Scenario 1: GPU-Bound Workload (GPU at 99-100%, Core Clock ~1950 MHz)</h4>
+                <h4>Scenario 1: GPU-Bound Workload (GPU at 99 to 100%, Core Clock Flat at Maximum 1950 MHz)</h4>
                 <ul>
-                    <li><strong>Diagnosis:</strong> Graphics silicon is saturated at maximum performance; the game does not demand high CPU clocks.</li>
+                    <li><strong>Diagnosis:</strong> Graphics silicon is running flat at maximum 1950 MHz; the game does not demand high CPU clocks.</li>
                     <li><strong>Action:</strong> Disable CPU Turbo Boost in Windows power plan settings.</li>
                     <li><strong>Verification:</strong> Monitor game behavior during level loading and shader compilation. If frametimes remain flat without microstuttering, keep CPU boost permanently disabled.</li>
                 </ul>
 
                 <h4>Scenario 2: GPU Starved by Excessive CPU Power Consumption</h4>
                 <ul>
-                    <li><strong>Diagnosis:</strong> GPU utilization sits below 95% with clock speeds under 1950 MHz despite high total power draw. Aggressive CPU turbo clocks are stealing power headroom from graphics cores.</li>
-                    <li><strong>Action:</strong> Disable CPU Turbo Boost. The reclaimed power budget flows directly into the GPU, bringing it up to 1950 MHz.</li>
+                    <li><strong>Diagnosis:</strong> GPU utilization sits below 95% with clock speeds under the maximum 1950 MHz despite high total power draw. Aggressive CPU turbo clocks are stealing power headroom from graphics cores.</li>
+                    <li><strong>Action:</strong> Disable CPU Turbo Boost. The reclaimed power budget flows directly into the GPU, bringing it flat to 1950 MHz.</li>
                     <li><strong>Battery Conservation:</strong> Observe actual package wattage in the overlay, and set PL1 to 1 Watt below this peak. This locks down battery discharge and delivers smooth frametimes.</li>
                 </ul>
 
                 <h4>Scenario 3: CPU-Heavy Titles (Simulation, Strategy, Emulators)</h4>
                 <ul>
                     <li><strong>Diagnosis:</strong> The title relies heavily on single-thread CPU performance; turning off CPU boost leads to lower framerates.</li>
-                    <li><strong>Action:</strong> Enable CPU Turbo Boost, activate the TDP Boost toggle in ClawTweaks, and raise power limits so both CPU and GPU receive adequate wattage simultaneously.</li>
-                    <li><strong>Best Practice:</strong> Running with active boost and high PL2 limits is recommended primarily when plugged into AC power, as it significantly accelerates battery discharge and increases thermal output.</li>
+                    <li><strong>Action:</strong> Enable CPU Turbo Boost, toggle the PL2 switch to On (it is off by default in ClawTweaks), and raise power limits so both CPU and GPU receive adequate wattage simultaneously.</li>
+                    <li><strong>Best Practice:</strong> Running with active boost and the PL2 switch turned on is recommended primarily when plugged into AC power, as it significantly accelerates battery discharge and increases thermal output.</li>
                 </ul>
 
                 <p style="margin-top: 20px;">

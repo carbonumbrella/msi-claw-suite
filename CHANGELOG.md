@@ -19,3 +19,7 @@
 ### 2026-11-20: Add Display ICC Color Profile and Notebookcheck Calibration Source
 - **Decision:** Host calibrated ICC color profile for panel CSW PN8007QB1-2 (`assets/calib/PN8007QB1_2_cal.icm`) and link to the Notebookcheck laboratory review across all portal index pages, download catalogs, and display/setup guides.
 - **Reason:** Enable users to easily download the verified 6500K sRGB profile in one click and reference laboratory display measurements directly.
+
+### 2026-11-21: Correct PL2 Switch Nomenclature and Maximum GPU Frequency
+- **Decision:** Rename references from "TDP Boost" to "PL2 switch" (the exact name in ClawTweaks, disabled by default) and update GPU monitoring description to flat maximum 1950 MHz in Russian and English power guides.
+- **Reason:** Accurate UI terminology matching ClawTweaks v2.x overlay controls and eliminating imprecise frequency qualifiers.
