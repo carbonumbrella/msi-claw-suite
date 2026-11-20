@@ -622,7 +622,7 @@ powercfg /h /type full</pre>
                 <ul>
                     <li><strong>Diagnosis:</strong> GPU utilization sits below 95% or clock speeds dip below 1950 MHz (even momentary dips), despite high total package power draw. Aggressive CPU turbo spikes are stealing power headroom from graphics cores.</li>
                     <li><strong>Action:</strong> Disable CPU Turbo Boost. The reclaimed power budget flows directly into the GPU, locking it flat at 1950 MHz without drops.</li>
-                    <li><strong>Battery Conservation:</strong> Observe actual package wattage in the overlay, and set PL1 to 1 Watt below this peak. This locks down battery discharge and delivers smooth frametimes.</li>
+                    <li><strong>Battery Conservation:</strong> Observe actual package wattage in the overlay, and set PL1 to 1 Watt below this peak to stabilize battery discharge.</li>
                 </ul>
 
                 <h4>Scenario 3: CPU-Heavy Titles (Simulation, Strategy, Emulators)</h4>
