@@ -1325,6 +1325,19 @@
                     <a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank" class="btn btn-secondary">Проект ClawTweaks на GitHub</a>
                 </div>
             </div>
+
+            <div class="external-box" style="margin-top: 16px;">
+                <div class="external-text">
+                    <span class="app-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); border-color: rgba(56, 189, 248, 0.3);">Сторонняя утилита</span>
+                    <h3>OptiClick: автоматизация OptiScaler для XeSS и XeFG</h3>
+                    <p>
+                        Утилита для внедрения OptiScaler в игры с поддержкой DLSS или FSR в один клик. Перенаправляет вызовы апскейлинга в нативный Intel XeSS и активирует генерацию кадров XeFG внутри движка без размытия интерфейса и с минимальным инпут-лагом.
+                    </p>
+                </div>
+                <div>
+                    <a href="https://github.com/onehoon/OptiClick" target="_blank" class="btn btn-secondary">Проект OptiClick на GitHub</a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1346,7 +1359,7 @@
                         <h3>Пошаговая установка стека: с чистой Windows 11 до игр</h3>
                         <p>
                             Последовательность развертывания системы: установка драйверов, MSI Center M,
-                            снятие заводского ограничения кулеров 75%, ClawTweaks, очистка Windows и кастомные разрешения.
+                            снятие заводского ограничения кулеров 75%, ClawTweaks, очистка Windows, отключение BitLocker и кастомные разрешения.
                         </p>
                     </div>
                     <span class="read-link" style="color: var(--accent-green);">Читать пошаговый гайд →</span>
@@ -1358,7 +1371,7 @@
                         <h3>Экран и переменная частота (VRR): DisplayID 2.0 и LFC</h3>
                         <p>
                             Разбор дескриптора DisplayID 2.0, причины отображения 60-120 Гц на рабочем столе и 48-120 Гц в играх,
-                            физика процесса LFC и почему нельзя снижать нижнюю планку до 30 Гц.
+                            анатомия режимов Low Latency (On против On + Boost), поведение Endurance Gaming и сценарии 120 Гц VRR против фиксированных 48 Гц.
                         </p>
                     </div>
                     <span class="read-link">Читать руководство →</span>
@@ -1369,8 +1382,8 @@
                         <span class="card-badge badge-power">Питание и сон</span>
                         <h3>Настройка питания, режима S4 и теплопакета (TDP)</h3>
                         <p>
-                            Опасности стандартного сна S0 Modern Standby в чехле, правильная настройка надежной гибернации S4
-                            и золотое правило PL2 = PL1 + 1W для ровного фреймтайма и тишины кулеров.
+                            Опасности сна S0 Modern Standby в чехле, надежная гибернация S4, среднестатистический ориентир 20-21 Вт,
+                            специфика процессорозависимых игр, ограничение FPS вместо удушения ватт, тихая кривая кулеров и устранение свиста дросселей.
                         </p>
                     </div>
                     <span class="read-link">Читать руководство →</span>
@@ -1381,8 +1394,8 @@
                         <span class="card-badge badge-memory">Память и стабильность</span>
                         <h3>Память GPU, файл подкачки и безопасность ядра</h3>
                         <p>
-                            Архитектура объединенной памяти LPDDR5x, предотвращение вылетов DXGI через статическую фиксацию 16 ГБ pagefile,
-                            разгрузка аудиослужб и нюансы изоляции ядра HVCI.
+                            Архитектура объединенной памяти LPDDR5x MoP, предотвращение вылетов DXGI через статическую фиксацию 16 ГБ pagefile,
+                            отключение BitLocker, аварийный сброс EC Reset и строгое предостережение по скрытому меню BIOS.
                         </p>
                     </div>
                     <span class="read-link">Читать руководство →</span>
@@ -1391,10 +1404,10 @@
                 <a href="guides/software-choice.html" class="portal-guide-card" style="border-color: rgba(168, 85, 247, 0.35); background: linear-gradient(180deg, rgba(168, 85, 247, 0.06) 0%, var(--bg-card) 100%);">
                     <div>
                         <span class="card-badge" style="background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); border: 1px solid rgba(168, 85, 247, 0.3);">Управляющий софт</span>
-                        <h3>Выбор софта: ClawTweaks, MSI Center M и HandheldCompanion</h3>
+                        <h3>Выбор софта: ClawTweaks, OptiClick и Lossless Scaling</h3>
                         <p>
-                            Аппаратный конфликт HandheldCompanion на шине EC, системный оверхед фонового стека MSI Center M,
-                            готовность ClawTweaks к игре «из коробки» и консольный лаунчер FSE.
+                            Сравнение ClawTweaks против MSI Center M и HandheldCompanion,
+                            а также детальный разбор нативного апскейлинга OptiClick (OptiScaler) против внешнего захвата Lossless Scaling.
                         </p>
                     </div>
                     <span class="read-link" style="color: var(--accent-purple);">Читать сравнение утилит →</span>

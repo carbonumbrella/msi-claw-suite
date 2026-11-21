@@ -635,6 +635,31 @@ powercfg /h /type full</pre>
                 <p style="margin-top: 20px;">
                     To summon the ClawTweaks overlay and power sliders mid-game, press the physical right Claw button (located directly beneath the Menu / Start button).
                 </p>
+
+                <h4>Practical Power Targets and Consumption Profiles</h4>
+                <ul>
+                    <li>
+                        <strong>Average 3D Gaming Package Draw (20-21W):</strong>
+                        For the majority of standard 3D games, optimal efficiency is achieved around <code>PL1 = 20W</code> and <code>PL2 = 21W</code> with CPU boost disabled. The Arc 140V GPU core receives ample power to sustain its flat 1950 MHz maximum without overheating the handheld chassis.
+                    </li>
+                    <li>
+                        <strong>CPU-Heavy Game Engines (e.g. Ubisoft Anvil):</strong>
+                        Certain engine architectures (such as the Assassin's Creed series or large-scale strategy titles) demand higher CPU clocks. These titles require enabling CPU Turbo Boost, maxing out PL1, and setting the PL2 switch 3-5W higher so the CPU has sufficient power headroom for transient calculations without starving the GPU. Playing in this configuration is recommended on AC power.
+                    </li>
+                    <li>
+                        <strong>Framerate Capping Instead of Hard Power Throttling:</strong>
+                        The most efficient method to save battery on the road is locking the framerate (e.g., 40 FPS on the 120 Hz VRR display). The GPU core automatically steps down its clock speed and voltage to match the frame target, self-regulating consumption while preserving instant headroom for demanding scenes.
+                    </li>
+                    <li>
+                        <strong>Maximum Battery Longevity Mode (8-9W):</strong>
+                        For 2D indie titles, visual novels, and classic emulators, maximum runtime is achieved by setting <code>PL1 = 8W</code> and <code>PL2 = 9W</code> alongside an in-game framerate cap.
+                    </li>
+                </ul>
+
+                <div class="info-box" style="margin-top: 16px;">
+                    <strong>On-the-Go Optimization with Intel Endurance Gaming:</strong>
+                    When gaming on battery, Intel Endurance Gaming can be engaged in the driver (presets of 60, 40, or 30 FPS). When plugged into AC power, the feature automatically disengages and has zero performance impact.
+                </div>
             </section>
 
             <section id="fan-curves">
@@ -658,6 +683,20 @@ powercfg /h /type full</pre>
                         This unlocks the full cooling potential of the dual-fan vapor chamber assembly, keeping temperatures in check and sustaining the 1950 MHz GPU core clock indefinitely.
                     </p>
                 </div>
+
+                <h3>Verified Quiet Fan Curve Points</h3>
+                <p>
+                    If configuring a custom curve in MSI Center M (User Scenario -&gt; Fan Speed -&gt; Advanced) or ClawTweaks for silent low-load operation, the community has verified the following 6-point curve:
+                </p>
+                <pre>5%, 5%, 25%, 65%, 75%, 100%</pre>
+                <p>
+                    This profile maintains complete silence during media playback and lightweight 2D gaming, keeping fans at minimal RPM, while smoothly scaling up to 100% when die temperatures cross 75°C.
+                </p>
+
+                <h3>Mitigating Inductor Coil Whine</h3>
+                <p>
+                    If high-frequency inductor coil whine is audible under transient loads, a thermal stabilization procedure can resolve it: run the fans at maximum speed (Cooler Boost or 100-150% RPM) for 5 minutes. This evens out thermal gradients across power delivery chokes, after which you can return to your quiet fan profile.
+                </p>
             </section>
         </article>
 

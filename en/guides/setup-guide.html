@@ -528,6 +528,17 @@
                 <p>
                     Install the latest WHQL Intel Arc Graphics driver package via MSI Center M, Intel Driver Support Assistant, or ClawTweaks.
                 </p>
+
+                <div class="note-box" style="border-left-color: var(--accent-blue); background: rgba(56, 189, 248, 0.05); margin: 16px 0;">
+                    <div style="font-weight: 700; color: var(--accent-blue); margin-bottom: 6px;">Recommended Intel Graphics Settings:</div>
+                    <ul style="margin-left: 20px; color: var(--text-muted);">
+                        <li><strong>Shared GPU Memory Override:</strong> The slider is calibrated in percentages. Setting 50% on our 32 GB model corresponds to 16 GB of video memory. Out of the box, the driver sets this to approximately 57%, which is already optimal and requires no manual adjustment.</li>
+                        <li><strong>Low Latency Mode:</strong> Set to <code>On</code> (1-frame queue) for daily gaming and battery play. Enable <code>On + Boost</code> during AC gaming in demanding titles to pin the GPU at 1950 MHz, and whenever frame generation is enabled.</li>
+                        <li><strong>Endurance Gaming:</strong> Operates strictly when running on battery (framerate caps of 60, 40, or 30 FPS). When plugged into AC power, this feature automatically disengages and can be ignored.</li>
+                        <li><strong>Display Scaling:</strong> Select <code>GPU Scaling</code> and <code>Preserve Aspect Ratio</code> for proper 16:10 geometry preservation.</li>
+                    </ul>
+                </div>
+
                 <div class="warning-box">
                     <strong>Installation Order:</strong> The GPU driver must be installed prior to custom 16:10 resolution injection.
                     Installing a display driver on top of custom modes overwrites registry override keys.
@@ -558,6 +569,7 @@
                     <li>Configures S4 Hibernation: disables S0 Modern Standby, sets auto-hibernation (10 min battery / 60 min AC), maps power buttons to hibernate, disables wake timers.</li>
                     <li>Locks the system pagefile to a static <strong>16384 MB (16 GB)</strong>: eliminates dynamic paging stalls and prevents DirectX <code>DXGI_ERROR_DEVICE_REMOVED</code> crashes.</li>
                     <li>Applies hardware GPU Maintain Aspect Ratio scaling for non-native resolutions and enables touch keyboard on the login screen (ARSO fix).</li>
+                    <li>Disables BitLocker device encryption via option 6 in the Optimize-Handheld menu (eliminates continuous background CPU and SSD encryption load during gaming).</li>
                     <li>Reboot the handheld.</li>
                 </ol>
             </section>
@@ -593,10 +605,19 @@
                     Open-source utilities available for specific workflows:
                 </p>
                 <ul>
+                    <li><strong><a href="https://github.com/onehoon/OptiClick" target="_blank">OptiClick</a>:</strong> One-click automated deployment for OptiScaler in games supporting DLSS or FSR. Translates render calls to native Intel XeSS and XeFG frame generation with clean text and minimal input lag.</li>
                     <li><strong><a href="https://github.com/carbonumbrella/sayso" target="_blank">SaySo</a>:</strong> Local NPU voice dictation and hardware controls by holding rear paddles.</li>
                     <li><strong><a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank">ClawAmbilight</a>:</strong> Real-time screen color stick lighting averaged on the GPU with zero CPU penalty.</li>
                     <li><strong><a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank">kbdhaptic</a>:</strong> Haptic vibration confirmation on touch keyboard typing and hardware auto-rotation.</li>
                 </ul>
+
+                <div class="note-box" style="border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.06); margin-top: 24px;">
+                    <div style="font-weight: 700; color: var(--accent-red); margin-bottom: 6px;">Emergency Quick Reference: Power Reset and BIOS Access</div>
+                    <ul style="margin-left: 20px; color: var(--text-muted);">
+                        <li><strong>Hard Power Reset (EC Reset):</strong> If frozen, hold the power button down for 20-30 seconds until all LEDs shut off. The console will boot only after connecting the factory Type-C wall charger.</li>
+                        <li><strong>BIOS Entry Without Keyboard:</strong> With the console completely powered off, hold <code>RB + RT</code> and press the power button.</li>
+                    </ul>
+                </div>
             </section>
         </article>
 

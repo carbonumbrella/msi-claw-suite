@@ -673,6 +673,86 @@
                     </table>
                 </div>
             </section>
+
+            <section id="upscaling-comparison" class="guide-card">
+                <h2>5. Апскейлинг и генерация кадров: OptiClick против Lossless Scaling</h2>
+                
+                <p>
+                    Для повышения частоты кадров на портативных консолях применяются два принципиально разных подхода: внутриигровая подмена апскейлеров через библиотеки-трансляторы и внешний экранный захват. Понимание разницы между ними позволяет получить максимальную плавность без артефактов и лишнего инпут-лага.
+                </p>
+
+                <div class="note-box" style="border-left-color: var(--accent-blue); background: rgba(56, 189, 248, 0.05); margin: 20px 0;">
+                    <div style="font-weight: 700; color: var(--accent-blue); margin-bottom: 6px;">Ключевое правило выбора инструмента:</div>
+                    <ul style="margin-left: 20px; color: var(--text-muted);">
+                        <li><strong>OptiClick (OptiScaler):</strong> основной выбор для современных игр с поддержкой DLSS или FSR. Внедряется прямо в движок игры, обеспечивая нативный Intel XeSS и генерацию кадров XeFG с чистым интерфейсом.</li>
+                        <li><strong>Lossless Scaling (LSFG):</strong> резервный инструмент для ретро-игр, эмуляторов и старых проектов, где встроенных технологий апскейлинга нет в принципе.</li>
+                    </ul>
+                </div>
+
+                <h3>1. OptiClick: автоматизация OptiScaler в один клик</h3>
+                <p>
+                    <a href="https://github.com/optiscaler/OptiScaler" target="_blank" rel="noopener">OptiScaler</a> представляет собой открытый промежуточный слой (middleware), который перехватывает вызовы NVIDIA DLSS или AMD FSR и перенаправляет их в нативный Intel XeSS, а также включает генерацию кадров (XeFG или FSR Frame Generation). На видеокартах Intel Arc и процессорах Lunar Lake технология XeSS работает качественнее FSR, устраняя мерцание тонких сеток и сохраняя резкость текстур.
+                </p>
+                <p>
+                    Ручная установка OptiScaler требует копирования DLL файлов (<code>dxgi.dll</code>, <code>version.dll</code>) и ручной правки конфигов под каждую игру. Утилита <a href="https://github.com/onehoon/OptiClick" target="_blank" rel="noopener">OptiClick (GitHub onehoon/OptiClick)</a> полностью автоматизирует этот процесс:
+                </p>
+                <ul class="guide-list">
+                    <li><strong>Автоопределение игр:</strong> сканирует установленные библиотеки Steam, Epic Games и пользовательские каталоги.</li>
+                    <li><strong>Установка в один клик:</strong> сама помещает нужные библиотеки перехвата в каталог исполняемого файла игры.</li>
+                    <li><strong>Чистый интерфейс (HUD):</strong> апскейлинг и генерация кадров происходят до наложения прицелов, шрифтов и миникарты, исключая артефакты размытия текста.</li>
+                    <li><strong>Минимальная задержка:</strong> генерация кадров внутри движка дает существенно меньший инпут-лаг по сравнению с внешним захватом окна.</li>
+                </ul>
+                <div class="note-box" style="border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.06); margin: 16px 0;">
+                    <span style="color: var(--accent-red); font-weight: 700;">Важно:</span> Так как OptiScaler работает через внедрение прокси-библиотек в папку с игрой, используйте OptiClick исключительно в одиночных играх. В соревновательных сетевых проектах с античитами (Easy Anti-Cheat, BattlEye, Vanguard) любые сторонние DLL могут привести к блокировке аккаунта.
+                </div>
+
+                <h3>2. Lossless Scaling: инструмент для ретро и проектов без апскейлеров</h3>
+                <p>
+                    Утилита Lossless Scaling из Steam работает по принципу внешнего захвата окна рабочего стола через Windows Desktop Duplication API. Она берет готовый отрендеренный кадр окна и применяет к нему масштабирование или генерацию кадров (алгоритм LSFG).
+                </p>
+                <p>
+                    Это делает Lossless Scaling незаменимым для игр двадцатилетней давности, эмуляторов классических платформ и проектов с жестким ограничением в 30 или 60 FPS. Однако для современных игр этот метод уступает OptiClick: постобработка готового окна захватывает и интерфейс, из-за чего элементы меню и текст могут слегка двоиться при резких поворотах камеры, а общая задержка ввода оказывается выше.
+                </p>
+
+                <div class="table-responsive" style="margin-top: 24px;">
+                    <table class="guide-table">
+                        <thead>
+                            <tr>
+                                <th>Параметр</th>
+                                <th>OptiClick (OptiScaler)</th>
+                                <th>Lossless Scaling (LSFG)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Точка интеграции</strong></td>
+                                <td>Внутри игрового движка (замена DLSS/FSR на XeSS/XeFG)</td>
+                                <td>Внешний захват окна Windows (Screen Capture)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Четкость интерфейса и текста</strong></td>
+                                <td><span style="color: var(--accent-green);">Идеальная:</span> HUD рендерится поверх готового кадра</td>
+                                <td><span style="color: var(--accent-red);">Возможны артефакты:</span> текст и прицел интерполируются вместе с картинкой</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Задержка ввода (Input Lag)</strong></td>
+                                <td><span style="color: var(--accent-green);">Минимальная:</span> прямая синхронизация с очередью рендера</td>
+                                <td>Умеренная (дополнительный буфер захвата окна)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Совместимость</strong></td>
+                                <td>Игры с поддержкой DLSS 2+, FSR 2+ или XeSS</td>
+                                <td>Любые оконные приложения, эмуляторы и старые игры</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Рекомендуемый сценарий</strong></td>
+                                <td>Все современные одиночные 3D игры</td>
+                                <td>Ретро-проекты, визуальные новеллы, эмуляторы</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         </article>
 
         <div class="guide-nav-grid">
