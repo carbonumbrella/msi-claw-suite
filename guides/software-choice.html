@@ -595,8 +595,25 @@
                     Подсистема эмуляции контроллера использует драйверы ViGEm и <code>HidHide</code>:
                 </p>
                 <ul>
+                    <li>
+                        <strong>Режимы эмуляции контроллера:</strong>
+                        Переключение целевого виртуального геймпада под конкретную задачу:
+                        <ul style="margin: 6px 0 6px 18px;">
+                            <li><strong>Xbox 360 (XInput):</strong> Базовый режим для стопроцентной совместимости с играми Windows.</li>
+                            <li><strong>DualShock:</strong> Раскладка PlayStation с нативным каналом гироскопа для эмуляторов (RPCS3, Ryujinx, Cemu) и ПК-портов Sony.</li>
+                            <li><strong>Steam Controller:</strong> Прямая интеграция в Steam Input с поддержкой слоев действий, радиальных меню и шаблонов сообщества.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Режимы работы гироскопа:</strong>
+                        <ul style="margin: 6px 0 6px 18px;">
+                            <li><strong>Эмуляция правого стика (Gyro-to-Stick):</strong> Прямая трансляция наклонов консоли в отклонение правого аналогового стика. Позволяет задействовать гироприцеливание в любых играх с поддержкой геймпадов без использования мышиного ввода.</li>
+                            <li><strong>Нативный проброс:</strong> Передача сырых данных гироскопа в поддерживаемые игры и эмуляторы в режимах DualShock и Steam Controller.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Калибровка осей:</strong> Настройка мертвых зон стиков на датчиках Холла, сглаживание дрожания рук и настройка кривых отклика триггеров.</li>
+                    <li><strong>Защита аккумулятора:</strong> Функция Battery Charge Limit с фиксацией предела заряда на 60% или 80% для исключения деградации батареи при длительной игре от сети или док-станции.</li>
                     <li><strong>Защита от двойного ввода:</strong> Физический контроллер скрывается драйвером <code>HidHide</code>, предотвращая конфликт виртуального и аппаратного геймпада в играх.</li>
-                    <li><strong>Аппаратный гироскоп:</strong> Преобразование наклонов консоли в перемещение мыши (Gyro-to-Mouse) или правого стика (Gyro-to-Stick) с анти-мертвыми зонами, фильтрацией дрожания рук и кнопками активации (Gyro Gate).</li>
                     <li><strong>Задние лепестки M1 и M2:</strong> Свободное назначение на любые сочетания клавиш клавиатуры, клики мыши или системные действия.</li>
                     <li><strong>Экранная подсветка стиков:</strong> Фирменный Ambilight для светодиодных колец вокруг стиков, рассчитываемый видеочипом без нагрузки на процессор.</li>
                 </ul>
@@ -653,7 +670,7 @@
                             </tr>
                             <tr>
                                 <td><strong>Эмуляция гироскопа (мышь/стик)</strong></td>
-                                <td>Полноценная (Gyro-to-Mouse, Gyro Gate, анти-мертвые зоны)</td>
+                                <td>Полноценная (эмуляция правого стика, Steam Controller, DualShock, Gyro-to-Mouse)</td>
                                 <td>Отсутствует или базовые функции</td>
                                 <td>Присутствует, но требует сложной ручной калибровки</td>
                             </tr>
@@ -675,94 +692,34 @@
             </section>
 
             <section id="upscaling-comparison" class="guide-card">
-                <h2>5. Апскейлинг и генерация кадров: OptiClick против Lossless Scaling</h2>
-                
+                <h2>5. Апскейлинг и генерация кадров в играх</h2>
                 <p>
-                    Для повышения частоты кадров на портативных консолях применяются два принципиально разных подхода: внутриигровая подмена апскейлеров через библиотеки-трансляторы и внешний экранный захват. Понимание разницы между ними позволяет получить максимальную плавность без артефактов и лишнего инпут-лага.
+                    Для повышения частоты кадров и плавности картинки на MSI Claw применяются внутридвижковая замена апскейлеров на Intel XeSS через OptiClick (OptiScaler) и внешняя генерация Lossless Scaling (LSFG).
                 </p>
-
-                <div class="note-box" style="border-left-color: var(--accent-blue); background: rgba(56, 189, 248, 0.05); margin: 20px 0;">
-                    <div style="font-weight: 700; color: var(--accent-blue); margin-bottom: 6px;">Ключевое правило выбора инструмента:</div>
-                    <ul style="margin-left: 20px; color: var(--text-muted);">
-                        <li><strong>OptiClick (OptiScaler):</strong> основной выбор для современных игр с поддержкой DLSS или FSR. Внедряется прямо в движок игры, обеспечивая нативный Intel XeSS и генерацию кадров XeFG с чистым интерфейсом.</li>
-                        <li><strong>Lossless Scaling (LSFG):</strong> резервный инструмент для ретро-игр, эмуляторов и старых проектов, где встроенных технологий апскейлинга нет в принципе.</li>
-                    </ul>
-                </div>
-
-                <h3>1. OptiClick: автоматизация OptiScaler в один клик</h3>
-                <p>
-                    <a href="https://github.com/optiscaler/OptiScaler" target="_blank" rel="noopener">OptiScaler</a> представляет собой открытый промежуточный слой (middleware), который перехватывает вызовы NVIDIA DLSS или AMD FSR и перенаправляет их в нативный Intel XeSS, а также включает генерацию кадров (XeFG или FSR Frame Generation). На видеокартах Intel Arc и процессорах Lunar Lake технология XeSS работает качественнее FSR, устраняя мерцание тонких сеток и сохраняя резкость текстур.
-                </p>
-                <p>
-                    Ручная установка OptiScaler требует копирования DLL файлов (<code>dxgi.dll</code>, <code>version.dll</code>) и ручной правки конфигов под каждую игру. Утилита <a href="https://github.com/onehoon/OptiClick" target="_blank" rel="noopener">OptiClick (GitHub onehoon/OptiClick)</a> полностью автоматизирует этот процесс:
-                </p>
-                <ul class="guide-list">
-                    <li><strong>Автоопределение игр:</strong> сканирует установленные библиотеки Steam, Epic Games и пользовательские каталоги.</li>
-                    <li><strong>Установка в один клик:</strong> сама помещает нужные библиотеки перехвата в каталог исполняемого файла игры.</li>
-                    <li><strong>Чистый интерфейс (HUD):</strong> апскейлинг и генерация кадров происходят до наложения прицелов, шрифтов и миникарты, исключая артефакты размытия текста.</li>
-                    <li><strong>Минимальная задержка:</strong> генерация кадров внутри движка дает существенно меньший инпут-лаг по сравнению с внешним захватом окна.</li>
-                </ul>
-                <div class="note-box" style="border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.06); margin: 16px 0;">
-                    <span style="color: var(--accent-red); font-weight: 700;">Важно:</span> Так как OptiScaler работает через внедрение прокси-библиотек в папку с игрой, используйте OptiClick исключительно в одиночных играх. В соревновательных сетевых проектах с античитами (Easy Anti-Cheat, BattlEye, Vanguard) любые сторонние DLL могут привести к блокировке аккаунта.
-                </div>
-
-                <h3>2. Lossless Scaling: инструмент для ретро и проектов без апскейлеров</h3>
-                <p>
-                    Утилита Lossless Scaling из Steam работает по принципу внешнего захвата окна рабочего стола через Windows Desktop Duplication API. Она берет готовый отрендеренный кадр окна и применяет к нему масштабирование или генерацию кадров (алгоритм LSFG).
-                </p>
-                <p>
-                    Это делает Lossless Scaling незаменимым для игр двадцатилетней давности, эмуляторов классических платформ и проектов с жестким ограничением в 30 или 60 FPS. Однако для современных игр этот метод уступает OptiClick: постобработка готового окна захватывает и интерфейс, из-за чего элементы меню и текст могут слегка двоиться при резких поворотах камеры, а общая задержка ввода оказывается выше.
-                </p>
-
-                <div class="table-responsive" style="margin-top: 24px;">
-                    <table class="guide-table">
-                        <thead>
-                            <tr>
-                                <th>Параметр</th>
-                                <th>OptiClick (OptiScaler)</th>
-                                <th>Lossless Scaling (LSFG)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Точка интеграции</strong></td>
-                                <td>Внутри игрового движка (замена DLSS/FSR на XeSS/XeFG)</td>
-                                <td>Внешний захват окна Windows (Screen Capture)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Четкость интерфейса и текста</strong></td>
-                                <td><span style="color: var(--accent-green);">Идеальная:</span> HUD рендерится поверх готового кадра</td>
-                                <td><span style="color: var(--accent-red);">Возможны артефакты:</span> текст и прицел интерполируются вместе с картинкой</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Задержка ввода (Input Lag)</strong></td>
-                                <td><span style="color: var(--accent-green);">Минимальная:</span> прямая синхронизация с очередью рендера</td>
-                                <td>Умеренная (дополнительный буфер захвата окна)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Совместимость</strong></td>
-                                <td>Игры с поддержкой DLSS 2+, FSR 2+ или XeSS</td>
-                                <td>Любые оконные приложения, эмуляторы и старые игры</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Рекомендуемый сценарий</strong></td>
-                                <td>Все современные одиночные 3D игры</td>
-                                <td>Ретро-проекты, визуальные новеллы, эмуляторы</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="note-box" style="border-left-color: var(--accent-cyan); background: rgba(0, 210, 255, 0.06); margin: 20px 0;">
+                    <div style="font-weight: 700; color: var(--accent-cyan); margin-bottom: 6px;">Отдельное практическое руководство:</div>
+                    <p style="margin-bottom: 10px; color: var(--text-main);">
+                        Полное руководство по настройке игр, разбор Intel XeSS против FSR, интеграция OptiClick, генерация LSFG 2x, режимы Low Latency On/Boost, фиксация FPS и кастомные разрешения собраны в единой монолитной статье:
+                    </p>
+                    <a href="game-tuning.html" style="font-weight: 700; color: var(--accent-cyan);">Читать руководство: Настройка игр и максимальный FPS на MSI Claw →</a>
                 </div>
             </section>
         </article>
 
         <div class="guide-nav-grid">
+            <a href="game-tuning.html" class="guide-nav-card" style="border-color: rgba(0, 210, 255, 0.35);">
+                <div>
+                    <div class="guide-nav-label" style="color: var(--accent-cyan);">Игровая оптимизация</div>
+                    <div class="guide-nav-title">Настройка игр, апскейлинг и максимальный FPS →</div>
+                </div>
+            </a>
             <a href="setup-guide.html" class="guide-nav-card" style="border-color: rgba(16, 185, 129, 0.35);">
                 <div>
                     <div class="guide-nav-label" style="color: var(--accent-green);">Базовое руководство</div>
-                    <div class="guide-nav-title">Пошаговая установка стека с нуля до игр →</div>
+                    <div class="guide-nav-title">← Пошаговая установка стека с нуля до игр</div>
                 </div>
             </a>
-            <a href="memory-and-stability.html" class="guide-nav-card">
+        </div>
                 <div>
                     <div class="guide-nav-label">Руководство по памяти</div>
                     <div class="guide-nav-title">← Память GPU, файл подкачки и стабильность системы</div>

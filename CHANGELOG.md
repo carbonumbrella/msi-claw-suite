@@ -20,6 +20,14 @@
 - **Decision:** Host calibrated ICC color profile for panel CSW PN8007QB1-2 (`assets/calib/PN8007QB1_2_cal.icm`) and link to the Notebookcheck laboratory review across all portal index pages, download catalogs, and display/setup guides.
 - **Reason:** Enable users to easily download the verified 6500K sRGB profile in one click and reference laboratory display measurements directly.
 
+### 2026-11-22: Dedicated Game Tuning Guide, ClawTweaks Controller Subsystems, and Hardware Insights
+- **Decision:** Extract game performance optimization, upscaling, and frame generation into a standalone monolithic guide `guides/game-tuning.html` (and `/en/guides/game-tuning.html`), linking it from the main portal grid and related guides.
+- **Reason:** Users prioritize a single comprehensive reference on tuning games for maximum FPS and smoothness: Intel XeSS vs AMD FSR on Lunar Lake, native frame generation with OptiClick (OptiScaler), external LSFG 2x generation, Low Latency Mode On vs Boost, framerate capping over wattage throttling, and custom 16:10 resolutions (1000p/960p).
+- **Decision:** Document full ClawTweaks controller emulation modes (Xbox 360, DualShock, Steam Controller), hardware Right Stick Gyroscope emulation, and Battery Charge Limit (60%/80%) across Russian and English software guides.
+- **Reason:** Clarify that ClawTweaks enables universal gyro aiming via right stick mapping in any controller-compatible title without mouse emulation, alongside native gyro data pass-through for Sony titles and Steam Input.
+- **Decision:** Document dock station power starvation with factory 65W charger (recommending 100W PD) and eGPU plug-and-play behavior over Thunderbolt 4 without DDU driver removal.
+- **Reason:** Prevent battery drain during docked gaming sessions and simplify external GPU setup.
+
 ### 2026-11-21: Correct PL2 Switch Nomenclature and Maximum GPU Frequency
 - **Decision:** Rename references from "TDP Boost" to "PL2 switch" (the exact name in ClawTweaks, disabled by default) and update GPU monitoring description to flat maximum 1950 MHz in Russian and English power guides.
 - **Reason:** Accurate UI terminology matching ClawTweaks v2.x overlay controls and eliminating imprecise frequency qualifiers.

@@ -595,8 +595,25 @@
                     Controller emulation operates via ViGEm and <code>HidHide</code> drivers:
                 </p>
                 <ul>
+                    <li>
+                        <strong>Virtual Controller Emulation Targets:</strong>
+                        Switch target controller emulation profiles to match specific games:
+                        <ul style="margin: 6px 0 6px 18px;">
+                            <li><strong>Xbox 360 (XInput):</strong> Baseline standard ensuring 100% compatibility across all Windows PC games.</li>
+                            <li><strong>DualShock:</strong> Sony layout providing a native gyroscope data stream for emulators (RPCS3, Ryujinx, Cemu) and PlayStation PC ports.</li>
+                            <li><strong>Steam Controller:</strong> Native Steam Input integration supporting action layers, radial menus, and community controller templates.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Gyroscope Operation Modes:</strong>
+                        <ul style="margin: 6px 0 6px 18px;">
+                            <li><strong>Right Stick Emulation (Gyro-to-Stick):</strong> Direct hardware mapping translating handheld tilt into right analog stick deflection, enabling gyro aiming in any controller-supported game without needing mouse emulation.</li>
+                            <li><strong>Native Passthrough:</strong> Streams raw high-polling gyroscope telemetry into supported games and emulators in DualShock and Steam Controller modes.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Stick and Trigger Calibration:</strong> Configurable deadzones for Hall-effect sticks, hand tremor smoothing, and custom analog trigger response curves.</li>
+                    <li><strong>Battery Health Management:</strong> Battery Charge Limit threshold (capped at 60% or 80%) preventing cell degradation during prolonged sessions on AC or dock power.</li>
                     <li><strong>Double Input Protection:</strong> The physical gamepad is hidden via <code>HidHide</code>, preventing duplicate controller conflicts in games.</li>
-                    <li><strong>Hardware Gyroscope:</strong> Translates device tilt into mouse movement (Gyro-to-Mouse) or right stick input (Gyro-to-Stick) with anti-deadzones, tremor filtering, and activation triggers (Gyro Gate).</li>
                     <li><strong>Rear M1 and M2 Paddles:</strong> Freely assignable to any keyboard combination, mouse click, or system macro.</li>
                     <li><strong>Stick Ambilight:</strong> Dynamic RGB effects for the LED rings around the analog sticks, rendered by the GPU without CPU overhead.</li>
                 </ul>
@@ -653,7 +670,7 @@
                             </tr>
                             <tr>
                                 <td><strong>Gyroscope Emulation (Mouse/Stick)</strong></td>
-                                <td>Comprehensive (Gyro-to-Mouse, Gyro Gate, anti-deadzones)</td>
+                                <td>Comprehensive (Right stick emulation, Steam Controller, DualShock, Gyro-to-Mouse)</td>
                                 <td>None or basic vendor presets</td>
                                 <td>Available, but requires tedious manual calibration</td>
                             </tr>
@@ -675,94 +692,34 @@
             </section>
 
             <section id="upscaling-comparison" class="guide-card">
-                <h2>5. Upscaling and Frame Generation: OptiClick vs Lossless Scaling</h2>
-                
+                <h2>5. Upscaling and Frame Generation in Games</h2>
                 <p>
-                    Two fundamentally different approaches are used to increase framerates on gaming handhelds: in-engine upscaler translation layers and external desktop window capture. Understanding the difference between them ensures maximum motion smoothness without visual artifacts or added latency.
+                    For increasing framerates and motion clarity on the MSI Claw, games benefit from in-engine XeSS substitution via OptiClick (OptiScaler) alongside external Lossless Scaling (LSFG) generation.
                 </p>
-
-                <div class="note-box" style="border-left-color: var(--accent-blue); background: rgba(56, 189, 248, 0.05); margin: 20px 0;">
-                    <div style="font-weight: 700; color: var(--accent-blue); margin-bottom: 6px;">Key Decision Rule:</div>
-                    <ul style="margin-left: 20px; color: var(--text-muted);">
-                        <li><strong>OptiClick (OptiScaler):</strong> The primary choice for modern titles with native DLSS or FSR support. Injected directly into the game engine, delivering native Intel XeSS and XeFG frame generation with clean text and crosshairs.</li>
-                        <li><strong>Lossless Scaling (LSFG):</strong> A fallback utility strictly for retro games, platform emulators, and legacy titles that completely lack modern temporal upscaler support.</li>
-                    </ul>
-                </div>
-
-                <h3>1. OptiClick: One-Click Automation for OptiScaler</h3>
-                <p>
-                    <a href="https://github.com/optiscaler/OptiScaler" target="_blank" rel="noopener">OptiScaler</a> is an open-source middleware layer that intercepts NVIDIA DLSS or AMD FSR render calls and redirects them to native Intel XeSS and frame generation (XeFG or FSR Frame Generation). On Intel Arc graphics and Lunar Lake architecture, XeSS delivers superior visual stability over FSR, eliminating thin mesh shimmering and preserving texture sharpness.
-                </p>
-                <p>
-                    Setting up OptiScaler manually requires copying proxy DLLs (<code>dxgi.dll</code>, <code>version.dll</code>) and editing INI files per game. <a href="https://github.com/onehoon/OptiClick" target="_blank" rel="noopener">OptiClick (GitHub onehoon/OptiClick)</a> completely automates this workflow:
-                </p>
-                <ul class="guide-list">
-                    <li><strong>Automatic Game Detection:</strong> Scans installed Steam, Epic Games, and custom game directories automatically.</li>
-                    <li><strong>One-Click Deployment:</strong> Places the correct proxy DLLs into the game executable folder without manual file sorting.</li>
-                    <li><strong>Clean HUD and Text:</strong> Upscaling and frame interpolation happen before the game renders UI overlays, text, and crosshairs, preventing blur and ghosting.</li>
-                    <li><strong>Lower Input Latency:</strong> In-engine frame generation provides significantly lower input lag compared to external desktop screen capture.</li>
-                </ul>
-                <div class="note-box" style="border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.06); margin: 16px 0;">
-                    <span style="color: var(--accent-red); font-weight: 700;">Important:</span> Because OptiScaler operates via proxy DLL injection inside the game folder, use OptiClick strictly in single-player titles. In competitive multiplayer games with anti-cheat software (Easy Anti-Cheat, BattlEye, Vanguard), modifying runtime DLLs may trigger account bans.
-                </div>
-
-                <h3>2. Lossless Scaling: Dedicated Fallback for Retro Titles and Emulators</h3>
-                <p>
-                    Lossless Scaling from Steam operates via external window duplication using the Windows Desktop Duplication API. It captures the finished rendered window image and applies spatial/temporal upscaling or frame generation (LSFG) as a post-process overlay.
-                </p>
-                <p>
-                    This makes Lossless Scaling essential for older games from the 2000s, console emulators, and games locked to 30 or 60 FPS. However, for modern games it is inferior to OptiClick: capturing the final window image also interpolates the HUD, which can produce slight text jitter during fast camera movements, alongside higher input latency from the external capture pipeline.
-                </p>
-
-                <div class="table-responsive" style="margin-top: 24px;">
-                    <table class="guide-table">
-                        <thead>
-                            <tr>
-                                <th>Parameter</th>
-                                <th>OptiClick (OptiScaler)</th>
-                                <th>Lossless Scaling (LSFG)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Integration Point</strong></td>
-                                <td>Inside the game engine (translating DLSS/FSR to XeSS/XeFG)</td>
-                                <td>External Windows desktop window capture</td>
-                            </tr>
-                            <tr>
-                                <td><strong>HUD and Text Sharpness</strong></td>
-                                <td><span style="color: var(--accent-green);">Pixel-Perfect:</span> HUD renders after upscaled frames</td>
-                                <td><span style="color: var(--accent-red);">Artifacts Possible:</span> text and crosshairs are interpolated with the scene</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Input Latency</strong></td>
-                                <td><span style="color: var(--accent-green);">Minimal:</span> synchronized directly with the internal render queue</td>
-                                <td>Moderate (due to external window frame buffering)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Compatibility</strong></td>
-                                <td>Games with DLSS 2+, FSR 2+, or XeSS support</td>
-                                <td>Any windowed desktop application, emulator, or retro game</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Recommended Scenario</strong></td>
-                                <td>All modern single-player 3D games</td>
-                                <td>Retro games, visual novels, classic emulators</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="note-box" style="border-left-color: var(--accent-cyan); background: rgba(0, 210, 255, 0.06); margin: 20px 0;">
+                    <div style="font-weight: 700; color: var(--accent-cyan); margin-bottom: 6px;">Dedicated Game Tuning Guide:</div>
+                    <p style="margin-bottom: 10px; color: var(--text-main);">
+                        The comprehensive guide covering Intel XeSS vs FSR, OptiClick setup, LSFG 2x generation, Low Latency Mode On/Boost, FPS capping, and custom 1600x1000/1536x960 resolutions has been consolidated into a dedicated guide:
+                    </p>
+                    <a href="game-tuning.html" style="font-weight: 700; color: var(--accent-cyan);">Read Guide: Game Tuning and Maximum FPS on MSI Claw →</a>
                 </div>
             </section>
         </article>
 
         <div class="guide-nav-grid">
+            <a href="game-tuning.html" class="guide-nav-card" style="border-color: rgba(0, 210, 255, 0.35);">
+                <div>
+                    <div class="guide-nav-label" style="color: var(--accent-cyan);">Game Tuning</div>
+                    <div class="guide-nav-title">Game Tuning, Upscaling, and Maximum FPS →</div>
+                </div>
+            </a>
             <a href="setup-guide.html" class="guide-nav-card" style="border-color: rgba(16, 185, 129, 0.35);">
                 <div>
                     <div class="guide-nav-label" style="color: var(--accent-green);">Setup Guide</div>
-                    <div class="guide-nav-title">Clean Setup Guide: From Zero to Gaming →</div>
+                    <div class="guide-nav-title">← Clean Setup Guide: From Zero to Gaming</div>
                 </div>
             </a>
-            <a href="memory-and-stability.html" class="guide-nav-card">
+        </div>
                 <div>
                     <div class="guide-nav-label">Memory Guide</div>
                     <div class="guide-nav-title">← GPU Memory, Pagefile and System Stability</div>

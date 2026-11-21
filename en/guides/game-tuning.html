@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Tuning and Maximum FPS on MSI Claw: Upscaling, Frame Generation, and Input Latency</title>
+    <meta name="description" content="Comprehensive engineering guide for tuning gaming performance on MSI Claw 8 AI+ (Lunar Lake): Intel XeSS vs FSR, frame generation via OptiClick and Lossless Scaling, Low Latency Mode On/Boost, FPS capping, and custom resolutions.">
+    <style>
+        :root {
+            --bg-main: #0b0e14;
+            --bg-card: #151922;
+            --bg-card-alt: #1a202c;
+            --border-color: #242b3b;
+            --border-hover: #3b455b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-subtle: #64748b;
+            --accent-cyan: #00d2ff;
+            --accent-blue: #38bdf8;
+            --accent-red: #ef4444;
+            --accent-green: #10b981;
+            --accent-purple: #a855f7;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-cyan);
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 14, 20, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .logo {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-badge {
+            background: linear-gradient(135deg, var(--accent-cyan), #0284c7);
+            color: #04121e;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .btn-back {
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #1a202c;
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-back:hover {
+            background: #242b3b;
+            text-decoration: none;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 28px 0 16px;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+            flex-wrap: wrap;
+        }
+
+        .guide-header {
+            margin-bottom: 36px;
+        }
+
+        .guide-badge {
+            display: inline-block;
+            background: rgba(0, 210, 255, 0.12);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .guide-header h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            margin-bottom: 14px;
+        }
+
+        .guide-header .lead {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .guide-toc {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin-bottom: 36px;
+        }
+
+        .guide-toc-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .guide-toc ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 16px;
+        }
+
+        .guide-toc a {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .guide-toc a:hover {
+            color: var(--accent-cyan);
+        }
+
+        section {
+            margin-bottom: 44px;
+        }
+
+        h2 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-main);
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 22px 0 10px;
+            color: var(--text-main);
+        }
+
+        p {
+            margin-bottom: 14px;
+            color: #cbd5e1;
+        }
+
+        ul, ol {
+            margin: 12px 0 16px 24px;
+            color: #cbd5e1;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.88em;
+            border: 1px solid var(--border-color);
+            font-family: Consolas, Monaco, "Courier New", monospace;
+        }
+
+        .info-box {
+            background: rgba(56, 189, 248, 0.07);
+            border-left: 4px solid var(--accent-blue);
+            padding: 16px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.08);
+            border-left: 4px solid var(--accent-red);
+            padding: 16px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            color: #fca5a5;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.08);
+            border-left: 4px solid var(--accent-green);
+            padding: 16px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            color: #a7f3d0;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin: 20px 0 28px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-card);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: rgba(0, 0, 0, 0.25);
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .guide-nav-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 50px 0 20px;
+        }
+
+        .guide-nav-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 18px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .guide-nav-card:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-alt);
+            text-decoration: none;
+        }
+
+        .guide-nav-label {
+            font-size: 0.75rem;
+            color: var(--text-subtle);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .guide-nav-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 40px 0;
+            margin-top: 60px;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .guide-header h1 {
+                font-size: 1.65rem;
+            }
+
+            .guide-toc ul {
+                grid-template-columns: 1fr;
+            }
+
+            .guide-nav-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .lang-switch {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #151a24;
+            border: 1px solid var(--border-color);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .lang-switch .lang-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 4px 7px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lang-switch .lang-btn:hover {
+            color: var(--text-main);
+        }
+
+        .lang-switch .lang-btn.active {
+            background: rgba(0, 210, 255, 0.15);
+            color: var(--accent-cyan);
+        }
+
+        .lang-switch .lang-divider {
+            color: var(--border-color);
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" class="logo">
+                    <span>MSI Claw Suite</span>
+                    <span class="logo-badge">Guide</span>
+                </a>
+                <div class="lang-switch">
+                    <a href="../../guides/game-tuning.html" class="lang-btn" data-lang="ru">RU</a>
+                    <span class="lang-divider">/</span>
+                    <span class="lang-btn active">EN</span>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html#guides">All Guides</a></li>
+                <li><a href="../index.html#resolutions">16:10 Resolutions</a></li>
+                <li><a href="../index.html#optimize">OS Cleanup</a></li>
+                <li><a href="../index.html#downloads">Downloads</a></li>
+            </ul>
+            <a href="../index.html" class="btn-back">
+                <span>← Back to Overview</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="breadcrumbs">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="../index.html#guides">Knowledge Base</a>
+            <span>/</span>
+            Game Tuning and Maximum FPS
+        </div>
+
+        <div class="guide-header">
+            <span class="guide-badge">Game Tuning and FPS</span>
+            <h1>Game Tuning on MSI Claw: Upscaling, Frame Generation, and Input Latency</h1>
+            <p class="lead">
+                Engineering guide to optimizing game performance on the Lunar Lake architecture: choosing between native Intel XeSS and AMD FSR, integrating frame generation pipelines, resolving input lag with Low Latency Mode, stabilizing frametimes, and selecting render resolutions.
+            </p>
+        </div>
+
+        <nav class="guide-toc">
+            <div class="guide-toc-title">Guide Contents:</div>
+            <ul>
+                <li><a href="#upscaling-choice">1. Upscaler Selection: Intel XeSS vs AMD FSR</a></li>
+                <li><a href="#native-frame-gen">2. Native Frame Generation: OptiClick and OptiScaler</a></li>
+                <li><a href="#lossless-scaling">3. External Frame Generation: Lossless Scaling (LSFG)</a></li>
+                <li><a href="#low-latency-mode">4. Input Latency: Low Latency On vs Boost</a></li>
+                <li><a href="#framerate-strategy">5. Smoothness Strategy: FPS Capping and Refresh Rates</a></li>
+                <li><a href="#render-resolutions">6. Render Resolutions Without Quality Loss</a></li>
+                <li><a href="#endurance-gaming-profile">7. Intel Endurance Gaming Behavior on Battery</a></li>
+            </ul>
+        </nav>
+
+        <article>
+            <section id="upscaling-choice">
+                <h2>1. Upscaler Selection: Intel XeSS vs AMD FSR</h2>
+                <p>
+                    On the integrated Intel Arc 140V GPU (Lunar Lake architecture), the reconstruction algorithm directly determines geometric stability and fine detail rendering.
+                </p>
+                <div class="info-box">
+                    <strong>Upscaler Selection Rule:</strong>
+                    Whenever a game natively supports Intel XeSS, select it as the primary upscaler. XeSS machine learning models utilize DP4a instructions and Xe-core vector units, delivering temporal reconstruction with minimal visual artifacts.
+                </div>
+                <p>
+                    Algorithmic comparison on the Claw 8 AI+ hardware platform:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Intel XeSS:</strong> Accurately resolves fine parallel lines, wire fences, foliage, and sub-pixel meshes. It avoids the temporal shimmering characteristic of spatial filters during camera movements.
+                    </li>
+                    <li>
+                        <strong>AMD FSR 2 / 3:</strong> Executes through general shader compute calls. On Intel Arc architectures, FSR frequently introduces grainy ghosting trails behind moving geometry and causes sub-pixel moire patterns.
+                    </li>
+                </ul>
+            </section>
+
+            <section id="native-frame-gen">
+                <h2>2. Native Frame Generation: OptiClick and OptiScaler</h2>
+                <p>
+                    For demanding 3D titles, generating intermediate frames within the graphics engine pipeline delivers the cleanest presentation and lowest latency.
+                </p>
+                <p>
+                    The <code>OptiScaler</code> library operates as an open-source middleware layer: it intercepts proprietary NVIDIA DLSS or AMD FSR calls, translating them into native Intel XeSS and activating frame generation (XeFG or FSR Frame Generation).
+                </p>
+                <p>
+                    The <a href="https://github.com/onehoon/OptiClick" target="_blank" rel="noopener">OptiClick</a> utility automates OptiScaler deployment with one click:
+                </p>
+                <ul>
+                    <li><strong>Automatic Detection:</strong> Discovers installed game binaries across Steam and Epic Games libraries.</li>
+                    <li><strong>Proxy Injection:</strong> Places necessary wrapper libraries (<code>dxgi.dll</code>, configuration profiles) directly into game folders without manual editing.</li>
+                    <li><strong>Clean HUD Rendering:</strong> Frame interpolation occurs before user interface elements are rendered. Crosshairs, health bars, subtitles, and minimaps stay sharp without ghosting.</li>
+                    <li><strong>Minimal Latency Overhead:</strong> Direct access to motion vectors and depth buffers provides the lowest possible input delay.</li>
+                </ul>
+                <div class="warning-box">
+                    <strong>Security Warning:</strong> Deploy OptiClick strictly in single-player games. In competitive multiplayer titles featuring anti-cheat software (Easy Anti-Cheat, BattlEye, Vanguard), modifying <code>dxgi.dll</code> files will trigger account penalties.
+                </div>
+            </section>
+
+            <section id="lossless-scaling">
+                <h2>3. External Frame Generation: Lossless Scaling (LSFG)</h2>
+                <p>
+                    The <code>Lossless Scaling</code> utility on Steam works via an external capture model, grabbing desktop window frames through the Windows Desktop Duplication API.
+                </p>
+                <p>
+                    The LSFG 2.x/3.x algorithm interpolates frames over the captured window output. This makes it an effective tool for games lacking native temporal upscalers:
+                </p>
+                <ul>
+                    <li><strong>Classic Games and Emulators:</strong> Titles with hardcoded 30 or 60 FPS limits, isometric RPGs, and retro emulators.</li>
+                    <li><strong>Doubling to 120 Hz:</strong> Baseline framerates of 40:45 FPS scale to 80:90 FPS, falling squarely within the panel VRR working range.</li>
+                </ul>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Criteria</th>
+                                <th>OptiClick (OptiScaler)</th>
+                                <th>Lossless Scaling (LSFG)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Integration Point</strong></td>
+                                <td>Inside the engine pipeline (hooks into motion vectors)</td>
+                                <td>External Windows window capture</td>
+                            </tr>
+                            <tr>
+                                <td><strong>User Interface (HUD)</strong></td>
+                                <td>Perfect clarity: HUD renders after frame generation</td>
+                                <td>HUD and text interpolate along with full scene</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Input Latency</strong></td>
+                                <td>Minimal (native queue synchronization)</td>
+                                <td>Moderate (window capture buffering overhead)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Compatibility</strong></td>
+                                <td>Titles supporting DLSS 2+ or FSR 2+</td>
+                                <td>Any windowed game, retro port, or emulator</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="low-latency-mode">
+                <h2>4. Input Latency: Low Latency On vs Boost</h2>
+                <p>
+                    Inside Intel Graphics Command Center, the <strong>Low Latency Mode</strong> control manages the frame queue depth maintained by the CPU prior to GPU execution.
+                </p>
+                <ul>
+                    <li>
+                        <strong>Setting On (Recommended Baseline):</strong> Limits frame queue depth to exactly 1 (Queue Size = 1). The CPU prepares the next frame only after the GPU completes the preceding one. Input latency decreases without spiking power consumption.
+                    </li>
+                    <li>
+                        <strong>Setting On + Boost:</strong> Enforces a 1-frame queue depth while preventing the Intel power governor from lowering GPU core clocks during brief engine pipeline stalls.
+                    </li>
+                </ul>
+                <div class="info-box">
+                    <strong>When to Use Boost:</strong>
+                    The On + Boost mode is required when utilizing frame generation (XeFG, FSR FG, or Lossless Scaling). Frame interpolation introduces intrinsic buffer delay, and Boost locks the GPU frequency at 1950 MHz to minimize pipeline turn-around times.
+                </div>
+                <div class="warning-box">
+                    <strong>Battery Operation Warning:</strong> Under lower TDP limits (15:17W) on battery power, Boost can starve the CPU of shared package power by locking high GPU frequencies. If the CPU lacks power for game logic, micro-stutters and 1% low drops will occur. For battery play, standard <strong>On</strong> mode is recommended.
+                </div>
+            </section>
+
+            <section id="framerate-strategy">
+                <h2>5. Smoothness Strategy: FPS Capping and Refresh Rates</h2>
+                <p>
+                    A frequent setup mistake on gaming handhelds is aggressively choking the CPU package power (PL1) while leaving the framerate unlocked.
+                </p>
+                <div class="info-box">
+                    <strong>Frametime Consistency Principle:</strong>
+                    Instead of arbitrary wattage throttling, apply a strict framerate cap (FPS Cap). Locking performance at 40, 45, or 60 FPS through RTSS, ClawTweaks, or MSI Center M allows the processor to automatically scale power down to the minimum necessary, stabilizing the frametime graph.
+                </div>
+                <p>
+                    Display refresh rate deployment scenarios:
+                </p>
+                <ul>
+                    <li>
+                        <strong>120 Hz + VRR (Variable Refresh with LFC):</strong> Recommended for modern 3D games fluctuating between 45 and 80 FPS. Low Framerate Compensation duplicates panel refresh cycles, eliminating tearing and judder.
+                    </li>
+                    <li>
+                        <strong>48 Hz + V-Sync (Maximum Battery Mode):</strong> Optimal for long mobile sessions. Setting 48 Hz reduces panel display engine draw, while 48 FPS feels substantially smoother than 30 FPS.
+                    </li>
+                </ul>
+            </section>
+
+            <section id="render-resolutions">
+                <h2>6. Render Resolutions Without Quality Loss</h2>
+                <p>
+                    The native display resolution of MSI Claw 8 AI+ is 1920x1200 (16:10 aspect ratio). In heavy AAA titles, running at native resolution causes performance degradation.
+                </p>
+                <p>
+                    Dropping to the legacy 1280x800 resolution results in noticeable text blurring and loss of sub-pixel geometric clarity.
+                </p>
+                <p>
+                    Intermediate 16:10 custom resolutions injected via EDID provide the optimal compromise:
+                </p>
+                <ul>
+                    <li><strong>1600x1000 (1000p):</strong> Clean 1.20x scaling factor. Reduces GPU shading load by 31% compared to 1200p while preserving razor-sharp text and HUD elements.</li>
+                    <li><strong>1536x960 (960p):</strong> Clean 1.25x scaling factor. Balanced mode for heavy AAA titles, reducing GPU shading burden by 36%.</li>
+                </ul>
+                <div class="info-box">
+                    In Intel Graphics Command Center, ensure <strong>GPU Scaling: Preserve Aspect Ratio</strong> is enabled. This prevents image distortion and pixel stretching.
+                </div>
+            </section>
+
+            <section id="endurance-gaming-profile">
+                <h2>7. Intel Endurance Gaming Behavior on Battery</h2>
+                <p>
+                    The <strong>Intel Endurance Gaming</strong> feature within Arc graphics drivers dynamically manages frame pacing when external power is removed:
+                </p>
+                <ul>
+                    <li><strong>Battery-Exclusive Operation:</strong> The feature activates strictly on DC battery power. Connecting external AC power immediately suspends the limits.</li>
+                    <li><strong>Performance Profiles:</strong> <code>Performance</code> targets approximately 60 FPS, <code>Balanced</code> targets around 40 FPS, and <code>Battery Saver</code> caps rendering at 30 FPS for extended endurance.</li>
+                </ul>
+                <p>
+                    If disconnecting the charger causes framerate to lock at 40 or 60 FPS, this is normal Endurance Gaming behavior protecting the battery against high instantaneous current draws.
+                </p>
+            </section>
+        </article>
+
+        <div class="guide-nav-grid">
+            <a href="software-choice.html" class="guide-nav-card">
+                <div>
+                    <div class="guide-nav-label">Management Software</div>
+                    <div class="guide-nav-title">← Software Choice: ClawTweaks, MSI Center M, and HandheldCompanion</div>
+                </div>
+            </a>
+            <a href="vrr-display.html" class="guide-nav-card">
+                <div>
+                    <div class="guide-nav-label">Display & VRR Physics</div>
+                    <div class="guide-nav-title">Display & Variable Refresh Rate (VRR): DisplayID 2.0 and LFC →</div>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div>
+                <p>MSI Claw Suite • Game Tuning Guide • Author: <a href="https://github.com/carbonumbrella" target="_blank">carbonumbrella</a></p>
+                <p style="font-size: 0.8rem; margin-top: 4px;">MIT License. Verified on MSI Claw 8 AI+ hardware platform.</p>
+            </div>
+            <div>
+                <a href="../index.html" style="color: var(--text-subtle);">Back to Overview</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.lang-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var lang = this.getAttribute('data-lang');
+                if (lang) {
+                    localStorage.setItem('site_lang', lang);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
