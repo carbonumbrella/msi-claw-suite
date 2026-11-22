@@ -581,10 +581,10 @@
                 <div class="info-box">
                     <strong>Safe FPS Limits for 120 Hz VRR Displays:</strong>
                     <ul style="margin-top: 6px; margin-left: 18px;">
-                        <li><strong>Upper Ceiling at 116 FPS (Blur Busters Standard):</strong> For esports and light titles, cap at exactly 116 FPS (frametime 8.62 ms) with V-Sync enabled. A 4-frame buffer below the 120.0 Hz ceiling (8.33 ms) offsets limiter timing jitter, preventing VRR disengagement, tearing, and V-Sync latency spikes.</li>
-                        <li><strong>Cap at 63:65 FPS:</strong> Keeps the display in stable native 1x VRR above the dangerous LFC switching threshold.</li>
-                        <li><strong>Cap at 50:54 FPS:</strong> Safe zone for stable 2x LFC doubling (100:108 Hz) with guaranteed headroom below the 120 Hz ceiling.</li>
-                        <li><strong>Avoid the 56:62 FPS Zone (especially 58:60 FPS):</strong> A lack of driver hysteresis in the Intel Arc driver causes the LFC multiplier to rapidly oscillate between 1x (60 Hz) and 2x (116:120 Hz), causing micro-tearing. If exactly 60 FPS is required, switch the display to fixed 60 Hz in ClawTweaks and enable V-Sync.</li>
+                        <li><strong>Upper Ceiling at 116 FPS (Blur Busters Standard):</strong> Set a strict cap of 116 FPS (frametime 8.62 ms) with V-Sync enabled. A 4-frame buffer below the 120.0 Hz ceiling (8.33 ms) offsets limiter timing jitter, preventing VRR disengagement, tearing, and V-Sync latency spikes.</li>
+                        <li><strong>Cap at 63 FPS (or any target from 63 to 116):</strong> Keeps the display in stable native 1x VRR mode above the dangerous LFC switching threshold.</li>
+                        <li><strong>Cap at 50 or 54 FPS (or any target from 45 to 54):</strong> Safe zone for stable 2x LFC doubling (100:108 Hz) with guaranteed headroom below the 120 Hz ceiling.</li>
+                        <li><strong>Avoid values from 56 to 62 FPS (especially 58, 59, and 60):</strong> A lack of driver hysteresis in the Intel Arc driver causes the LFC multiplier to rapidly oscillate between 1x (60 Hz) and 2x (116:120 Hz), causing micro-tearing. If you need to lock to exactly 60 FPS, switch the display to fixed 60 Hz in the ClawTweaks Display tab and enable V-Sync.</li>
                     </ul>
                     <p style="margin-top: 8px; font-size: 0.9rem;">
                         For a detailed hardware breakdown of DisplayID and LFC mechanisms, see the <a href="vrr-display.html#lfc-boundary">Screen and VRR Guide</a>.

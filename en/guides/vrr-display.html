@@ -589,10 +589,10 @@
                 <div class="info-box" id="lfc-boundary">
                     <strong>VRR Operational Envelope and the 116 FPS Ceiling:</strong>
                     <p style="margin-top: 6px;">
-                        <strong>Upper Boundary (116:117 FPS Cap):</strong> Reaching 120.0 FPS instantly disengages VRR, causing tearing (without V-Sync) or buffer latency spikes (with V-Sync). Setting a hard cap at 116 FPS provides a ~0.3 ms margin, ensuring the game stays 100% within the VRR window with minimal input lag.
+                        <strong>Upper Boundary (116 or 117 FPS Cap):</strong> Reaching 120.0 FPS instantly disengages VRR, causing tearing (without V-Sync) or buffer latency spikes (with V-Sync). Setting a hard cap at 116 FPS provides a ~0.3 ms margin, ensuring the game stays 100% within the VRR window with minimal input lag.
                     </p>
                     <p style="margin-top: 6px;">
-                        <strong>LFC Boundary Zone (56:62 FPS):</strong> In the Intel Arc driver, the baseline 1x sync floor is tied to 60 Hz (half of 120 Hz). Due to a lack of driver hysteresis, hovering at 58:60 FPS causes the multiplier to rapidly oscillate between 1x (60 Hz) and 2x (116:120 Hz), causing micro-tearing. Practical capping tactics are detailed in the <a href="game-tuning.html#framerate-strategy">Game Tuning Guide</a>.
+                        <strong>LFC Boundary Zone (56 to 62 FPS range):</strong> In the Intel Arc driver, the baseline 1x sync floor is tied to 60 Hz (half of 120 Hz). Due to a lack of driver hysteresis, hovering at values of 58, 59, or 60 FPS causes the multiplier to rapidly oscillate between 1x (60 Hz) and 2x (116:120 Hz), causing micro-tearing. Practical capping rules are detailed in the <a href="game-tuning.html#framerate-strategy">Game Tuning Guide</a>.
                     </p>
                 </div>
 

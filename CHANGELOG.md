@@ -2,6 +2,12 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-22: Clarify Discrete Framerate Values and Target Ranges in Guides
+- **Decision:** Eliminate ambiguous colon ranges (`63:65`, `50:54`) in capping recommendations across Russian and English guides:
+  - Replaced with discrete target values (e.g. 116 FPS ceiling, 63 FPS or any target from 63 to 116, 50 or 54 FPS or any target from 45 to 54) to reflect that UI frame limiters accept only individual scalar numbers.
+  - Clarified that the unstable dead zone applies to any selected value from 56 to 62 FPS (specifically 58, 59, and 60).
+- **Reason:** UI accuracy and clear user instruction for software limiters (RTSS, ClawTweaks, in-game).
+
 ### 2026-11-22: Document 116 FPS Upper VRR Ceiling and Comprehensive Safe Capping Tiers
 - **Decision:** Document the Blur Busters standard 116 FPS upper limit and comprehensive safe capping tiers across Russian and English guides:
   - In `vrr-display.html`: define the full VRR envelope (`#lfc-boundary`) including the 116:117 FPS upper cap (providing ~0.3 ms margin to keep VRR continuously engaged without V-Sync buffer latency) alongside the 56:62 FPS LFC boundary zone.
