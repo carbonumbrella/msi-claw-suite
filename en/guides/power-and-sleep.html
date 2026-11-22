@@ -648,18 +648,13 @@ powercfg /h /type full</pre>
                     </li>
                     <li>
                         <strong>Framerate Capping Instead of Hard Power Throttling:</strong>
-                        The most efficient method to save battery on the road is locking the framerate (e.g., 40 FPS on the 120 Hz VRR display). The GPU core automatically steps down its clock speed and voltage to match the frame target, self-regulating consumption while preserving instant headroom for demanding scenes.
+                        Locking the framerate (e.g., 40, 45, or 60 FPS on the 120 Hz VRR display) allows the GPU core to automatically scale down clock speed and voltage without arbitrary PL1 throttling, preserving instant power headroom for demanding scenes.
                     </li>
                     <li>
                         <strong>Maximum Battery Longevity Mode (8-9W):</strong>
                         For 2D indie titles, visual novels, and classic emulators, maximum runtime is achieved by setting <code>PL1 = 8W</code> and <code>PL2 = 9W</code> alongside an in-game framerate cap.
                     </li>
                 </ul>
-
-                <div class="info-box" style="margin-top: 16px;">
-                    <strong>On-the-Go Optimization with Intel Endurance Gaming:</strong>
-                    When gaming on battery, Intel Endurance Gaming can be engaged in the driver (presets of 60, 40, or 30 FPS). When plugged into AC power, the feature automatically disengages and has zero performance impact.
-                </div>
 
                 <div class="warning-box" style="margin-top: 16px;">
                     <strong>Dock Station Power: 65W Factory Charger Limitation</strong>
@@ -672,8 +667,8 @@ powercfg /h /type full</pre>
                 </div>
 
                 <div class="info-box" style="margin-top: 16px; border-left-color: var(--accent-cyan); background: rgba(0, 210, 255, 0.06);">
-                    <strong>Practical Game Tuning &amp; FPS Optimization:</strong>
-                    Detailed framerate capping tactics, XeSS vs FSR comparisons, OptiClick deployment, and Low Latency On/Boost modes are documented in our dedicated guide: <a href="game-tuning.html" style="font-weight: 700; color: var(--accent-cyan);">Game Tuning and Maximum FPS on MSI Claw →</a>.
+                    <strong>Practical Game Tuning &amp; Battery Pacing:</strong>
+                    Framerate locking strategies, Intel Endurance Gaming battery profiles (60/40/30 FPS), XeSS/FSR upscaling, and OptiClick/LSFG frame generation are detailed in our dedicated guide: <a href="game-tuning.html" style="font-weight: 700; color: var(--accent-cyan);">Game Tuning and Maximum FPS on MSI Claw →</a>.
                 </div>
             </section>
 

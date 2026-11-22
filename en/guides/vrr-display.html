@@ -471,7 +471,7 @@
                 </div>
                 <div class="guide-meta-item">
                     <span>Reading Time:</span>
-                    <strong>7 minutes</strong>
+                    <strong>5 minutes</strong>
                 </div>
             </div>
         </div>
@@ -631,18 +631,21 @@
                     without touching the factory DisplayID 2.0 block.
                 </p>
                 <p>
-                    This preserves full 48-120 Hz VRR capability, keeps hardware timing calibration intact,
-                    and delivers an exact integer pixel grid for XeSS, FSR, and TAAU reconstruction.
+                    This preserves full 48:120 Hz VRR capability and hardware TCON timing calibration,
+                    preventing display synchronization errors.
                 </p>
 
                 <h3>Intel Graphics Command Center Scaling Settings</h3>
                 <p>
-                    To ensure custom 16:10 resolutions (1536x960, 1600x1000) render cleanly without aspect ratio distortion, set the following parameters under the Display tab in Intel Graphics Command Center:
+                    To ensure custom 16:10 resolutions render cleanly without geometric distortion, configure the following parameters under the Display tab in Intel Graphics Command Center:
                 </p>
                 <ul>
                     <li><strong>Scaling Mode:</strong> <code>GPU Scaling</code>. Stretching and interpolation are processed in hardware by the Arc graphics engine.</li>
                     <li><strong>Scaling Method:</strong> <code>Preserve Aspect Ratio</code>. Guarantees true 16:10 geometry without vertical stretching.</li>
                 </ul>
+                <div class="info-box" style="margin-top: 16px;">
+                    Detailed shading reduction metrics and upscaler scaling strategies are detailed in <a href="game-tuning.html#render-resolutions" style="font-weight: 700; color: var(--accent-cyan);">Game Tuning: Render Resolutions Without Quality Loss →</a>.
+                </div>
             </section>
 
             <section id="calibration-icc">
@@ -667,67 +670,6 @@
                 <p>
                     Windows 11 maintains color profiles across borderless windowed and exclusive fullscreen games automatically,
                     requiring no background profile loaders.
-                </p>
-            </section>
-
-            <section id="low-latency-mode">
-                <h2>6. Input Latency: Anatomy of Low Latency Modes (On vs On + Boost)</h2>
-                <p>
-                    The Intel Arc graphics driver includes a Low Latency Mode toggle. It controls the depth of the CPU render queue and the frequency governance of the GPU core.
-                </p>
-
-                <div class="note-box" style="border-left-color: var(--accent-blue); background: rgba(56, 189, 248, 0.05); margin: 20px 0;">
-                    <div style="font-weight: 700; color: var(--accent-blue); margin-bottom: 6px;">Frame Queue Modes:</div>
-                    <ul style="margin-left: 20px; color: var(--text-muted);">
-                        <li><strong>Off:</strong> Standard Windows pipeline queuing up to 3 pre-rendered CPU frames. Input response exhibits measurable latency.</li>
-                        <li><strong>On (Recommended Default):</strong> Limits the CPU queue strictly to 1 frame (Queue Size = 1). The CPU prepares a frame only when the GPU is ready to render it. Input latency drops significantly with zero added power drain or thermal strain.</li>
-                        <li><strong>On + Boost (Aggressive Mode):</strong> Maintains a 1-frame queue and instructs the Intel power governor never to downclock the GPU core during transient pipeline pauses.</li>
-                    </ul>
-                </div>
-
-                <h3>When to Use On + Boost</h3>
-                <p>
-                    The Boost state is specifically engineered for two distinct workloads:
-                </p>
-                <ol class="guide-list">
-                    <li>
-                        <strong>Demanding GPU-Bound Games on AC Power:</strong> 
-                        With adequate total package power headroom, Boost pins the Arc 140V GPU core at its maximum 1950 MHz ceiling. This eliminates transient clock drops between scenes and delivers flat frame pacing.
-                    </li>
-                    <li>
-                        <strong>Games with Active Frame Generation (XeFG, FSR Frame Generation, LSFG):</strong> 
-                        Frame interpolation adds an unavoidable 1-2 frames of hardware latency. On + Boost mitigates this penalty, keeping input response fast.
-                    </li>
-                </ol>
-
-                <div class="warning-box" style="margin-top: 16px;">
-                    <strong>Battery Play Caveat:</strong>
-                    At low battery TDP limits, On + Boost can backfire: by locking the GPU core at maximum frequency, it pulls power away from the CPU within the shared SoC budget. If the CPU lacks watts to process physics or draw calls, microstutters and 1% Low framerate drops will occur. For battery gaming, standard <strong>On</strong> is the safest and most balanced mode.
-                </div>
-            </section>
-
-            <section id="endurance-gaming">
-                <h2>7. Intel Endurance Gaming: Battery-Only Behavior</h2>
-                <p>
-                    The Intel Arc driver features Endurance Gaming technology, designed to extend portable battery life by dynamically throttling frame targets on mobile platforms.
-                </p>
-
-                <div class="info-box">
-                    <strong>Core Operating Rule:</strong>
-                    Endurance Gaming activates <strong>strictly when running on battery power</strong>. When connected to the wall charger, the feature automatically disengages and has zero impact on performance or framerates.
-                </div>
-
-                <p style="margin-top: 16px;">
-                    Three battery framerate caps are available in the Intel Graphics Software:
-                </p>
-                <ul>
-                    <li><strong>Performance:</strong> Caps framerates around 60 FPS, maintaining smooth action while preventing power waste on excessive frames.</li>
-                    <li><strong>Balanced:</strong> Targets approximately 40 FPS, an ideal sweet spot for travel gaming.</li>
-                    <li><strong>Battery Saver:</strong> Limits output to 30 FPS for maximum battery longevity.</li>
-                </ul>
-
-                <p>
-                    If unplugging the charger causes an in-game framerate to lock at 60 or 40 FPS, this is Endurance Gaming operating as intended rather than a game glitch. Note that OEM power profiles (like MSI Center scenarios) can override or toggle this setting, so when playing plugged into AC power, it can simply be ignored.
                 </p>
             </section>
         </article>

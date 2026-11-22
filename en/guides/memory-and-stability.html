@@ -608,26 +608,14 @@
                     <li>Select drive <code>C:</code>, click "Custom size", set Initial size: <strong>16384</strong>, Maximum size: <strong>16384</strong>.</li>
                     <li>Click <strong>Set</strong>, then click <strong>OK</strong>, and restart the device.</li>
                 </ol>
-            </section>
-
-            <section id="software-choice">
-                <h2>4. Handheld Management Software Choice</h2>
-                <p>
-                    On a handheld PC with unified LPDDR5x memory and tight thermal constraints, the choice of management software directly dictates frame pacing consistency.
-                    Heavy background services consume RAM needed by the graphics subsystem, while continuous sensor polling can saturate the internal bus.
-                </p>
-
-                <div class="info-box">
-                    <strong>In-depth Management Utility Breakdown:</strong>
-                    An engineering analysis of the HandheldCompanion EC bus conflict, the memory overhead of the stock MSI Center M stack,
-                    and the advantages of ClawTweaks with its native Game Bar widget and FSE launcher is covered in a dedicated guide:
-                    <br><br>
-                    <a href="software-choice.html" style="font-weight: 600; color: var(--accent-cyan);">Read Guide: Why ClawTweaks over MSI Center M and HandheldCompanion →</a>
+                <div class="info-box" style="margin-top: 16px;">
+                    <strong>Unified Memory Footprint:</strong>
+                    Every 300:500 MB consumed by heavy background management tools is taken directly from graphics memory and triggers unnecessary pagefile swaps. A detailed comparison of background overhead is covered in <a href="software-choice.html" style="font-weight: 600; color: var(--accent-cyan);">Software Choice: Why ClawTweaks over MSI Center M and HandheldCompanion →</a>.
                 </div>
             </section>
 
             <section id="hvci-audio">
-                <h2>5. Kernel Security (HVCI) and Service Optimization</h2>
+                <h2>4. Kernel Security (HVCI) and Service Optimization</h2>
 
                 <h3>Core Isolation (Memory Integrity / HVCI)</h3>
                 <p>
@@ -660,7 +648,7 @@
             </section>
 
             <section id="emergency-reset">
-                <h2>6. Emergency Procedures: Embedded Controller (EC) Reset and UEFI Access</h2>
+                <h2>5. Emergency Procedures: Embedded Controller (EC) Reset and UEFI Access</h2>
                 <p>
                     If the handheld freezes, shows a black screen, or stops responding to short power button presses, the Embedded Controller (EC) may have locked up due to an anomalous power state or hardware stall.
                 </p>
@@ -690,7 +678,7 @@
             </section>
 
             <section id="bios-hidden-menu-warning">
-                <h2>7. Warning: Hidden Advanced BIOS Menu</h2>
+                <h2>6. Warning: Hidden Advanced BIOS Menu</h2>
                 <p>
                     MSI motherboards feature a technician shortcut to unlock hidden setup menus:
                 </p>
@@ -707,7 +695,6 @@
                 <p>
                     On Intel Core Ultra 200V processors, LPDDR5x RAM is mounted directly onto the CPU package substrate (Memory on Package, MoP). The memory controller is governed strictly by Intel microcode. All safe and functional shared memory management should be handled through the official Intel Arc driver and Windows settings. Accessing hidden BIOS parameters is strongly discouraged.
                 </p>
-            </section>
             </section>
         </article>
 

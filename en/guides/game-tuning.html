@@ -577,6 +577,9 @@
                 </p>
                 <ul>
                     <li>
+                        <strong>Setting Off:</strong> Standard Windows pipeline retaining up to 3 pre-rendered CPU frames. Input response is least reactive.
+                    </li>
+                    <li>
                         <strong>Setting On (Recommended Baseline):</strong> Limits frame queue depth to exactly 1 (Queue Size = 1). The CPU prepares the next frame only after the GPU completes the preceding one. Input latency decreases without spiking power consumption.
                     </li>
                     <li>
@@ -585,7 +588,7 @@
                 </ul>
                 <div class="info-box">
                     <strong>When to Use Boost:</strong>
-                    The On + Boost mode is required when utilizing frame generation (XeFG, FSR FG, or Lossless Scaling). Frame interpolation introduces intrinsic buffer delay, and Boost locks the GPU frequency at 1950 MHz to minimize pipeline turn-around times.
+                    The On + Boost mode is required when utilizing frame generation (XeFG, FSR FG, or Lossless Scaling) where interpolation introduces 1:2 frames of intrinsic buffer delay, and in heavy GPU-bound titles on AC power. Boost locks GPU frequency at 1950 MHz, eliminating scene-transition clock throttling and minimizing pipeline turn-around times.
                 </div>
                 <div class="warning-box">
                     <strong>Battery Operation Warning:</strong> Under lower TDP limits (15:17W) on battery power, Boost can starve the CPU of shared package power by locking high GPU frequencies. If the CPU lacks power for game logic, micro-stutters and 1% low drops will occur. For battery play, standard <strong>On</strong> mode is recommended.
@@ -623,14 +626,14 @@
                     Dropping to the legacy 1280x800 resolution results in noticeable text blurring and loss of sub-pixel geometric clarity.
                 </p>
                 <p>
-                    Intermediate 16:10 custom resolutions injected via EDID provide the optimal compromise:
+                    The <code>handheld-resolution-pack</code> package injects intermediate 16:10 custom modes via the Windows registry without touching the hardware DisplayID 2.0 descriptor, preserving the 48:120 Hz VRR range:
                 </p>
                 <ul>
-                    <li><strong>1600x1000 (1000p):</strong> Clean 1.20x scaling factor. Reduces GPU shading load by 31% compared to 1200p while preserving razor-sharp text and HUD elements.</li>
+                    <li><strong>1600x1000 (1000p):</strong> Clean 1.20x scaling factor. Reduces GPU shading load by 31% compared to 1200p while preserving razor-sharp text and clear pixel grids for upscalers.</li>
                     <li><strong>1536x960 (960p):</strong> Clean 1.25x scaling factor. Balanced mode for heavy AAA titles, reducing GPU shading burden by 36%.</li>
                 </ul>
                 <div class="info-box">
-                    In Intel Graphics Command Center, ensure <strong>GPU Scaling: Preserve Aspect Ratio</strong> is enabled. This prevents image distortion and pixel stretching.
+                    In Intel Graphics Command Center under the Display tab, set: <strong>Scaling Mode: GPU Scaling</strong> and <strong>Scaling Method: Preserve Aspect Ratio</strong>. This prevents image distortion and maintains the 16:10 aspect ratio without geometric stretching.
                 </div>
             </section>
 
@@ -644,7 +647,7 @@
                     <li><strong>Performance Profiles:</strong> <code>Performance</code> targets approximately 60 FPS, <code>Balanced</code> targets around 40 FPS, and <code>Battery Saver</code> caps rendering at 30 FPS for extended endurance.</li>
                 </ul>
                 <p>
-                    If disconnecting the charger causes framerate to lock at 40 or 60 FPS, this is normal Endurance Gaming behavior protecting the battery against high instantaneous current draws.
+                    If disconnecting the charger causes framerate to lock at 40 or 60 FPS, this is normal Endurance Gaming behavior protecting the battery against high instantaneous current draws. Profile settings can be overridden by MSI Center M scenarios or reset after rebooting, so they do not enforce hidden limits during AC gaming.
                 </p>
             </section>
         </article>

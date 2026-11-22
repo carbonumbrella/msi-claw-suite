@@ -20,6 +20,15 @@
 - **Decision:** Host calibrated ICC color profile for panel CSW PN8007QB1-2 (`assets/calib/PN8007QB1_2_cal.icm`) and link to the Notebookcheck laboratory review across all portal index pages, download catalogs, and display/setup guides.
 - **Reason:** Enable users to easily download the verified 6500K sRGB profile in one click and reference laboratory display measurements directly.
 
+### 2026-11-22: Content Deduplication and Guide Scope Realignment
+- **Decision:** Eliminate large-scale duplicate content across guides:
+  - Remove Low Latency Mode and Intel Endurance Gaming sections from `vrr-display.html`, consolidating complete technical breakdowns in `game-tuning.html`.
+  - Remove redundant upscaling/frame-gen section 5 from `software-choice.html`.
+  - Remove standalone management software comparison section 4 from `memory-and-stability.html`, embedding a concise memory-footprint note referencing `software-choice.html`, and renumbering sections 1-6.
+  - Streamline framerate capping and Endurance Gaming mentions in `power-and-sleep.html` into compact cross-references to `game-tuning.html`.
+  - Streamline setup checklist steps in `setup-guide.html` and portal index cards to keep practical instructions while referencing authoritative deep-dive guides.
+- **Reason:** Clean separation of concerns across documentation modules, preventing contradictory advice and reducing redundant reading volume while strictly preserving all facts, settings, and practical steps.
+
 ### 2026-11-22: Dedicated Game Tuning Guide, ClawTweaks Controller Subsystems, and Hardware Insights
 - **Decision:** Extract game performance optimization, upscaling, and frame generation into a standalone monolithic guide `guides/game-tuning.html` (and `/en/guides/game-tuning.html`), linking it from the main portal grid and related guides.
 - **Reason:** Users prioritize a single comprehensive reference on tuning games for maximum FPS and smoothness: Intel XeSS vs AMD FSR on Lunar Lake, native frame generation with OptiClick (OptiScaler), external LSFG 2x generation, Low Latency Mode On vs Boost, framerate capping over wattage throttling, and custom 16:10 resolutions (1000p/960p).

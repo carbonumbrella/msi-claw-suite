@@ -651,7 +651,7 @@
                 <h2><span class="step-num">6</span> Снятие заводского ограничения кулеров</h2>
                 <p>
                     По умолчанию в заводских профилях MSI максимальная скорость вентиляторов программно ограничена на 75% (на шкале из 6 точек: 0°C, 50°C, 60°C, 70°C, 80°C и 88°C).
-                    Под продолжительной игровой нагрузкой это приводит к повышенному нагреву и сбросу рабочих частот.
+                    Под продолжительной игровой нагрузкой это приводит к повышенному нагреву и сбросу рабочих частот (подробный анализ в руководстве <a href="power-and-sleep.html#fan-curves">Питание и охлаждение</a>).
                 </p>
                 <ol>
                     <li>В виджете ClawTweaks (вызов по правой кнопке Claw) переходим на вкладку управления вентиляторами.</li>
@@ -679,7 +679,7 @@
             <section id="step-8">
                 <h2><span class="step-num">8</span> Разрешения 16:10 (Handheld Resolution Pack)</h2>
                 <p>
-                    Добавляем промежуточные режимы 1536x960 (коэффициент 1.25x) и 1600x1000 (коэффициент 1.20x):
+                    Добавляем промежуточные режимы 1536x960 (коэффициент 1.25x) и 1600x1000 (коэффициент 1.20x). Математика разгрузки видеоядра и поведение апскейлеров подробно разобраны в руководстве <a href="game-tuning.html#render-resolutions">Настройка игр</a>:
                 </p>
                 <ol>
                     <li>Скачиваем архив из раздела <a href="../index.html#downloads">Загрузки</a> или репозитория <a href="https://github.com/carbonumbrella/handheld-resolution-pack" target="_blank">handheld-resolution-pack</a>, распаковываем и запускаем <code>Run_As_Admin.cmd</code> из папки <code>1_Universal_Auto</code> (скрипт автоматически считает активный EDID матрицы, внедрит режимы 1600x1000 и 1536x960, перезапустит видеодрайвер и пропатчит виджет ClawTweaks).</li>
@@ -708,7 +708,7 @@
                     Открытые утилиты, подключаемые по личным предпочтениям:
                 </p>
                 <ul>
-                    <li><strong><a href="https://github.com/onehoon/OptiClick" target="_blank">OptiClick</a>:</strong> автоматическое внедрение OptiScaler в игры с поддержкой DLSS или FSR в один клик. Пробрасывает нативный Intel XeSS и генерацию кадров XeFG внутри движка без размытия интерфейса.</li>
+                    <li><strong><a href="https://github.com/onehoon/OptiClick" target="_blank">OptiClick</a>:</strong> автоматическое внедрение OptiScaler в игры с поддержкой DLSS или FSR в один клик. Пробрасывает нативный Intel XeSS и генерацию кадров XeFG внутри движка (подробнее в <a href="game-tuning.html#native-frame-gen">руководстве по играм</a>).</li>
                     <li><strong><a href="https://github.com/carbonumbrella/sayso" target="_blank">SaySo</a>:</strong> голосовой ввод текста и системные команды на встроенном нейропроцессоре Intel NPU по удержанию заднего лепестка M1/M2.</li>
                     <li><strong><a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank">ClawAmbilight</a>:</strong> фоновая подсветка стиков и кнопок цветами экрана с усреднением кадров на графическом чипе.</li>
                     <li><strong><a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank">kbdhaptic</a>:</strong> виброотклик моторов при вводе текста на экранной сенсорной клавиатуре и автоповорот экрана.</li>

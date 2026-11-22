@@ -549,7 +549,7 @@
                 <h2><span class="step-num">6</span> Unlocking the Factory Fan Speed Ceiling</h2>
                 <p>
                     By default, MSI firmware caps fan speeds at 75% across the curve (0°C, 50°C, 60°C, 70°C, 80°C, 88°C).
-                    Under prolonged heavy gaming loads, this ceiling causes unnecessary thermal throttling.
+                    Under prolonged heavy gaming loads, this ceiling causes unnecessary thermal throttling (detailed thermal analysis in <a href="power-and-sleep.html#fan-curves">Power and Fan Curves</a>).
                 </p>
                 <ol>
                     <li>Open ClawTweaks (right Claw button) and switch to the Fan Control tab.</li>
@@ -577,7 +577,7 @@
             <section id="step-8">
                 <h2><span class="step-num">8</span> 16:10 Resolutions (Handheld Resolution Pack)</h2>
                 <p>
-                    Inject intermediate 1536x960 (1.25x ratio) and 1600x1000 (1.20x ratio) display modes:
+                    Inject intermediate 1536x960 (1.25x ratio) and 1600x1000 (1.20x ratio) display modes (shading reduction math detailed in <a href="game-tuning.html#render-resolutions">Game Tuning</a>):
                 </p>
                 <ol>
                     <li>Download the archive from the <a href="../index.html#downloads">Downloads</a> section or the <a href="https://github.com/carbonumbrella/handheld-resolution-pack" target="_blank">handheld-resolution-pack</a> repository, unpack it, and run <code>Run_As_Admin.cmd</code> in folder <code>1_Universal_Auto</code> (reads active panel EDID, writes overrides, restarts display driver, and patches ClawTweaks).</li>
@@ -605,7 +605,7 @@
                     Open-source utilities available for specific workflows:
                 </p>
                 <ul>
-                    <li><strong><a href="https://github.com/onehoon/OptiClick" target="_blank">OptiClick</a>:</strong> One-click automated deployment for OptiScaler in games supporting DLSS or FSR. Translates render calls to native Intel XeSS and XeFG frame generation with clean text and minimal input lag.</li>
+                    <li><strong><a href="https://github.com/onehoon/OptiClick" target="_blank">OptiClick</a>:</strong> One-click automated deployment for OptiScaler in games supporting DLSS or FSR. Translates render calls to native Intel XeSS and XeFG frame generation (details in <a href="game-tuning.html#native-frame-gen">Game Tuning Guide</a>).</li>
                     <li><strong><a href="https://github.com/carbonumbrella/sayso" target="_blank">SaySo</a>:</strong> Local NPU voice dictation and hardware controls by holding rear paddles.</li>
                     <li><strong><a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank">ClawAmbilight</a>:</strong> Real-time screen color stick lighting averaged on the GPU with zero CPU penalty.</li>
                     <li><strong><a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank">kbdhaptic</a>:</strong> Haptic vibration confirmation on touch keyboard typing and hardware auto-rotation.</li>
