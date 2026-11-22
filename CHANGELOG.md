@@ -2,6 +2,13 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-22: Action-First Streamlining of Game Tuning Guide and ClawTweaks Anti-Lag
+- **Decision:** Streamline `game-tuning.html` and `en/guides/game-tuning.html` to place actionable settings and check-lists upfront:
+  - Document that Low Latency Mode (Anti-Lag: On / Boost) and Display Scaling (GPU Scaling / Preserve Aspect Ratio) are accessible directly inside the ClawTweaks widget as well as Intel GCC.
+  - Clarify that while recent OptiScaler builds support FSR 4 models running on Intel XMX cores (FSR 4 XMX / Light), native XeSS remains superior on Lunar Lake because FSR 4 XMX takes 5+ ms per frame versus 2+ ms for XeSS.
+  - Shorten upscaler, frame-gen, framerate capping, and resolution sections down to concise, practical steps.
+- **Reason:** Provide immediate, actionable guidance for handheld users with minimal reading friction.
+
 ### 2026-11-22: Strip Prose Fluff, Wordiness, and Marketing Epithets Across All Guides
 - **Decision:** Remove non-essential prose, expository filler, pseudo-mathematical claims, and evaluative marketing adjectives across all Russian and English portal pages.
   - Replaced marketing terms ("инженерный", "математически выверенный", "математическая кратность", "сверхскоростной", "безупречный", "идеальный") with dry, factual technical descriptors ("архитектурный", "практический", "кастомные разрешения 16:10", "четкий").

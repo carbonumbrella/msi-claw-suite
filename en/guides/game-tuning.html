@@ -482,59 +482,38 @@
             <section id="upscaling-choice">
                 <h2>1. Upscaler Selection: Intel XeSS vs AMD FSR</h2>
                 <p>
-                    On the integrated Intel Arc 140V GPU (Lunar Lake), the upscaler algorithm directly determines geometric clarity and ghosting.
+                    Always select <strong>Intel XeSS</strong> in game graphics settings: on Lunar Lake architecture, it utilizes Arc DP4a vector hardware, providing crisp geometry without shimmering or ghosting trails.
                 </p>
-                <div class="info-box">
-                    <strong>Upscaler Selection Rule:</strong>
-                    Whenever a game supports Intel XeSS, select it: the algorithm utilizes DP4a vector instructions and produces fewer artifacts and ghosting compared to AMD FSR.
-                </div>
                 <p>
-                    Algorithmic comparison on the Claw 8 AI+ hardware platform:
+                    Switch to <strong>AMD FSR 2 / 3</strong> only if XeSS is unavailable: on Intel Arc GPUs, FSR computes via general shader calls and often leaves noticeable ghosting behind moving objects.
                 </p>
-                <ul>
-                    <li>
-                        <strong>Intel XeSS:</strong> Accurately resolves fine parallel lines, wire fences, foliage, and sub-pixel meshes. It avoids the temporal shimmering characteristic of spatial filters during camera movements.
-                    </li>
-                    <li>
-                        <strong>AMD FSR 2 / 3:</strong> Executes through general shader compute calls. On Intel Arc architectures, FSR frequently introduces grainy ghosting trails behind moving geometry and causes sub-pixel moire patterns.
-                    </li>
-                </ul>
             </section>
 
             <section id="native-frame-gen">
                 <h2>2. Native Frame Generation: OptiClick and OptiScaler</h2>
                 <p>
-                    Clean frame rate doubling is achieved by generating frames inside the game rendering pipeline before drawing the interface.
-                </p>
-                <p>
-                    The <code>OptiScaler</code> library operates as an open-source middleware layer: it intercepts proprietary NVIDIA DLSS or AMD FSR calls, translating them into native Intel XeSS and activating frame generation (XeFG or FSR Frame Generation).
-                </p>
-                <p>
-                    The <a href="https://github.com/onehoon/OptiClick" target="_blank" rel="noopener">OptiClick</a> utility automates OptiScaler deployment with one click:
+                    For single-player titles, use <a href="https://github.com/onehoon/OptiClick" target="_blank" rel="noopener">OptiClick</a>: this utility replaces DLSS/FSR binaries with open-source <code>OptiScaler</code> in one click, enabling native Intel XeSS and frame generation (XeFG / FSR FG).
                 </p>
                 <ul>
-                    <li><strong>Automatic Detection:</strong> Discovers installed game binaries across Steam and Epic Games libraries.</li>
-                    <li><strong>Proxy Injection:</strong> Places necessary wrapper libraries (<code>dxgi.dll</code>, configuration profiles) directly into game folders without manual editing.</li>
-                    <li><strong>Clean HUD Rendering:</strong> Frame interpolation occurs before user interface elements are rendered. Crosshairs, health bars, subtitles, and minimaps stay sharp without ghosting.</li>
-                    <li><strong>Minimal Latency Overhead:</strong> Direct access to motion vectors and depth buffers provides the lowest possible input delay.</li>
+                    <li><strong>Clean HUD:</strong> Intermediate frames are interpolated inside the engine pipeline before drawing interface elements. Crosshairs, text, and maps do not double.</li>
+                    <li><strong>Minimal Latency:</strong> Direct motion vector access minimizes input lag.</li>
                 </ul>
+                <div class="info-box">
+                    <strong>XeSS vs FSR 4 in OptiScaler:</strong> Recent OptiScaler builds support executing FSR 4 models on Intel XMX matrix cores (FSR 4 XMX and FSR 4 Light). At the moment on Lunar Lake architecture, native XeSS remains the better choice: FSR 4 XMX inference takes 5+ ms per frame versus 2+ ms for XeSS, consuming too large a portion of the handheld frame budget.
+                </div>
                 <div class="warning-box">
-                    <strong>Security Warning:</strong> Deploy OptiClick strictly in single-player games. In competitive multiplayer titles featuring anti-cheat software (Easy Anti-Cheat, BattlEye, Vanguard), modifying <code>dxgi.dll</code> files will trigger account penalties.
+                    <strong>Security:</strong> Never use OptiClick in multiplayer games protected by anti-cheat (Easy Anti-Cheat, BattlEye, Ricochet): swapping <code>dxgi.dll</code> triggers account bans.
                 </div>
             </section>
 
             <section id="lossless-scaling">
                 <h2>3. External Frame Generation: Lossless Scaling (LSFG)</h2>
                 <p>
-                    The <code>Lossless Scaling</code> utility on Steam works via an external capture model, grabbing desktop window frames through the Windows Desktop Duplication API.
+                    For games lacking native temporal upscalers, retro ports, and emulators locked to 30:60 FPS, use the <code>Lossless Scaling</code> utility (Steam) with the LSFG algorithm.
                 </p>
                 <p>
-                    The LSFG 2.x/3.x algorithm interpolates frames over the captured window output. This makes it an effective tool for games lacking native temporal upscalers:
+                    <strong>Baseline Requirement:</strong> Stable 40:45 FPS in the base game. At a 2x multiplier, performance doubles to 80:90 FPS, falling into the display VRR working window.
                 </p>
-                <ul>
-                    <li><strong>Classic Games and Emulators:</strong> Titles with hardcoded 30 or 60 FPS limits, isometric RPGs, and retro emulators.</li>
-                    <li><strong>Doubling to 120 Hz:</strong> Baseline framerates of 40:45 FPS scale to 80:90 FPS, falling into the panel VRR working range.</li>
-                </ul>
                 <div class="table-wrap">
                     <table>
                         <thead>
@@ -547,7 +526,7 @@
                         <tbody>
                             <tr>
                                 <td><strong>Integration Point</strong></td>
-                                <td>Inside the engine pipeline (hooks into motion vectors)</td>
+                                <td>Inside engine pipeline (hooks into motion vectors)</td>
                                 <td>External Windows window capture</td>
                             </tr>
                             <tr>
@@ -573,46 +552,38 @@
             <section id="low-latency-mode">
                 <h2>4. Input Latency: Low Latency On vs Boost</h2>
                 <p>
-                    Inside Intel Graphics Command Center, the <strong>Low Latency Mode</strong> control manages the frame queue depth maintained by the CPU prior to GPU execution.
+                    The <strong>Low Latency Mode</strong> (Anti-Lag) setting is available directly inside the <strong>ClawTweaks</strong> widget as well as Intel Graphics Command Center. It controls CPU frame queue depth:
                 </p>
                 <ul>
                     <li>
-                        <strong>Setting Off:</strong> Standard Windows pipeline retaining up to 3 pre-rendered CPU frames. Input response is least reactive.
+                        <strong>Setting On (Recommended Baseline):</strong> Limits frame queue depth to exactly 1 (Queue Size = 1). Minimizes input lag without unnecessary power draw.
                     </li>
                     <li>
-                        <strong>Setting On (Recommended Baseline):</strong> Limits frame queue depth to exactly 1 (Queue Size = 1). The CPU prepares the next frame only after the GPU completes the preceding one. Input latency decreases without spiking power consumption.
+                        <strong>Setting On + Boost (AC Power Only):</strong> Maintains 1-frame queue depth and locks GPU core clock at its 1950 MHz ceiling. Enable when frame generation is active (XeFG, FSR FG, Lossless Scaling) to offset interpolation latency.
                     </li>
                     <li>
-                        <strong>Setting On + Boost:</strong> Enforces a 1-frame queue depth while preventing the Intel power governor from lowering GPU core clocks during brief engine pipeline stalls.
+                        <strong>Setting Off:</strong> Standard 3-frame queue with higher input latency.
                     </li>
                 </ul>
-                <div class="info-box">
-                    <strong>When to Use Boost:</strong>
-                    The On + Boost mode is required when utilizing frame generation (XeFG, FSR FG, or Lossless Scaling) where interpolation introduces 1:2 frames of intrinsic buffer delay, and in heavy GPU-bound titles on AC power. Boost locks GPU frequency at 1950 MHz, eliminating scene-transition clock throttling and minimizing pipeline turn-around times.
-                </div>
                 <div class="warning-box">
-                    <strong>Battery Operation Warning:</strong> Under lower TDP limits (15:17W) on battery power, Boost can starve the CPU of shared package power by locking high GPU frequencies. If the CPU lacks power for game logic, micro-stutters and 1% low drops will occur. For battery play, standard <strong>On</strong> mode is recommended.
+                    <strong>Battery Play:</strong> Use only standard <strong>On</strong> mode. On low TDP limits (15:17W), Boost pulls shared power toward the GPU, starving CPU cores and provoking micro-stutters.
                 </div>
             </section>
 
             <section id="framerate-strategy">
                 <h2>5. Smoothness Strategy: FPS Capping and Refresh Rates</h2>
                 <p>
-                    A frequent setup mistake on gaming handhelds is aggressively choking the CPU package power (PL1) while leaving the framerate unlocked.
+                    Do not throttle CPU package power (PL1) while leaving framerate floating. Instead, lock a strict framerate cap (<strong>FPS Cap</strong> at 40, 45, or 60) via ClawTweaks, RTSS, or MSI Center M. The processor will automatically scale power down to the minimum required, eliminating frametime spikes.
                 </p>
-                <div class="info-box">
-                    <strong>Frametime Consistency Principle:</strong>
-                    Instead of arbitrary wattage throttling, apply a strict framerate cap (FPS Cap). Locking performance at 40, 45, or 60 FPS through RTSS, ClawTweaks, or MSI Center M allows the processor to automatically scale power down to the minimum necessary, stabilizing the frametime graph.
-                </div>
                 <p>
                     Display refresh rate deployment scenarios:
                 </p>
                 <ul>
                     <li>
-                        <strong>120 Hz + VRR (Variable Refresh with LFC):</strong> Recommended for modern 3D games fluctuating between 45 and 80 FPS. Low Framerate Compensation duplicates panel refresh cycles, eliminating tearing and judder.
+                        <strong>120 Hz + VRR (LFC):</strong> Primary choice for 3D games fluctuating between 45 and 80 FPS. Low Framerate Compensation duplicates refresh cycles to maintain smooth output without tearing.
                     </li>
                     <li>
-                        <strong>48 Hz + V-Sync (Maximum Battery Mode):</strong> Optimal for long mobile sessions. Setting 48 Hz reduces panel display engine draw, while 48 FPS feels substantially smoother than 30 FPS.
+                        <strong>48 Hz + V-Sync:</strong> Maximum battery endurance mode for travel. Reduces panel and controller power, while 48 FPS looks noticeably smoother than 30 FPS.
                     </li>
                 </ul>
             </section>
@@ -620,34 +591,29 @@
             <section id="render-resolutions">
                 <h2>6. Render Resolutions Without Quality Loss</h2>
                 <p>
-                    The native display resolution of MSI Claw 8 AI+ is 1920x1200 (16:10 aspect ratio). In heavy AAA titles, running at native resolution causes performance degradation.
-                </p>
-                <p>
-                    Dropping to the legacy 1280x800 resolution results in noticeable text blurring and loss of sub-pixel geometric clarity.
-                </p>
-                <p>
-                    The <code>handheld-resolution-pack</code> package injects intermediate 16:10 custom modes via the Windows registry without touching the hardware DisplayID 2.0 descriptor, preserving the 48:120 Hz VRR range:
+                    If a game struggles at native 1920x1200 (16:10), avoid blurry 1280x800. Use intermediate 16:10 resolutions from <code>handheld-resolution-pack</code>:
                 </p>
                 <ul>
-                    <li><strong>1600x1000 (1000p):</strong> Clean 1.20x scaling factor. Reduces GPU shading load by 31% compared to 1200p while preserving razor-sharp text and clear pixel grids for upscalers.</li>
-                    <li><strong>1536x960 (960p):</strong> Clean 1.25x scaling factor. Balanced mode for heavy AAA titles, reducing GPU shading burden by 36%.</li>
+                    <li><strong>1600x1000 (1000p, 1.20x scale):</strong> Reduces GPU shading load by 31% compared to 1200p while preserving clean pixel grids for upscalers.</li>
+                    <li><strong>1536x960 (960p, 1.25x scale):</strong> Reduces GPU load by 36%, ideal for demanding AAA titles.</li>
                 </ul>
                 <div class="info-box">
-                    In Intel Graphics Command Center under the Display tab, set: <strong>Scaling Mode: GPU Scaling</strong> and <strong>Scaling Method: Preserve Aspect Ratio</strong>. This prevents image distortion and maintains the 16:10 aspect ratio without geometric stretching.
+                    In the ClawTweaks Display tab (or Intel Graphics Command Center Display tab), configure: <strong>GPU Scaling</strong> and <strong>Preserve Aspect Ratio</strong> to prevent image stretching and preserve accurate 16:10 geometry.
                 </div>
             </section>
 
             <section id="endurance-gaming-profile">
                 <h2>7. Intel Endurance Gaming Behavior on Battery</h2>
                 <p>
-                    The <strong>Intel Endurance Gaming</strong> feature within Arc graphics drivers dynamically manages frame pacing when external power is removed:
+                    The <strong>Intel Endurance Gaming</strong> feature in the Arc graphics driver automatically caps framerates when external power is unplugged to protect the battery:
                 </p>
                 <ul>
-                    <li><strong>Battery-Exclusive Operation:</strong> The feature activates strictly on DC battery power. Connecting external AC power immediately suspends the limits.</li>
-                    <li><strong>Performance Profiles:</strong> <code>Performance</code> targets approximately 60 FPS, <code>Balanced</code> targets around 40 FPS, and <code>Battery Saver</code> caps rendering at 30 FPS for extended endurance.</li>
+                    <li><code>Performance</code>: caps near 60 FPS.</li>
+                    <li><code>Balanced</code>: caps near 40 FPS.</li>
+                    <li><code>Battery Saver</code>: caps at 30 FPS.</li>
                 </ul>
                 <p>
-                    If disconnecting the charger causes framerate to lock at 40 or 60 FPS, this is normal Endurance Gaming behavior protecting the battery against high instantaneous current draws. Profile settings can be overridden by MSI Center M scenarios or reset after rebooting, so they do not enforce hidden limits during AC gaming.
+                    If disconnecting external power locks framerate to 40 or 60 FPS, this is normal Endurance Gaming behavior. Reconnecting AC power automatically suspends the feature.
                 </p>
             </section>
         </article>
