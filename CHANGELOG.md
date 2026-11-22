@@ -2,6 +2,12 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-22: Document 116 FPS Upper VRR Ceiling and Comprehensive Safe Capping Tiers
+- **Decision:** Document the Blur Busters standard 116 FPS upper limit and comprehensive safe capping tiers across Russian and English guides:
+  - In `vrr-display.html`: define the full VRR envelope (`#lfc-boundary`) including the 116:117 FPS upper cap (providing ~0.3 ms margin to keep VRR continuously engaged without V-Sync buffer latency) alongside the 56:62 FPS LFC boundary zone.
+  - In `game-tuning.html`: integrate full capping tiers into Section 5: 116 FPS ceiling for esports, 63:65 FPS for native 1x VRR, 50:54 FPS for stable 2x LFC (100:108 Hz), avoiding 56:62 FPS, and fixed 60 Hz mode when strictly 60 FPS is required.
+- **Reason:** Provide exact, actionable frame capping standards for competitive smoothness and tear-free VRR operation.
+
 ### 2026-11-22: Document LFC 56:62 FPS Boundary Flutter and Remedies
 - **Decision:** Document the Intel Arc Adaptive Sync Plus (ASP) LFC multiplier instability around 56:62 FPS across Russian and English guides:
   - In `vrr-display.html`: concisely explain driver-side 60 Hz LFC boundary oscillation caused by lack of hysteresis, linking to game tuning tactics.
