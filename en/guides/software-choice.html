@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Handheld Software Choice for MSI Claw: ClawTweaks, MSI Center M, and HandheldCompanion</title>
-    <meta name="description" content="Engineering comparison of handheld software for MSI Claw: HandheldCompanion EC bus conflict, MSI Center M background overhead, and ClawTweaks benefits with FSE console mode.">
+    <meta name="description" content="Architectural comparison of handheld software for MSI Claw: HandheldCompanion EC bus conflict, MSI Center M background overhead, and ClawTweaks benefits with FSE console mode.">
     <style>
         :root {
             --bg-main: #0b0e14;
@@ -448,7 +448,7 @@
             <span class="guide-badge">Management Software and Ecosystem</span>
             <h1>Software Choice: Why ClawTweaks, Not MSI Center M or HandheldCompanion</h1>
             <p class="lead">
-                Engineering comparison of handheld management utilities for MSI Claw:
+                Architectural comparison of handheld management utilities for MSI Claw:
                 hardware causes of the HandheldCompanion EC bus conflict, background overhead of MSI Center M,
                 and the native FSE console mode architecture in ClawTweaks.
             </p>
@@ -470,45 +470,42 @@
 
         <article>
             <section id="intro">
-                <h2>Introduction: Specifics of Software on Handheld PCs</h2>
+                <h2>Introduction: Handheld Software Constraints</h2>
                 <p>
-                    Unlike a traditional desktop or gaming laptop, a handheld console operates under strict physical constraints:
+                    Background software on a handheld PC must not consume shared RAM from the GPU or compete for CPU power:
                 </p>
                 <ul>
-                    <li><strong>Unified LPDDR5x Memory:</strong> The Intel Arc graphics chip has no dedicated VRAM and dynamically reserves address space from system RAM. Any 300 to 500 MB occupied by idle background services is permanently lost to graphics rendering.</li>
-                    <li><strong>Power and Thermal Budget:</strong> Background services that poll sensors or render overlays compete for CPU cycles and consume milliwatts of power that should belong to the graphics core.</li>
-                    <li><strong>Control Latency:</strong> In-game access to quick settings must occur instantly, without lag and without risking DirectX video context loss.</li>
+                    <li><strong>Shared LPDDR5x Memory:</strong> The Intel Arc graphics chip allocates its frame buffer from system RAM. 300 to 500 MB occupied by background services directly reduces available VRAM in games.</li>
+                    <li><strong>Power Budget:</strong> Sensor polling cycles consume CPU time and divert milliwatts from the graphics core.</li>
+                    <li><strong>In-Game Controls:</strong> Quick settings over fullscreen 3D output must open instantly without lag or DirectX context crashes.</li>
                 </ul>
             </section>
 
             <section id="handheld-companion">
                 <h2>1. Why Not HandheldCompanion: Hardware Conflict and Setup Friction</h2>
                 <p>
-                    HandheldCompanion (HC) is a popular universal utility designed for a broad range of handheld devices across multiple vendors.
-                    However, on the MSI Claw hardware architecture, this software introduces severe operational issues.
+                    HandheldCompanion (HC) is designed for a broad range of handheld devices, but causes operational issues on MSI Claw:
                 </p>
 
                 <div class="warning-box">
                     <strong>EC (Embedded Controller) Bus Conflict:</strong>
-                    HandheldCompanion relies on continuous high-frequency sensor polling (every 50 to 100 ms) through the ACPI WMI software interface.
-                    The Embedded Controller (EC) microchip on MSI Claw motherboards processes WMI calls with limited bandwidth.
-                    Continuous polling floods the internal communication bus, leading to microstutters in frame pacing and noticeable input delays (verified in hardware test logs).
+                    Sensor polling over ACPI WMI every 50 to 100 ms floods the motherboard EC microchip on MSI Claw.
+                    This causes microstutters in frame pacing and noticeable input delays.
                 </div>
 
-                <h3>High Onboarding Friction and Tedious Manual Setup</h3>
+                <h3>High Friction and Manual Setup</h3>
                 <p>
-                    HandheldCompanion is built as a generic modular toolkit.
-                    After a fresh installation, the device is not ready for comfortable gaming:
+                    After installation, the system requires extensive manual preparation:
                 </p>
                 <ul>
-                    <li>Users must manually configure virtual controller chains (ViGEm and VIIPER) and configure device hiding for the physical gamepad.</li>
-                    <li>Stick response curves, anti-deadzones, and filtering thresholds must be calibrated manually from scratch.</li>
-                    <li>Individual profiles and hotkey shortcuts must be mapped per game before playing.</li>
+                    <li>Configuring virtual controller chains (ViGEm and VIIPER) and hiding the physical gamepad.</li>
+                    <li>Calibrating stick curves, deadzones, and axis filtering.</li>
+                    <li>Creating individual profiles per game and mapping hotkeys.</li>
                 </ul>
 
                 <h3>Heavy Standalone Process</h3>
                 <p>
-                    HandheldCompanion runs as a standalone desktop application with its own graphical overlay engine, adding background CPU overhead.
+                    HandheldCompanion runs as a standalone desktop application with its own graphical overlay engine, adding persistent background CPU overhead.
                 </p>
             </section>
 

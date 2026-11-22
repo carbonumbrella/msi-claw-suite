@@ -2,6 +2,13 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-22: Strip Prose Fluff, Wordiness, and Marketing Epithets Across All Guides
+- **Decision:** Remove non-essential prose, expository filler, pseudo-mathematical claims, and evaluative marketing adjectives across all Russian and English portal pages.
+  - Replaced marketing terms ("инженерный", "математически выверенный", "математическая кратность", "сверхскоростной", "безупречный", "идеальный") with dry, factual technical descriptors ("архитектурный", "практический", "кастомные разрешения 16:10", "четкий").
+  - Streamlined lead paragraphs and section intros in `game-tuning.html`, `memory-and-stability.html`, `software-choice.html`, `power-and-sleep.html`, `vrr-display.html`, and `index.html` to focus directly on actionable settings and hardware constraints.
+  - Preserved 100% of factual technical parameters, hotkeys, commands, and numbers (1950 MHz, 48:120 Hz, 16384 MB, 1000p/960p, 65W/100W PD, 80°C/85% and 88°C/120%, 20-30 sec EC reset, RB + RT).
+- **Reason:** Minimize reading friction on handheld/mobile screens while maintaining technical depth and zero AI tells.
+
 ### 2026-11-19: Remove BIOS VRAM Configuration and Marketing Buzzwords
 - **Decision:** Eliminate all instructions requiring users to enter BIOS for VRAM/Shared GPU Memory on MSI Claw.
 - **Reason:** Intel Core Ultra 200V (Lunar Lake) uses unified Memory-on-Package LPDDR5x (32 GB). The standard MSI Claw BIOS contains no UMA Frame Buffer setting. Windows Display Driver Model (WDDM) dynamically allocates up to 50% of system RAM (16 GB) as Shared GPU Memory automatically.

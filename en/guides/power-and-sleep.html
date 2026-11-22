@@ -590,19 +590,18 @@ powercfg /h /type full</pre>
             <section id="tdp-tuning">
                 <h2>3. TDP and Boost Tuning via Performance Overlay</h2>
                 <p>
-                    In Intel Core Ultra 200V (Lunar Lake) processors, the CPU compute cores and Arc 140V GPU cores
-                    share a single unified power budget. Understanding this dynamic yields maximum framerates with minimal heat.
+                    On Lunar Lake (Intel Core Ultra 200V), CPU cores and the Arc 140V GPU share a single power envelope.
                 </p>
 
                 <div class="info-box">
-                    <strong>Golden Rule: Keep the PL2 Switch Turned Off</strong>
+                    <strong>Baseline Rule: Keep the PL2 Switch Off</strong>
                     <p style="margin-top: 6px;">
-                        In the ClawTweaks widget, this toggle is labeled <strong>PL2</strong>. It is off by default, and should remain off for the vast majority of gaming workloads.
-                        When turned off, the short-term burst limit PL2 strictly tracks the steady-state PL1 baseline:
-                        <code>PL2 = PL1 + 1W</code>. This eliminates 37W power spikes and sudden fan revving during asset streaming.
+                        In ClawTweaks, the PL2 toggle is off by default.
+                        When off, the burst limit tracks the baseline: <code>PL2 = PL1 + 1W</code>.
+                        This eliminates 37W power spikes and sudden fan bursts during asset streaming.
                     </p>
                     <p style="margin-top: 6px;">
-                        Target GPU clock rates for monitoring via overlay: flat at maximum <strong>1950 MHz</strong> without clock drop on Lunar Lake (MSI Claw 8 AI+) and <strong>2250 MHz</strong> on Meteor Lake (MSI Claw A1M).
+                        Target GPU clock rates for monitoring via overlay: flat <strong>1950 MHz</strong> on Lunar Lake (MSI Claw 8 AI+) and <strong>2250 MHz</strong> on Meteor Lake (MSI Claw A1M).
                     </p>
                 </div>
 
@@ -675,10 +674,8 @@ powercfg /h /type full</pre>
             <section id="fan-curves">
                 <h2>4. Custom Fan Curves: Removing the 75% Factory Limit</h2>
                 <p>
-                    Factory MSI firmware caps fan speeds at a 75% maximum ceiling across the curve.
-                    The Embedded Controller (EC) on MSI Claw exposes 6 hardware temperature calibration points: 0°C, 50°C, 60°C, 70°C, 80°C, and 88°C.
-                    In the stock profile, the top two points (80°C and 88°C) are capped at 67% and 75%.
-                    Under continuous gaming loads exceeding 20W, this ceiling leads to heat soak above 85-90°C and subsequent GPU throttling.
+                    Stock MSI firmware caps fan speeds at 75% across a 6-point curve (0°C, 50°C, 60°C, 70°C, 80°C, 88°C).
+                    In the factory curve, the top two points (80°C and 88°C) are capped at 67% and 75%, causing heat soak above 85:90°C and thermal throttling under sustained loads above 20W.
                 </p>
 
                 <div class="warning-box">

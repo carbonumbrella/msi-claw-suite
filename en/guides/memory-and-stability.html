@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPU Memory, Pagefile and System Stability on MSI Claw</title>
-    <meta name="description" content="Engineering analysis of MSI Claw memory: LPDDR5x architecture, Intel Arc memory allocation in Windows, locking 16 GB pagefile to eliminate DXGI crashes, and core isolation details.">
+    <meta name="description" content="Memory analysis of MSI Claw: LPDDR5x architecture, Intel Arc memory allocation in Windows, locking 16 GB pagefile to eliminate DXGI crashes, and core isolation details.">
     <style>
         :root {
             --bg-main: #0b0e14;
@@ -528,8 +528,8 @@
                 <h2>1. Unified LPDDR5x Memory Architecture</h2>
                 <p>
                     Intel Core Ultra 200V processors (Lunar Lake) feature Memory on Package (MoP) architecture:
-                    ultra-fast LPDDR5x memory dies (running at up to 8533 MT/s) are soldered directly on the processor substrate.
-                    This design provides minimal physical latency and an ultra-wide data exchange bus.
+                    LPDDR5x memory dies (running at up to 8533 MT/s) are soldered directly on the processor substrate.
+                    This design provides minimal physical latency and a wide data exchange bus.
                 </p>
                 <p>
                     The device memory is fully unified:
@@ -541,14 +541,8 @@
             <section id="gpu-memory">
                 <h2>2. GPU Memory Allocation in Windows and Intel Arc Driver</h2>
                 <p>
-                    On the MSI Claw platform, adjusting memory settings in BIOS is neither necessary nor supported:
-                    on Intel Core Ultra processors, LPDDR5x memory is unified,
-                    and the factory firmware deliberately omits a legacy UMA Frame Buffer toggle.
-                </p>
-                <p>
-                    Memory management is handled dynamically by Windows 11 and the Intel Arc graphics driver.
-                    Under the Windows Display Driver Model (WDDM) specification, the graphics subsystem is automatically granted
-                    up to half of the total physical device memory.
+                    On Intel Core Ultra (Lunar Lake), factory firmware does not include a UMA Frame Buffer toggle.
+                    Memory is allocated dynamically: under Windows Display Driver Model (WDDM) specifications, the graphics subsystem is allocated up to half of total physical system memory.
                 </p>
                 <p>
                     On a 32 GB console, this guarantees that the Intel Arc GPU has access to
@@ -678,7 +672,7 @@
             </section>
 
             <section id="bios-hidden-menu-warning">
-                <h2>6. Warning: Hidden Advanced BIOS Menu</h2>
+                <h2>6. Warning: Hidden Service BIOS Menu</h2>
                 <p>
                     MSI motherboards feature a technician shortcut to unlock hidden setup menus:
                 </p>
@@ -688,12 +682,12 @@
                     <div style="font-weight: 700; color: var(--accent-red); margin-bottom: 6px;">Input Requirements and Warnings:</div>
                     <ul style="margin-left: 20px; color: var(--text-muted);">
                         <li><strong>Wired USB Keyboard Only:</strong> This shortcut requires a physical keyboard connected via USB cable or 2.4 GHz USB dongle. Bluetooth keyboards do not function in the UEFI pre-boot environment because Bluetooth drivers load exclusively inside Windows.</li>
-                        <li><strong>High Risk of Bootloop:</strong> Community testing has repeatedly demonstrated that tweaking memory timings, bus clocks, or hidden VRAM parameters in this menu yields zero performance benefits on Lunar Lake architecture, while frequently causing bricked bootloops that require full hardware disassembly.</li>
+                        <li><strong>High Risk of Bootloop:</strong> Tweaking memory timings, bus clocks, or hidden VRAM parameters in this menu yields zero performance benefits on Lunar Lake architecture, while frequently causing bricked bootloops that require full hardware disassembly.</li>
                     </ul>
                 </div>
 
                 <p>
-                    On Intel Core Ultra 200V processors, LPDDR5x RAM is mounted directly onto the CPU package substrate (Memory on Package, MoP). The memory controller is governed strictly by Intel microcode. All safe and functional shared memory management should be handled through the official Intel Arc driver and Windows settings. Accessing hidden BIOS parameters is strongly discouraged.
+                    The MoP memory controller is governed strictly by Intel microcode. Video memory pool allocation is handled through the official Intel Arc driver and Windows settings, so accessing hidden BIOS parameters is not recommended.
                 </p>
             </section>
         </article>

@@ -480,23 +480,19 @@
             <section id="hardware">
                 <h2>1. Hardware Foundation: CSW PN8007QB1-2 Panel and DisplayID 2.0</h2>
                 <p>
-                    The MSI Claw 8 AI+ handheld console features an 8-inch IPS panel with a native resolution of 1920x1200 pixels (16:10 aspect ratio)
-                    and a maximum refresh rate of 120 Hz. Tear-free adaptive synchronization (VRR)
-                    is implemented via a DisplayID 2.0 extension block flashed directly into the timing controller (TCON).
+                    The MSI Claw 8 AI+ handheld console features an 8-inch IPS panel (1920x1200, 16:10, 120 Hz).
+                    Adaptive sync parameters (VRR 48:120 Hz) are defined directly within the DisplayID 2.0 descriptor of the panel timing controller (TCON).
                 </p>
                 <p>
-                    While legacy EDID 1.4 relies on basic Range Limits blocks, modern embedded DisplayPort (eDP) protocols
-                    utilize DisplayID version 2.0 descriptors for dynamic vertical blanking control.
-                    This block defines the certified physical operating envelope of the panel.
+                    Unlike legacy EDID 1.4 Range Limits blocks, DisplayID 2.0 descriptors under eDP dynamically manage vertical blanking intervals for tear-free gaming output.
                 </p>
             </section>
 
             <section id="ranges">
                 <h2>2. Frequency Range Split: Maximum Specification vs Windows Status</h2>
                 <p>
-                    Users frequently note a divergence: hardware diagnostic tools report a 48 to 120 Hz range,
-                    whereas Windows 11 Advanced Display Settings shows a current status of 60 to 120 Hz.
-                    This is not a software bug, but coordinated behavior between the Intel Graphics driver and the Windows display pipeline.
+                    Diagnostic tools report the 48:120 Hz hardware window, while Windows 11 Advanced Display Settings shows an active 60:120 Hz range.
+                    This reflects dynamic segregation between 2D desktop rendering and fullscreen 3D output.
                 </p>
 
                 <div class="table-wrap">
@@ -575,7 +571,7 @@
                 </p>
                 <pre>LFC Ratio = Maximum Refresh Rate / Minimum Refresh Rate &gt;= 2.0</pre>
                 <p>
-                    On the MSI Claw panel, the mathematical ratio is:
+                    On the MSI Claw panel, the ratio is:
                 </p>
                 <pre>120 Hz / 48 Hz = 2.5x (condition met with comfortable margin)</pre>
                 <p>
@@ -644,7 +640,7 @@
                     <li><strong>Scaling Method:</strong> <code>Preserve Aspect Ratio</code>. Guarantees true 16:10 geometry without vertical stretching.</li>
                 </ul>
                 <div class="info-box" style="margin-top: 16px;">
-                    Detailed shading reduction metrics and upscaler scaling strategies are detailed in <a href="game-tuning.html#render-resolutions" style="font-weight: 700; color: var(--accent-cyan);">Game Tuning: Render Resolutions Without Quality Loss →</a>.
+                    GPU shading reduction metrics and upscaler recommendations are detailed in <a href="game-tuning.html#render-resolutions" style="font-weight: 700; color: var(--accent-cyan);">Game Tuning: Render Resolutions Without Quality Loss →</a>.
                 </div>
             </section>
 

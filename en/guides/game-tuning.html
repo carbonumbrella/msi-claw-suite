@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Tuning and Maximum FPS on MSI Claw: Upscaling, Frame Generation, and Input Latency</title>
-    <meta name="description" content="Comprehensive engineering guide for tuning gaming performance on MSI Claw 8 AI+ (Lunar Lake): Intel XeSS vs FSR, frame generation via OptiClick and Lossless Scaling, Low Latency Mode On/Boost, FPS capping, and custom resolutions.">
+    <meta name="description" content="Comprehensive guide for tuning gaming performance on MSI Claw 8 AI+ (Lunar Lake): Intel XeSS vs FSR, frame generation via OptiClick and Lossless Scaling, Low Latency Mode On/Boost, FPS capping, and custom resolutions.">
     <style>
         :root {
             --bg-main: #0b0e14;
@@ -461,7 +461,7 @@
             <span class="guide-badge">Game Tuning and FPS</span>
             <h1>Game Tuning on MSI Claw: Upscaling, Frame Generation, and Input Latency</h1>
             <p class="lead">
-                Engineering guide to optimizing game performance on the Lunar Lake architecture: choosing between native Intel XeSS and AMD FSR, integrating frame generation pipelines, resolving input lag with Low Latency Mode, stabilizing frametimes, and selecting render resolutions.
+                Practical guide to optimizing game performance on Lunar Lake: choosing between native Intel XeSS and AMD FSR, integrating frame generation pipelines, resolving input lag with Low Latency Mode, stabilizing frametimes, and selecting render resolutions.
             </p>
         </div>
 
@@ -482,11 +482,11 @@
             <section id="upscaling-choice">
                 <h2>1. Upscaler Selection: Intel XeSS vs AMD FSR</h2>
                 <p>
-                    On the integrated Intel Arc 140V GPU (Lunar Lake architecture), the reconstruction algorithm directly determines geometric stability and fine detail rendering.
+                    On the integrated Intel Arc 140V GPU (Lunar Lake), the upscaler algorithm directly determines geometric clarity and ghosting.
                 </p>
                 <div class="info-box">
                     <strong>Upscaler Selection Rule:</strong>
-                    Whenever a game natively supports Intel XeSS, select it as the primary upscaler. XeSS machine learning models utilize DP4a instructions and Xe-core vector units, delivering temporal reconstruction with minimal visual artifacts.
+                    Whenever a game supports Intel XeSS, select it: the algorithm utilizes DP4a vector instructions and produces fewer artifacts and ghosting compared to AMD FSR.
                 </div>
                 <p>
                     Algorithmic comparison on the Claw 8 AI+ hardware platform:
@@ -504,7 +504,7 @@
             <section id="native-frame-gen">
                 <h2>2. Native Frame Generation: OptiClick and OptiScaler</h2>
                 <p>
-                    For demanding 3D titles, generating intermediate frames within the graphics engine pipeline delivers the cleanest presentation and lowest latency.
+                    Clean frame rate doubling is achieved by generating frames inside the game rendering pipeline before drawing the interface.
                 </p>
                 <p>
                     The <code>OptiScaler</code> library operates as an open-source middleware layer: it intercepts proprietary NVIDIA DLSS or AMD FSR calls, translating them into native Intel XeSS and activating frame generation (XeFG or FSR Frame Generation).
@@ -533,7 +533,7 @@
                 </p>
                 <ul>
                     <li><strong>Classic Games and Emulators:</strong> Titles with hardcoded 30 or 60 FPS limits, isometric RPGs, and retro emulators.</li>
-                    <li><strong>Doubling to 120 Hz:</strong> Baseline framerates of 40:45 FPS scale to 80:90 FPS, falling squarely within the panel VRR working range.</li>
+                    <li><strong>Doubling to 120 Hz:</strong> Baseline framerates of 40:45 FPS scale to 80:90 FPS, falling into the panel VRR working range.</li>
                 </ul>
                 <div class="table-wrap">
                     <table>
@@ -552,7 +552,7 @@
                             </tr>
                             <tr>
                                 <td><strong>User Interface (HUD)</strong></td>
-                                <td>Perfect clarity: HUD renders after frame generation</td>
+                                <td>Clear: HUD renders after frame generation</td>
                                 <td>HUD and text interpolate along with full scene</td>
                             </tr>
                             <tr>

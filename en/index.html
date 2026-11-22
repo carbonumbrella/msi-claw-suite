@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MSI Claw Suite: Guides, Tools and Custom Resolutions for Handhelds</title>
-    <meta name="description" content="Technical optimization suite for MSI Claw 8 AI+, Claw 7 AI+, and Claw A1M: mathematical 16:10 resolutions, OS debloating, S4 hibernation, stick ambilight, and local NPU voice assistant.">
+    <meta name="description" content="Technical optimization suite for MSI Claw 8 AI+, Claw 7 AI+, and Claw A1M: custom 16:10 resolutions, OS debloating, S4 hibernation, stick ambilight, and local NPU voice assistant.">
     <style>
         :root {
             --bg-main: #0b0e14;
@@ -865,7 +865,7 @@
             <h1>Optimization and Dedicated Utilities for MSI Claw</h1>
             <p>
                 Technical guides, Windows 11 tuning scripts, and open-source tools:
-                mathematically exact resolutions for upscaling, system RAM reclamation for the GPU,
+                custom resolutions for upscaling, system RAM reclamation for the GPU,
                 zero-CPU stick Ambilight, and local speech recognition on the built-in Intel NPU.
             </p>
 
@@ -983,10 +983,9 @@
     <section id="resolutions">
         <div class="container">
             <div class="section-header">
-                <h2>Resolution Mathematics: 1600x1000 and 1536x960</h2>
+                <h2>Custom 16:10 Resolutions (1600x1000 and 1536x960)</h2>
                 <p>
-                    This pack injects two intermediate display modes with clean integer ratios (1.20x and 1.25x).
-                    They serve as clean alternatives to standard 1050p and 900p, eliminating subpixel interpolation artifacts during upscaling.
+                    Intermediate modes with clean 1.20x and 1.25x scaling ratios reduce GPU shading workload without subpixel distortion.
                 </p>
             </div>
 
@@ -999,15 +998,14 @@
                         </div>
                         <div class="res-math">1920 / 1.20 = 1600 | 1200 / 1.20 = 1000</div>
                         <p class="res-desc">
-                            Added as a mathematically clean alternative to standard 1050p (1680x1050).
-                            Unlike fractional ~1.143x scaling, the exact 1.20x multiplier eliminates texture sampling shimmer,
-                            preserving the visual sharpness of native 1200p while cutting GPU fillrate workload by 30.5%.
+                            Alternative to standard 1050p (1680x1050).
+                            The 1.20x multiplier eliminates sampling errors, matching 1200p clarity while cutting GPU shading load by 30.5%.
                         </p>
                         <ul class="res-bullets">
-                            <li>New intermediate step between 1200p and 900p</li>
+                            <li>Intermediate step between 1200p and 900p</li>
                             <li>30.5% reduction in processed pixel count</li>
-                            <li>Exact 1.20x step for temporal upscalers (XeSS, FSR, TAAU)</li>
-                            <li>Native 16:10 aspect ratio without black letterboxing</li>
+                            <li>Clean 1.20x step for temporal upscalers</li>
+                            <li>Native 16:10 aspect ratio without letterboxing</li>
                         </ul>
                     </div>
                 </div>
@@ -1020,15 +1018,14 @@
                         </div>
                         <div class="res-math">1920 * 0.80 = 1536 | 1200 * 0.80 = 960</div>
                         <p class="res-desc">
-                            Added as a superior alternative to standard 900p (1440x900).
-                            Accounts for exactly 80% of native panel resolution horizontally and vertically. Unlike the uneven ~1.333x ratio in 900p,
-                            the clean 1.25x multiplier aligns with the pixel grid, keeping fonts and reticles crisp.
+                            Alternative to standard 900p (1440x900). Exactly 80% of native panel resolution horizontally and vertically.
+                            The clean 1.25x multiplier aligns with the pixel grid for Intel XeSS and AMD FSR reconstruction.
                         </p>
                         <ul class="res-bullets">
                             <li>36% reduction in GPU fillrate workload</li>
                             <li>Crisp text and HUD elements without blur</li>
-                            <li>Exact 1.25x (80%) ratio for reconstruction algorithms</li>
-                            <li>Full support for 120 Hz and VRR (48-120 Hz range)</li>
+                            <li>Clean 1.25x (80%) ratio for reconstruction algorithms</li>
+                            <li>Full support for 120 Hz and VRR 48:120 Hz range</li>
                         </ul>
                     </div>
                 </div>
@@ -1247,8 +1244,7 @@
             <div class="section-header">
                 <h2>Knowledge Base &amp; Technical Guides</h2>
                 <p>
-                    In-depth articles covering hardware architecture, panel physics,
-                    power tuning, and memory management on MSI Claw handhelds.
+                    Practical guides covering hardware architecture, display tuning, power calibration, memory management, and gaming software.
                 </p>
             </div>
 
@@ -1306,7 +1302,7 @@
                         <span class="card-badge" style="background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); border: 1px solid rgba(168, 85, 247, 0.3);">Handheld Software</span>
                         <h3>Software Choice: ClawTweaks, MSI Center M, and HandheldCompanion</h3>
                         <p>
-                            Engineering comparison of management utilities, Xbox 360, DualShock and Steam Controller emulation,
+                            Architectural comparison of management utilities, Xbox 360, DualShock and Steam Controller emulation,
                             gyro aiming via right stick, console FSE launcher, and battery health limits.
                         </p>
                     </div>
