@@ -2,6 +2,13 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-22: Expand 16:10 Resolution Spectrum in Game Tuning Guides
+- **Decision:** Replace the binary 1200p vs 800p framing in Section 6 of `guides/game-tuning.html` and `en/guides/game-tuning.html` with the complete 16:10 resolution ladder:
+  - Standard Windows modes: 1680x1050 (-23% GPU load) and 1440x900 (-44% GPU load).
+  - Custom pack modes: 1600x1000 (-31% load, 1.20x scale) and 1536x960 (-36% load, 1.25x scale) bridging the gap with high pixel density.
+  - Low-load mode: 1280x800 (-56% load) for extreme battery savings.
+- **Reason:** Eliminate the false dichotomy between 1200p and 800p, guiding users to intermediate resolutions that preserve image sharpness while improving framerates.
+
 ### 2026-11-22: Clarify Discrete Framerate Values and Target Ranges in Guides
 - **Decision:** Eliminate ambiguous colon ranges (`63:65`, `50:54`) in capping recommendations across Russian and English guides:
   - Replaced with discrete target values (e.g. 116 FPS ceiling, 63 FPS or any target from 63 to 116, 50 or 54 FPS or any target from 45 to 54) to reflect that UI frame limiters accept only individual scalar numbers.

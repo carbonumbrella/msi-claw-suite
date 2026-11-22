@@ -606,11 +606,14 @@
             <section id="render-resolutions">
                 <h2>6. Render Resolutions Without Quality Loss</h2>
                 <p>
-                    If a game struggles at native 1920x1200 (16:10), avoid blurry 1280x800. Use intermediate 16:10 resolutions from <code>handheld-resolution-pack</code>:
+                    If a game struggles at native 1920x1200 (16:10), do not drop immediately to 1280x800. Windows provides standard 16:10 modes: 1680x1050 (-23% GPU load) and 1440x900 (-44% GPU load). To fine-tune the balance between sharpness and framerate, <code>handheld-resolution-pack</code> adds intermediate custom modes:
                 </p>
                 <ul>
-                    <li><strong>1600x1000 (1000p, 1.20x scale):</strong> Reduces GPU shading load by 31% compared to 1200p while preserving clean pixel grids for upscalers.</li>
-                    <li><strong>1536x960 (960p, 1.25x scale):</strong> Reduces GPU load by 36%, ideal for demanding AAA titles.</li>
+                    <li><strong>1680x1050 (1050p, standard):</strong> Reduces GPU shading load by 23%, preserving high pixel density.</li>
+                    <li><strong>1600x1000 (1000p, 1.20x scale, custom pack):</strong> Reduces GPU load by 31% compared to 1200p while keeping clean pixel grids for upscalers.</li>
+                    <li><strong>1536x960 (960p, 1.25x scale, custom pack):</strong> Reduces GPU load by 36%, an optimal compromise for heavy AAA games.</li>
+                    <li><strong>1440x900 (900p, standard):</strong> Reduces GPU load by 44%, suitable for battery-saving profiles.</li>
+                    <li><strong>1280x800 (800p, standard):</strong> Reduces GPU load by 56%, extreme mode for maximum battery life.</li>
                 </ul>
                 <div class="info-box">
                     In the ClawTweaks Display tab (or Intel Graphics Command Center Display tab), configure: <strong>GPU Scaling</strong> and <strong>Preserve Aspect Ratio</strong> to prevent image stretching and preserve accurate 16:10 geometry.
