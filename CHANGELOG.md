@@ -2,6 +2,12 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-22: Document LFC 56:62 FPS Boundary Flutter and Remedies
+- **Decision:** Document the Intel Arc Adaptive Sync Plus (ASP) LFC multiplier instability around 56:62 FPS across Russian and English guides:
+  - In `vrr-display.html`: concisely explain driver-side 60 Hz LFC boundary oscillation caused by lack of hysteresis, linking to game tuning tactics.
+  - In `game-tuning.html`: document actionable FPS capping rules: cap at 63 FPS for native 1x VRR, cap at 50 FPS for stable 2x LFC (100 Hz), or set a fixed 60 Hz display refresh with V-Sync if exactly 60 FPS is desired.
+- **Reason:** Eliminate micro-tearing and stuttering reported at 58:60 FPS caps on 120 Hz VRR panels while maintaining clean separation of concerns without duplication.
+
 ### 2026-11-22: Correct Frame Generation Effective Multiplier and Base Overhead
 - **Decision:** Correct theoretical 2.0x claims in `game-tuning.html` and `en/guides/game-tuning.html` to reflect physical frame generation performance:
   - Document that frame generation (XeFG and LSFG) incurs an intrinsic compute tax, lowering native rasterization speed by 5:15%.

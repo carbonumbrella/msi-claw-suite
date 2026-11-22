@@ -576,8 +576,16 @@
             <section id="framerate-strategy">
                 <h2>5. Smoothness Strategy: FPS Capping and Refresh Rates</h2>
                 <p>
-                    Do not throttle CPU package power (PL1) while leaving framerate floating. Instead, lock a strict framerate cap (<strong>FPS Cap</strong> at 40, 45, or 60) via ClawTweaks, RTSS, or MSI Center M. The processor will automatically scale power down to the minimum required, eliminating frametime spikes.
+                    Do not throttle CPU package power (PL1) while leaving framerate floating. Instead, lock a strict framerate cap (<strong>FPS Cap</strong>) via ClawTweaks, RTSS, or MSI Center M. The processor will automatically scale power down to the minimum required, eliminating frametime spikes.
                 </p>
+                <div class="info-box">
+                    <strong>Bypassing the LFC Boundary Zone (56:62 FPS):</strong> On a 120 Hz VRR panel, avoid setting caps at 58:60 FPS. A lack of driver hysteresis at the 60 Hz threshold causes the LFC multiplier to rapidly oscillate between 1x (60 Hz) and 2x (116:120 Hz), causing micro-tearing:
+                    <ul style="margin-top: 6px; margin-left: 18px;">
+                        <li><strong>Cap at 63 FPS (or 64:65):</strong> Keeps the display in stable native 1x VRR without engaging doubling.</li>
+                        <li><strong>Cap at 50 FPS (or 45:52):</strong> Locks into stable 2x LFC at 100 Hz with comfortable headroom below the 120 Hz ceiling.</li>
+                        <li><strong>If you require exact 60 FPS:</strong> Switch the panel to fixed 60 Hz in the ClawTweaks Display tab and enable V-Sync.</li>
+                    </ul>
+                </div>
                 <p>
                     Display refresh rate deployment scenarios:
                 </p>

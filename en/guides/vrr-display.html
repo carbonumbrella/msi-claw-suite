@@ -586,6 +586,10 @@
                     Consequently, even when render framerates dip well below 48 FPS, motion remains smooth and VRR sync remains continuously active.
                 </p>
 
+                <div class="info-box">
+                    <strong>LFC Boundary Zone (56:62 Hz):</strong> In the Intel Arc driver, the baseline 1x sync floor is tied to 60 Hz (half of 120 Hz). Due to a lack of driver hysteresis, hovering at 58:60 FPS causes the multiplier to rapidly oscillate between 1x (60 Hz) and 2x (116:120 Hz), producing micro-tearing. For practical framerate capping tactics, see the <a href="game-tuning.html#framerate-strategy">Game Tuning Guide</a>.
+                </div>
+
                 <div class="warning-box">
                     <strong>Physical Penalties of Artificially Forcing 30 Hz:</strong>
                     <p style="margin-top: 8px;">
