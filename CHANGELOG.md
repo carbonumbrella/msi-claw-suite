@@ -2,6 +2,12 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-22: Correct Frame Generation Effective Multiplier and Base Overhead
+- **Decision:** Correct theoretical 2.0x claims in `game-tuning.html` and `en/guides/game-tuning.html` to reflect physical frame generation performance:
+  - Document that frame generation (XeFG and LSFG) incurs an intrinsic compute tax, lowering native rasterization speed by 5:15%.
+  - Clarify that 45 baseline FPS translates into roughly 78:82 displayed FPS with native XeFG (~1.75x:1.80x effective boost) and 70:78 displayed FPS with external LSFG (~1.7x boost), rather than an exact 2.0x doubling.
+- **Reason:** Physical accuracy and honest technical benchmarks without marketing claims of lossless 2.0x doubling.
+
 ### 2026-11-22: Action-First Streamlining of Game Tuning Guide and ClawTweaks Anti-Lag
 - **Decision:** Streamline `game-tuning.html` and `en/guides/game-tuning.html` to place actionable settings and check-lists upfront:
   - Document that Low Latency Mode (Anti-Lag: On / Boost) and Display Scaling (GPU Scaling / Preserve Aspect Ratio) are accessible directly inside the ClawTweaks widget as well as Intel GCC.

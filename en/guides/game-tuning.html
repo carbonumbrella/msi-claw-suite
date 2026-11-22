@@ -498,6 +498,9 @@
                     <li><strong>Clean HUD:</strong> Intermediate frames are interpolated inside the engine pipeline before drawing interface elements. Crosshairs, text, and maps do not double.</li>
                     <li><strong>Minimal Latency:</strong> Direct motion vector access minimizes input lag.</li>
                 </ul>
+                <p>
+                    <strong>Effective Scaling:</strong> Frame generation does not deliver a pure 2.0x doubling. Computing intermediate frames and motion vectors reduces native rasterization speed by roughly 5:10%. An initial 45 FPS translates into approximately 78:82 displayed frames (effective scaling of ~1.75x:1.80x).
+                </p>
                 <div class="info-box">
                     <strong>XeSS vs FSR 4 in OptiScaler:</strong> Recent OptiScaler builds support executing FSR 4 models on Intel XMX matrix cores (FSR 4 XMX and FSR 4 Light). At the moment on Lunar Lake architecture, native XeSS remains the better choice: FSR 4 XMX inference takes 5+ ms per frame versus 2+ ms for XeSS, consuming too large a portion of the handheld frame budget.
                 </div>
@@ -512,7 +515,7 @@
                     For games lacking native temporal upscalers, retro ports, and emulators locked to 30:60 FPS, use the <code>Lossless Scaling</code> utility (Steam) with the LSFG algorithm.
                 </p>
                 <p>
-                    <strong>Baseline Requirement:</strong> Stable 40:45 FPS in the base game. At a 2x multiplier, performance doubles to 80:90 FPS, falling into the display VRR working window.
+                    <strong>Baseline Requirement:</strong> Stable 40:45 FPS in the base game. Window capture and LSFG interpolation lower base rasterization by 10:15%, so an initial 40:45 FPS translates into roughly 70:78 displayed frames (effective ~1.7x scaling), falling squarely into the panel VRR range.
                 </p>
                 <div class="table-wrap">
                     <table>
