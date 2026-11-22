@@ -2,6 +2,15 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-22: Responsive Layout Audit and Touch Usability Enhancements
+- **Decision:** Apply comprehensive layout and touch accessibility fixes across all 14 portal HTML files based on subagent audit findings:
+  - Touch targets: expand `.lang-switch .lang-btn` tap target to minimum 38x36 px across all pages to meet mobile and handheld touchscreen accessibility standards.
+  - Header responsiveness: introduce dual-label `.btn-back` (`.btn-back-desktop` and `.btn-back-mobile`) in all 12 guide pages, rendering concise "← Назад" / "← Back" on mobile to eliminate header button multi-line text wrapping on 375 px viewports.
+  - Anchor offset consistency: standardize `scroll-margin-top: 80px` across all content sections and anchor targets (including `#lfc-boundary`), removing 24 px mobile regressions to guarantee sticky header clearance.
+  - Mobile container alignment: harmonize mobile side padding to `0 16px` across `en/index.html` and all 10 guide pages under `@media (max-width: 768px)`.
+  - Table and code formatting: unify `.table-responsive` and `.downloads-table-wrap` styles in `en/index.html` with explicit min-widths and custom scrollbars, and add dedicated monospace `<code>` styling to index pages.
+- **Reason:** Guarantee smooth touchscreen navigation, eliminate layout shifts and header collisions on narrow mobile viewports, and maintain consistent styling standards.
+
 ### 2026-11-22: Expand 16:10 Resolution Spectrum in Game Tuning Guides
 - **Decision:** Replace the binary 1200p vs 800p framing in Section 6 of `guides/game-tuning.html` and `en/guides/game-tuning.html` with the complete 16:10 resolution ladder:
   - Standard Windows modes: 1680x1050 (-23% GPU load) and 1440x900 (-44% GPU load).

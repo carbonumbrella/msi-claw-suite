@@ -99,15 +99,15 @@
             text-transform: uppercase;
         }
 
-        .lang-switch {
+                .lang-switch {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 2px;
             background: #151a24;
             border: 1px solid var(--border-color);
-            padding: 3px 8px;
+            padding: 3px 4px;
             border-radius: 6px;
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             font-weight: 700;
             line-height: 1;
         }
@@ -115,7 +115,9 @@
         .lang-switch .lang-btn {
             color: var(--text-muted);
             text-decoration: none;
-            padding: 4px 7px;
+            min-width: 38px;
+            min-height: 36px;
+            padding: 4px 6px;
             border-radius: 4px;
             transition: all 0.2s ease;
             display: inline-flex;
@@ -134,7 +136,8 @@
 
         .lang-switch .lang-divider {
             color: var(--border-color);
-            font-size: 0.75rem;
+            font-size: 0.8rem;
+            user-select: none;
         }
 
         .nav-links {
@@ -171,6 +174,10 @@
         .btn-back:hover {
             background: #242b3b;
             text-decoration: none;
+        }
+
+        .btn-back .btn-back-mobile {
+            display: none;
         }
 
         .breadcrumbs {
@@ -233,6 +240,7 @@
             color: var(--text-main);
         }
 
+        #lfc-boundary,
         article section {
             scroll-margin-top: 80px;
             margin-bottom: 44px;
@@ -396,6 +404,23 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .btn-back {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+
+            .btn-back .btn-back-desktop {
+                display: none;
+            }
+
+            .btn-back .btn-back-mobile {
+                display: inline;
+            }
+
             .nav-links {
                 display: none;
             }
@@ -437,7 +462,8 @@
                 <li><a href="../index.html#downloads">Downloads</a></li>
             </ul>
             <a href="../index.html" class="btn-back">
-                <span>← Back to Home</span>
+                <span class="btn-back-desktop">← Back to Overview</span>
+                <span class="btn-back-mobile">← Back</span>
             </a>
         </div>
     </header>
