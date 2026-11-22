@@ -71,6 +71,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
             height: 64px;
         }
 
@@ -111,22 +112,39 @@
             text-decoration: none;
         }
 
-        .btn-back {
+                .btn-back {
             white-space: nowrap;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
+            height: 32px;
+            box-sizing: border-box;
             background: #1a202c;
             color: var(--text-main);
-            padding: 6px 12px;
+            padding: 0 12px;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            line-height: 1;
             border: 1px solid var(--border-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
         }
 
         .btn-back:hover {
             background: #242b3b;
+            border-color: var(--accent);
+            color: var(--accent);
             text-decoration: none;
+        }
+
+        .btn-back-arrow {
+            display: inline-block;
+            flex-shrink: 0;
+            width: 13px;
+            height: 13px;
         }
 
         .btn-back .btn-back-mobile {
@@ -354,13 +372,22 @@
         }
 
         @media (max-width: 768px) {
+            .nav-brand {
+                gap: 8px;
+            }
+
+            .logo-badge {
+                display: none;
+            }
+
             .container {
                 padding: 0 16px;
             }
 
             .btn-back {
-                padding: 6px 10px;
-                font-size: 0.8rem;
+                padding: 0 9px;
+                font-size: 0.78rem;
+                height: 32px;
             }
 
             .btn-back .btn-back-desktop {
@@ -390,15 +417,16 @@
             gap: 14px;
         }
 
-                .lang-switch {
+                        .lang-switch {
             display: inline-flex;
             align-items: center;
-            gap: 2px;
+            height: 32px;
+            box-sizing: border-box;
             background: #151a24;
             border: 1px solid var(--border-color);
-            padding: 3px 4px;
+            padding: 2px 3px;
             border-radius: 6px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
             line-height: 1;
         }
@@ -406,9 +434,9 @@
         .lang-switch .lang-btn {
             color: var(--text-muted);
             text-decoration: none;
-            min-width: 38px;
-            min-height: 36px;
-            padding: 4px 6px;
+            height: 26px;
+            box-sizing: border-box;
+            padding: 0 7px;
             border-radius: 4px;
             transition: all 0.2s ease;
             display: inline-flex;
@@ -427,8 +455,9 @@
 
         .lang-switch .lang-divider {
             color: var(--border-color);
-            font-size: 0.8rem;
+            font-size: 0.72rem;
             user-select: none;
+            padding: 0 1px;
         }
     </style>
 </head>
@@ -453,9 +482,10 @@
                 <li><a href="../index.html#optimize">Очистка ОС</a></li>
                 <li><a href="../index.html#downloads">Загрузки</a></li>
             </ul>
-            <a href="../index.html" class="btn-back">
-                <span class="btn-back-desktop">← На главную</span>
-                <span class="btn-back-mobile">← Назад</span>
+            <a href="../index.html" class="btn-back" aria-label="Назад">
+                <svg class="btn-back-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                <span class="btn-back-desktop">На главную</span>
+                <span class="btn-back-mobile">Назад</span>
             </a>
         </div>
     </header>

@@ -2,6 +2,14 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-22: Align Header Controls Geometry and Catalog Third-Party Utilities
+- **Decision:** Perfect header layout geometry and expand the downloads catalog across the portal:
+  - Header controls alignment: strictly lock `.lang-switch` and `.btn-back` outer height to 32px with box-sizing border-box across all 14 files, eliminating visual jumping and height mismatch.
+  - Arrow centering: replace Unicode arrows with crisp 14x14 SVG vector arrows (`.btn-back-arrow`) inside `.btn-back`, achieving pixel-perfect vertical and horizontal alignment across all browsers and display scalings.
+  - Mobile header clearance: hide `.logo-badge` and reduce `.nav-brand` gap to 8px under `@media (max-width: 768px)`, ensuring at least 45px of clear separation between `.lang-switch` and `.btn-back` on compact handheld screens.
+  - Catalog expansion: add ClawTweaks and OptiClick to the downloads catalog (`#downloads`) in `index.html` and `en/index.html` with an amber `.tag-external` badge, official release links, and GitHub repository references.
+- **Reason:** Prevent header control collision on narrow viewports, align control heights flush, and provide direct access to verified third-party utilities.
+
 ### 2026-11-22: Responsive Layout Audit and Touch Usability Enhancements
 - **Decision:** Apply comprehensive layout and touch accessibility fixes across all 14 portal HTML files based on subagent audit findings:
   - Touch targets: expand `.lang-switch .lang-btn` tap target to minimum 38x36 px across all pages to meet mobile and handheld touchscreen accessibility standards.

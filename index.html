@@ -84,12 +84,13 @@
         .lang-switch {
             display: inline-flex;
             align-items: center;
-            gap: 2px;
+            height: 32px;
+            box-sizing: border-box;
             background: #151a24;
             border: 1px solid var(--border-color);
-            padding: 3px 4px;
+            padding: 2px 3px;
             border-radius: 6px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
             line-height: 1;
         }
@@ -97,9 +98,9 @@
         .lang-switch .lang-btn {
             color: var(--text-muted);
             text-decoration: none;
-            min-width: 38px;
-            min-height: 36px;
-            padding: 4px 6px;
+            height: 26px;
+            box-sizing: border-box;
+            padding: 0 7px;
             border-radius: 4px;
             transition: all 0.2s ease;
             display: inline-flex;
@@ -118,8 +119,9 @@
 
         .lang-switch .lang-divider {
             color: var(--border-color);
-            font-size: 0.8rem;
+            font-size: 0.72rem;
             user-select: none;
+            padding: 0 1px;
         }
 
         code {
@@ -797,6 +799,20 @@
             font-size: 0.82rem;
             color: var(--accent-cyan);
             border: 1px solid var(--border-color);
+        }
+
+        .tag-external {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.12);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-left: 6px;
+            vertical-align: middle;
         }
 
         /* Подвал */
@@ -1482,7 +1498,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>Каталог загрузок</h2>
-                <p>Все модули распространяются под открытой лицензией MIT с исходным кодом в репозиториях GitHub.</p>
+                <p>Фирменные модули MSI Claw Suite распространяются под открытой лицензией MIT, сторонние компоненты доступны в официальных репозиториях авторов на GitHub.</p>
             </div>
 
             <div class="swipe-hint">
@@ -1542,6 +1558,20 @@
                             <td><span class="tag-version">v0.9.2</span></td>
                             <td><a href="https://github.com/carbonumbrella/kbdhaptic/releases" target="_blank" class="btn-download-link">Скачать ZIP</a></td>
                             <td><a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank">kbdhaptic</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>ClawTweaks</strong> <span class="tag-external">Стороннее</span></td>
+                            <td>Виджет Xbox Game Bar: управление TDP, кривыми вентиляторов, разрешением и оверлеем</td>
+                            <td><span class="tag-version">GitHub</span></td>
+                            <td><a href="https://github.com/enterTheVoidCode/ClawTweaks/releases" target="_blank" class="btn-download-link">Релизы GitHub ↗</a></td>
+                            <td><a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank">enterTheVoidCode/ClawTweaks ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>OptiClick</strong> <span class="tag-external">Стороннее</span></td>
+                            <td>Автоматическая интеграция OptiScaler, апскейлинга XeSS и генерации кадров в игры</td>
+                            <td><span class="tag-version">GitHub</span></td>
+                            <td><a href="https://github.com/onehoon/OptiClick/releases" target="_blank" class="btn-download-link">Релизы GitHub ↗</a></td>
+                            <td><a href="https://github.com/onehoon/OptiClick" target="_blank">onehoon/OptiClick ↗</a></td>
                         </tr>
                     </tbody>
                 </table>
