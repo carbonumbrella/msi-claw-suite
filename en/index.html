@@ -73,12 +73,14 @@
             justify-content: space-between;
             align-items: center;
             height: 64px;
+            gap: 12px;
         }
 
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
+            flex-shrink: 0;
         }
 
         .logo {
@@ -89,6 +91,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .logo-badge {
@@ -156,15 +160,16 @@
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 14px;
             list-style: none;
             align-items: center;
         }
 
         .nav-links a {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.84rem;
             font-weight: 500;
+            white-space: nowrap;
         }
 
         .nav-links a:hover {
@@ -178,11 +183,13 @@
             gap: 6px;
             background: #202736;
             color: var(--text-main);
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             border: 1px solid var(--border-color);
             white-space: nowrap;
+            flex-shrink: 0;
+            order: 3;
         }
 
         .btn-github:hover {
@@ -544,9 +551,9 @@
 
         .app-card-content {
             display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 28px;
-            align-items: center;
+            grid-template-columns: 380px 1fr;
+            gap: 32px;
+            align-items: start;
         }
 
         .app-img-wrap {
@@ -557,12 +564,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            min-width: 0;
         }
 
         .app-img-wrap img {
             width: 100%;
             height: auto;
             display: block;
+        }
+
+        .app-text {
+            min-width: 0;
+        }
+
+        .app-actions {
+            margin-top: 8px;
         }
 
         .app-text p {
@@ -676,7 +692,7 @@
         /* Calibration Grid */
         .calib-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 16px;
         }
 
@@ -785,6 +801,14 @@
                 gap: 10px;
             }
 
+            .nav-brand {
+                gap: 8px;
+            }
+
+            .logo-badge {
+                display: none;
+            }
+
             .nav-links {
                 display: flex;
                 overflow-x: auto;
@@ -793,7 +817,9 @@
                 gap: 10px;
                 width: 100%;
                 order: 3;
-                padding-bottom: 4px;
+                padding: 6px 0 4px;
+                border-top: 1px solid rgba(36, 43, 59, 0.4);
+                scrollbar-width: none;
             }
 
             .nav-links::-webkit-scrollbar {
@@ -802,7 +828,7 @@
 
             .nav-links a {
                 background: #151a24;
-                padding: 5px 12px;
+                padding: 6px 12px;
                 border-radius: 6px;
                 font-size: 0.82rem;
                 border: 1px solid var(--border-color);
@@ -815,8 +841,10 @@
 
             .btn-github {
                 order: 2;
-                padding: 4px 10px;
+                padding: 0 10px;
                 font-size: 0.78rem;
+                height: 32px;
+                box-sizing: border-box;
             }
 
             .swipe-hint {
@@ -832,7 +860,7 @@
             }
 
             .app-card-content {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
             }
 
             .hero-actions {
@@ -888,6 +916,10 @@
         }
 
         @media (max-width: 480px) {
+            .gh-handle {
+                display: none;
+            }
+
             section[id] {
                 scroll-margin-top: 125px;
             }
@@ -911,7 +943,7 @@
                 </div>
             </div>
             <a href="https://github.com/carbonumbrella" target="_blank" class="btn-github">
-                <span>GitHub @carbonumbrella</span>
+                <span>GitHub <span class="gh-handle">@carbonumbrella</span></span>
             </a>
             <ul class="nav-links">
                 <li><a href="#guides">Knowledge Base</a></li>
@@ -931,9 +963,8 @@
             <span class="badge-pill">Optimization Suite for MSI Claw (Intel Lunar Lake, Meteor Lake)</span>
             <h1>Optimization and Utilities for MSI Claw</h1>
             <p>
-                Guides, Windows 11 tuning scripts, and open-source tools:
-                16:10 resolutions for upscaling, RAM reclamation for GPU,
-                screen Ambilight (~1.5% CPU), and local voice control on Intel NPU.
+                Technical guides, Windows 11 tuning scripts, 16:10 scaling resolutions,
+                RAM reclamation for GPU headroom, and open-source quality-of-life utilities for daily handheld play.
             </p>
 
             <div class="hero-actions">

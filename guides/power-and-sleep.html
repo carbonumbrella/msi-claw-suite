@@ -136,8 +136,8 @@
 
         .btn-back:hover {
             background: #242b3b;
-            border-color: var(--accent);
-            color: var(--accent);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
             text-decoration: none;
         }
 
@@ -241,18 +241,18 @@
             margin: 28px 0 14px;
         }
 
-        p {
+        article p {
             color: var(--text-muted);
             margin-bottom: 16px;
             font-size: 1rem;
         }
 
-        ul, ol {
+        article ul, article ol {
             margin: 0 0 20px 24px;
             color: var(--text-muted);
         }
 
-        li {
+        article li {
             margin-bottom: 8px;
         }
 
@@ -290,8 +290,6 @@
 
         .info-box strong {
             color: var(--accent-blue);
-            display: block;
-            margin-bottom: 6px;
             font-size: 0.95rem;
         }
 
@@ -311,8 +309,6 @@
 
         .warning-box strong {
             color: var(--accent-red);
-            display: block;
-            margin-bottom: 6px;
             font-size: 0.95rem;
         }
 
@@ -332,8 +328,6 @@
 
         .success-box strong {
             color: var(--accent-green);
-            display: block;
-            margin-bottom: 6px;
             font-size: 0.95rem;
         }
 
@@ -435,9 +429,57 @@
             flex-wrap: wrap;
             gap: 16px;
         }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+                        .lang-switch {
+            display: inline-flex;
+            align-items: center;
+            height: 32px;
+            box-sizing: border-box;
+            background: #151a24;
+            border: 1px solid var(--border-color);
+            padding: 2px 3px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .lang-switch .lang-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            height: 26px;
+            box-sizing: border-box;
+            padding: 0 7px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lang-switch .lang-btn:hover {
+            color: var(--text-main);
+        }
+
+        .lang-switch .lang-btn.active {
+            background: rgba(0, 210, 255, 0.15);
+            color: var(--accent-cyan);
+        }
+
+        .lang-switch .lang-divider {
+            color: var(--border-color);
+            font-size: 0.72rem;
+            user-select: none;
+            padding: 0 1px;
+        }
 
         @media (max-width: 768px) {
-            .nav-brand {
+        .nav-brand {
                 gap: 8px;
             }
 
@@ -493,55 +535,6 @@
                 grid-template-columns: 1fr;
             }
         }
-    
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-                        .lang-switch {
-            display: inline-flex;
-            align-items: center;
-            height: 32px;
-            box-sizing: border-box;
-            background: #151a24;
-            border: 1px solid var(--border-color);
-            padding: 2px 3px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            line-height: 1;
-        }
-
-        .lang-switch .lang-btn {
-            color: var(--text-muted);
-            text-decoration: none;
-            height: 26px;
-            box-sizing: border-box;
-            padding: 0 7px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .lang-switch .lang-btn:hover {
-            color: var(--text-main);
-        }
-
-        .lang-switch .lang-btn.active {
-            background: rgba(0, 210, 255, 0.15);
-            color: var(--accent-cyan);
-        }
-
-        .lang-switch .lang-divider {
-            color: var(--border-color);
-            font-size: 0.72rem;
-            user-select: none;
-            padding: 0 1px;
-        }
     </style>
 </head>
 <body>
@@ -561,8 +554,9 @@
                 </div>
             </div>
             <ul class="nav-links">
-                <li><a href="../index.html#resolutions">Разрешения</a></li>
-                <li><a href="../index.html#optimize">Оптимизация</a></li>
+                <li><a href="../index.html#guides">Все статьи</a></li>
+                <li><a href="../index.html#resolutions">Разрешения 16:10</a></li>
+                <li><a href="../index.html#optimize">Очистка ОС</a></li>
                 <li><a href="../index.html#downloads">Загрузки</a></li>
             </ul>
             <a href="../index.html" class="btn-back" aria-label="Назад">

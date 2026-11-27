@@ -135,8 +135,8 @@
 
         .btn-back:hover {
             background: #242b3b;
-            border-color: var(--accent);
-            color: var(--accent);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
             text-decoration: none;
         }
 
@@ -242,17 +242,17 @@
             color: var(--text-main);
         }
 
-        p {
+        article p {
             margin-bottom: 14px;
             color: #cbd5e1;
         }
 
-        ul, ol {
+        article ul, article ol {
             margin: 12px 0 16px 24px;
             color: #cbd5e1;
         }
 
-        li {
+        article li {
             margin-bottom: 8px;
         }
 
@@ -384,51 +384,6 @@
             scroll-margin-top: 80px;
             margin-bottom: 44px;
         }
-
-        @media (max-width: 768px) {
-            .nav-brand {
-                gap: 8px;
-            }
-
-            .logo-badge {
-                display: none;
-            }
-
-            .container {
-                padding: 0 16px;
-            }
-
-            .btn-back {
-                padding: 0 9px;
-                font-size: 0.78rem;
-                height: 32px;
-            }
-
-            .btn-back .btn-back-desktop {
-                display: none;
-            }
-
-            .btn-back .btn-back-mobile {
-                display: inline;
-            }
-
-            .guide-header h1 {
-                font-size: 1.65rem;
-            }
-
-            .guide-toc ul {
-                grid-template-columns: 1fr;
-            }
-
-            .guide-nav-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-links {
-                display: none;
-            }
-        }
-
         .nav-brand {
             display: flex;
             align-items: center;
@@ -476,6 +431,50 @@
             font-size: 0.72rem;
             user-select: none;
             padding: 0 1px;
+        }
+
+        @media (max-width: 768px) {
+        .nav-brand {
+                gap: 8px;
+            }
+
+            .logo-badge {
+                display: none;
+            }
+
+            .container {
+                padding: 0 16px;
+            }
+
+            .btn-back {
+                padding: 0 9px;
+                font-size: 0.78rem;
+                height: 32px;
+            }
+
+            .btn-back .btn-back-desktop {
+                display: none;
+            }
+
+            .btn-back .btn-back-mobile {
+                display: inline;
+            }
+
+            .guide-header h1 {
+                font-size: 1.65rem;
+            }
+
+            .guide-toc ul {
+                grid-template-columns: 1fr;
+            }
+
+            .guide-nav-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
         }
     </style>
 </head>

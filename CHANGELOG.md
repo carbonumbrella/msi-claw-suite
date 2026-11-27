@@ -2,6 +2,12 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-27: Fix Responsive Header, List Flex Overflow, and Guide CSS Cascade Across All 14 Pages
+- **Decision:** Resolved all desktop and mobile layout regressions discovered during dual-viewport review (`1440x900`, `1280x800`, `375x812`, `390x844`, `480x800`, `768x1024`) and generalized the homepage hero lead copy:
+  - Homepage (`index.html`, `en/index.html`): replaced `display: flex` on `.app-features li` and `.res-bullets li` with `position: relative; padding-left` so inline `<code>` elements wrap normally (fixing `546px` mobile overflow); added `minmax(0, 1fr)` on mobile `.app-card-content` and `min-width: 0` on `.app-img-wrap` / `.app-text`; prevented desktop 7-link navbar wrapping via `white-space: nowrap` and compact spacing; compacted mobile header (hiding `.logo-badge` at `<=820px` and `.gh-handle` at `<=480px`); synced `.app-actions`, `.app-card-content` (`380px 1fr`), and `.calib-grid` in `en/index.html`; generalized hero `<p>` to describe quality-of-life utilities without CPU numbers or specific app names.
+  - Guides (all 12 RU/EN pages): moved trailing `.nav-brand` / `.lang-switch` rules before `@media (max-width: 768px)` so `gap: 8px` applies cleanly on mobile and desktop `.nav-links` remain visible; scoped `p`, `ul, ol`, and `li` rules to `article` so `.nav-links`, `.guide-toc ul`, and `<footer>` align cleanly; removed `display: block` from `.info-box strong` / `.warning-box strong` / `.success-box strong` to keep inline bold copy unbroken; added `.note-box` CSS in the 4 guides using it and standardized `.branch-card` to `.info-box` in `guides/setup-guide.html`; fixed undefined `var(--accent)` to `var(--accent-cyan)` on `.btn-back:hover`; unified `.nav-links` items per language; wrapped the long `Set-CimInstance` command in `memory-and-stability.html`.
+- **Reason:** Eliminate layout breakage introduced while tightening prose and align desktop/mobile responsive behavior identically across all 14 portal pages.
+
 ### 2026-11-27: Apply Audited Factual Corrections and Tighten Portal Copy Across All 14 Pages
 - **Decision:** Reconciled every factual discrepancy found during the portal audit against Intel/Notebookcheck docs, local machine state, and source repositories, and compressed prose across both index pages and all 12 RU/EN guides without removing technical parameters:
   - Corrected Lunar Lake Intel XeSS execution path (`Intel XMX` matrix engines with `DP4a` fallback only for non-XMX GPUs).

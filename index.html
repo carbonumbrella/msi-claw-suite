@@ -73,12 +73,14 @@
             justify-content: space-between;
             align-items: center;
             height: 64px;
+            gap: 12px;
         }
 
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
+            flex-shrink: 0;
         }
 
         .lang-switch {
@@ -142,6 +144,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .logo-badge {
@@ -156,15 +160,16 @@
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 14px;
             list-style: none;
             align-items: center;
         }
 
         .nav-links a {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.84rem;
             font-weight: 500;
+            white-space: nowrap;
         }
 
         .nav-links a:hover {
@@ -178,11 +183,13 @@
             gap: 6px;
             background: #202736;
             color: var(--text-main);
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             border: 1px solid var(--border-color);
             white-space: nowrap;
+            flex-shrink: 0;
+            order: 3;
         }
 
         .btn-github:hover {
@@ -505,15 +512,16 @@
             font-size: 0.88rem;
             color: var(--text-muted);
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            position: relative;
+            padding-left: 16px;
         }
 
         .res-bullets li::before {
             content: "•";
             color: var(--accent-cyan);
             font-weight: bold;
+            position: absolute;
+            left: 0;
         }
 
         /* Оптимизация системы */
@@ -619,14 +627,22 @@
 
         .app-img-wrap {
             text-align: center;
+            min-width: 0;
+            overflow: hidden;
         }
 
         .app-img-wrap img {
+            width: 100%;
             max-width: 100%;
             height: auto;
+            display: block;
             border-radius: 8px;
             border: 1px solid var(--border-color);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .app-text {
+            min-width: 0;
         }
 
         .app-text p {
@@ -645,15 +661,16 @@
             font-size: 0.88rem;
             color: var(--text-muted);
             margin-bottom: 8px;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
+            position: relative;
+            padding-left: 18px;
         }
 
         .app-features li::before {
             content: "✓";
             color: var(--accent-green);
             font-weight: bold;
+            position: absolute;
+            left: 0;
         }
 
         .app-actions {
@@ -836,9 +853,25 @@
         @media (max-width: 820px) {
             .nav-container {
                 height: auto;
-                padding: 10px 0 8px;
+                padding: 10px 16px 8px;
                 flex-wrap: wrap;
                 gap: 10px;
+            }
+
+            .nav-brand {
+                gap: 8px;
+            }
+
+            .logo-badge {
+                display: none;
+            }
+
+            .btn-github {
+                order: 2;
+                padding: 0 10px;
+                font-size: 0.78rem;
+                height: 32px;
+                box-sizing: border-box;
             }
 
             .nav-links {
@@ -848,6 +881,7 @@
                 white-space: nowrap;
                 gap: 10px;
                 width: 100%;
+                order: 3;
                 padding: 6px 0 4px;
                 border-top: 1px solid rgba(36, 43, 59, 0.4);
                 scrollbar-width: none;
@@ -859,14 +893,15 @@
 
             .nav-links a {
                 background: #151a24;
-                padding: 5px 12px;
+                padding: 6px 12px;
                 border-radius: 6px;
                 font-size: 0.82rem;
                 border: 1px solid var(--border-color);
+                display: inline-block;
             }
 
             .app-card-content {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
                 gap: 16px;
             }
 
@@ -889,6 +924,10 @@
         }
 
         @media (max-width: 480px) {
+            .gh-handle {
+                display: none;
+            }
+
             section[id] {
                 scroll-margin-top: 125px;
             }
@@ -974,7 +1013,7 @@
                 </div>
             </div>
             <a href="https://github.com/carbonumbrella" target="_blank" class="btn-github">
-                <span>GitHub @carbonumbrella</span>
+                <span>GitHub <span class="gh-handle">@carbonumbrella</span></span>
             </a>
             <ul class="nav-links">
                 <li><a href="#guides">База знаний</a></li>
@@ -994,9 +1033,8 @@
             <span class="badge-pill">Комплект оптимизаций для MSI Claw (Intel Lunar Lake, Meteor Lake)</span>
             <h1>Оптимизация и утилиты для MSI Claw</h1>
             <p>
-                Руководства, скрипты настройки Windows 11 и открытые утилиты:
-                разрешения 16:10 для апскейлинга, освобождение RAM под GPU,
-                подсветка стиков Ambilight (~1.5% CPU) и локальный голосовой ассистент на Intel NPU.
+                Руководства, скрипты тонкой настройки Windows 11, разрешения 16:10 для апскейлинга,
+                освобождение RAM под GPU и набор открытых утилит для повседневного комфорта на портативной консоли.
             </p>
 
             <div class="hero-actions">
