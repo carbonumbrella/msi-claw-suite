@@ -1,15 +1,22 @@
 # Project Memory & Context Facts: MSI Claw 8 AI+ & Portal Ecosystem
 
-This document compiles verified empirical facts, hardware architectures, software implementations, user corrections, and project constraints established across the project. It avoids speculative deductions and unverified assumptions.
+This document compiles verified empirical facts, hardware architectures, software implementations, user measurements, external specifications, and project constraints established across the project.
 
 ---
 
 ## 1. Hardware Architecture & System Constraints (MSI Claw 8 AI+)
 
-- **Device Model**: MSI Claw 8 AI+ (Model A2VM), Lunar Lake architecture, Intel Core Ultra 7 258V processor (8C/8T), 32GB LPDDR5x 8533 MT/s unified memory, Intel Arc 140V integrated GPU (Xe2).
+- **Device Model**: MSI Claw 8 AI+ (Model A2VM), Lunar Lake architecture, Intel Core Ultra 7 258V processor (8C/8T), 32GB LPDDR5x 8533 MT/s unified memory, Intel Arc 140V integrated GPU (Xe2, 8 Xe-cores, official max dynamic GPU clock `1950 MHz`).
+  - Reference sibling model: MSI Claw A1M (Core Ultra 7 155H, Meteor Lake) official max dynamic GPU clock is `2250 MHz`.
+- **GPU Matrix Architecture (XeSS)**:
+  - Lunar Lake Arc 140V (Xe2) includes dedicated hardware **Intel XMX** matrix engines. Intel **XeSS runs natively on XMX** on this chip (`DP4a` is only a fallback path on GPUs lacking XMX).
+- **Shared GPU Memory Override**:
+  - Out of the box in Intel Graphics Software on 32 GB Lunar Lake, the default `Shared GPU Memory Override` is **57%** (~18.2 GB, vs Windows WDDM default 50% / 16 GB; Intel notes a known issue when setting below 50%).
+  - On the local reference Claw 8 AI+ (driver `32.0.101.9175`), `HardwareInformation.qwMemorySize` is manually raised to 28.0 GB (`30064771072` bytes).
 - **Display Subsystem**:
   - Panel Model: CSW PN8007QB1-2, 8.0-inch IPS, native resolution 1920x1200 pixels (16:10 aspect ratio), native 120 Hz refresh rate, eDP internal connection.
   - DisplayID 2.0 Descriptor: Timing controller (TCON) exposes hardware adaptive sync range of 48..120 Hz (exposed through `ControlLib.dll` monitor info as `48.0..120.0 Hz`, mapped to `MonMinHz`/`MonMaxHz` in `ArcSyncEngine.cs`).
+  - Color calibration: Notebookcheck laboratory review measured a cool out-of-the-box white point of **7,852 K** (the portal notes ~7200K) and published `PN8007QB1_2_cal.icm` targeting 6500K sRGB. On the local system, the Windows `Calibration Loader` scheduled task is `Ready` and loads the ICC `vcgt` LUT at logon.
 - **Sleep & Power Constraints**:
   - Windows S0 Modern Standby is intentionally disabled and replaced with S4 hibernation in OS optimization (`Optimize-Handheld`).
   - When `can_sleep()` returns false, `gemma_agent.py` routes voice sleep requests to hibernation (`shutdown.exe /h`).
@@ -38,6 +45,7 @@ Intel graphics driver manages Variable Refresh Rate (VRR / Intel Arc Sync) throu
 - In 2D Windows desktop mode, Advanced Display Settings reports `60..120 Hz`. This is governed by Windows Dynamic Refresh Rate (DRR) and panel flicker prevention on static content.
 - When launching a 3D application in fullscreen, the stock Intel driver switches to profile `COMPATIBLE` (`60..120 Hz`).
 - **Correction of prior inaccuracy**: The stock driver **does not** automatically lift the 60 Hz limit to 48 Hz in games. The active floor remains 60 Hz in stock. Unlocking the true hardware `48..120 Hz` range requires switching the driver profile to `EXCELLENT` via `ArcSyncSwitch`.
+- **Upper VRR Ceiling (Blur Busters G-SYNC 101)**: On 120 Hz VRR displays, capping at `116` or `117 FPS` (~0.3 ms below 120.0 Hz) keeps VRR engaged and prevents V-Sync buffer latency spikes at the ceiling.
 
 ### 2.3 Low Framerate Compensation (LFC)
 - LFC is controlled via private driver escape commands through the Windows Graphics Kernel Subsystem (`D3DKMTEscape`).
@@ -65,70 +73,73 @@ Intel graphics driver manages Variable Refresh Rate (VRR / Intel Arc Sync) throu
 
 ---
 
-## 3. Web Portal `msi-claw-suite` Structure & Standards
+## 3. Game Tuning, User Benchmarks & Handheld Software
+
+### 3.1 User-Verified Frame Generation & Latency Measurements
+- **OptiScaler (`XeSS` vs `FSR 4 XMX`)**: Measured on Lunar Lake: native XeSS takes ~2+ ms per frame vs ~5+ ms for FSR 4 XMX.
+- **Frame Generation Overhead**:
+  - Native XeFG incurs ~5:10% base render cost (~1.75x:1.80x effective multiplier; 45 baseline FPS -> ~78:82 displayed FPS).
+  - External Lossless Scaling (`LSFG`) incurs ~10:15% base render cost (~1.7x effective multiplier; 40:45 baseline FPS -> ~70:78 displayed FPS).
+- **Low Latency Mode**: `On + Boost` can cause micro-stutters on battery at low TDP (15:17 W); `On` is preferred on battery.
+- **CPU-Bound Engines**: User verified Ubisoft Anvil titles require CPU boost enabled and higher PL2 headroom.
+- **Intel Endurance Gaming (Official Spec)**: Active when unplugged; presets `Performance` (60 FPS cap), `Balanced` (40 FPS cap), `Battery Saver` (30 FPS cap).
+
+### 3.2 ClawTweaks (`v1.0.7.42`) & MSI Center M Verified Details
+- **ClawTweaks Capabilities (Verified in Binaries/UI)**:
+  - `Extended range (>75%)` (`MsiFan_Extended`) removes the 75% MSI ceiling (`MSI max 75%`) and `Apply fan curve` writes custom curves. Local `settings.json` records `MsiFan_FactoryDuty6 = "0,40,58,70,85,110"` and 75%-capped `MsiFan_Curve3 = "1|0,40,58,70,75,75|0,40,58,70,75,75"`.
+  - Built-in `A2vmPl1MinusOneToggle` (`PL2 = PL1 + 1W`), `MsiCenterManager` (plus standalone `MsiCenterToggle` utility in ecosystem), virtual controller targets (`Xbox 360`, `DualShock4`, `DualSense`, `Steam Deck`), `Gyro-to-Stick`, and `Battery Charge Limit` (`MsiChargeLimit_Pct`).
+  - LED modes in ClawTweaks (`MsiLedModeCombo`): `Static`, `Breathing`, `Color Cycle`, `Wave`, `Battery`, `Rainbow`. ClawTweaks does **not** include screen-reactive Ambilight (`ClawAmbilight` is a separate utility).
+- **MSI Center M Verified Behavior**:
+  - On the local machine, `MSI_Center_M_Server` and `MSI_Center_M_Updater` tasks are `Disabled` (as required when ClawTweaks manages hardware).
+  - Historical `MSI Center M` OSD debug logs (`C:\Program Files (x86)\MSI\MSI_Center_M\OSD\intelGEDll_debug_20261014..17.txt`) measured `10.2 MB` to `17.9 MB` per daily log (12.7 MB, 17.9 MB, 10.2 MB, 4.7 MB).
+
+---
+
+## 4. Web Portal `msi-claw-suite` Structure & Standards
 
 - **Project Location**: `C:\ClaudeCode\msi-claw-suite`.
 - **Git Repository**: Remote `origin/main` on GitHub (`carbonumbrella/msi-claw-suite`), branch `main`.
 - **Structure (14 HTML Pages)**:
   - Root: `index.html` (Russian portal homepage)
   - English Root: `en/index.html` (English portal homepage)
-  - Russian Guides:
-    - `guides/setup-guide.html`: Step-by-step clean installation and driver sequence.
-    - `guides/power-and-sleep.html`: Hibernation, TDP balancing (PL1/PL2), fan curves, power bank specs.
-    - `guides/game-tuning.html`: FPS capping strategy, XeSS/FSR upscaling, OptiClick/LSFG frame generation.
-    - `guides/memory-and-stability.html`: Pagefile allocation, Shared VRAM (16 GB), memory integrity.
-    - `guides/software-choice.html`: Ecosystem comparison (ClawTweaks vs MSI Center M), Handheld Companion.
-    - `guides/vrr-display.html`: CSW PN8007QB1-2 panel analysis, DisplayID 2.0, VRR ranges, LFC physics, color calibration.
-  - English Guides:
-    - `en/guides/setup-guide.html`
-    - `en/guides/power-and-sleep.html`
-    - `en/guides/game-tuning.html`
-    - `en/guides/memory-and-stability.html`
-    - `en/guides/software-choice.html`
-    - `en/guides/vrr-display.html`
-  - Note: `msi-claw-suite/AGENTS.md` is slightly outdated and lists 5 guides (omitting `game-tuning.html`).
+  - Russian Guides: `guides/setup-guide.html`, `guides/power-and-sleep.html`, `guides/game-tuning.html`, `guides/memory-and-stability.html`, `guides/software-choice.html`, `guides/vrr-display.html`.
+  - English Guides: mirrored under `en/guides/`.
+  - Verified local OS build: Windows 11 Home SL build `26300` (25H2 branch).
 
-### 3.1 Portal Design & Quality Checklist
-- **Strict Prohibition on Dashes**:
-  - Never use em dash or en dash anywhere in user-facing content, UI copy, or chat responses. Use colons, commas, dots, or parentheses.
-- **Navigation Controls Sizing**:
-  - Back button (`.btn-back`) and language switcher (`.lang-switch`) in guide headers must have identical height: `32px` (`height: 32px; box-sizing: border-box;`).
-  - Back button contains an inline SVG arrow (`<svg class="btn-back-arrow" width="14" height="14" ...>` styled to `13px`), vertically and horizontally centered with flexbox.
-  - Responsive behavior: Under `@media (max-width: 768px)`, `.btn-back-desktop` ("На главную" / "Back Home") is hidden and `.btn-back-mobile` ("Назад" / "Back") is shown, preventing overlap with the language switch.
+### 4.1 Portal Design & Quality Checklist
+- **Strict Prohibition on Dashes**: Never use em dash or en dash anywhere in user-facing content, UI copy, or chat responses.
+- **Navigation Controls Sizing**: `.btn-back` and `.lang-switch` locked to `32px` height; `@media (max-width: 768px)` switches `.btn-back-desktop` to `.btn-back-mobile`.
 - **Suite Software Catalog (Actual Repo Versions vs Portal Table)**:
   - `SaySo`: Repo/installer `v0.3.17` (portal `#downloads` currently lists `v0.3.7`). Supports RU / EN / Auto speech recognition and commands; WPF Settings UI (`SettingsWindow.xaml`) is currently Russian-only.
   - `ClawAmbilight`: Repo/installer `v0.9.9` (portal `#downloads` currently lists `v0.9.8`). Bilingual UI (RU / EN) with OS language auto-detection.
   - `kbdhaptic`: Repo release `v0.9.3` (portal `#downloads` currently lists `v0.9.2`). Bilingual UI (RU / EN) with OS language auto-detection.
   - `ArcSyncSwitch`: Repo/installer & portal `v1.0.0`. Bilingual UI (RU / EN) with OS language auto-detection.
-  - `Optimize-Handheld`: `v1.2.0`; `MSI Claw Resolution Pack`: `v1.0.0`; ICC color profile: `CSW0801` (`PN8007QB1_2_cal.icm`).
-  - Third-party utilities cataloged in Downloads: `ClawTweaks` and `OptiClick` (both explicitly badged as "Стороннее" / "Third-party").
-- **Asset Links**:
-  - `assets/img/arcsync-preview.png` (copied from ArcSyncSwitch docs preview).
+  - `Optimize-Handheld`: `v1.2.0`; `MSI Claw Resolution Pack`: `v1.0.0`; ICC profile: `CSW0801` (`PN8007QB1_2_cal.icm`).
+  - Third-party utilities cataloged in Downloads: `ClawTweaks` and `OptiClick`.
 
 ---
 
-## 4. Custom Resolutions & Display Scaling
+## 5. Custom Resolutions & Display Scaling
 
 - **Native Resolution**: `1920x1200` (16:10).
 - **Custom 16:10 Modes** (written as Windows Registry `EDID_OVERRIDE` descriptors without modifying hardware EEPROM or DisplayID 2.0 TCON blocks):
   - `1600x1000` (scale factor 1.20x, -30.5% exact / -31% rounded GPU raster load vs 1200p).
   - `1536x960` (scale factor 1.25x / 80%, -36% GPU raster load vs 1200p).
   - Standard Windows 16:10 resolutions: `1680x1050` (-23% GPU load), `1440x900` (-44% GPU load), `1280x800` (-56% GPU load).
-- **Intel Graphics Command Center / ClawTweaks Scaling**:
-  - Configured to `GPU Scaling` and `Preserve Aspect Ratio` (`Сохранять пропорции`) to prevent stretching.
+- **Intel Graphics Command Center / ClawTweaks Scaling**: `GPU Scaling` and `Preserve Aspect Ratio`.
 
 ---
 
-## 5. Local Voice Stack (`SaySo` / `C:\AI\openvino-npu`)
+## 6. Local Voice Stack (`SaySo` / `C:\AI\openvino-npu`)
 
-- **ASR Model**: Active model on Claw NPU is OpenVINO `whisper-large-v3-turbo-fp16-ov` (`stt_state.json`; `turbo int8` triggers `ZE_RESULT_ERROR_DEVICE_LOST` on Lunar Lake NPU). `whisper-small-int8-ov` remains available as a lightweight fallback.
+- **ASR Catalog & Default**: `WHISPER` catalog in `voice_settings.py` defines `small` (`OpenVINO/whisper-small-int8-ov`, 244 MB, NPU/GPU/CPU), `turbo` (`OpenVINO/whisper-large-v3-turbo-int8-ov`, 789 MB, GPU/CPU), and `turbo-npu` (`OpenVINO/whisper-large-v3-turbo-fp16-ov`, 1552 MB, NPU). Under `stt_model: "auto"`, **`small` (`whisper-small-int8-ov`) is the default on NPU and CPU** (while `turbo` is default on GPU). On the local Claw (`stt_state.json`), `whisper-large-v3-turbo-fp16-ov` is currently active on NPU (`turbo int8` fails with `ZE_RESULT_ERROR_DEVICE_LOST` on Lunar Lake NPU).
 - **Tray Supervisor & Dictation Daemon**: Managed by `SaySo.exe` tray app (`C:\ClaudeCode\SaySo`); elevated task `SaySoHotkeys` forwards hotkey events over UDP `47321` to `C:\AI\openvino-npu\dictate.py` (`Win+Ctrl+Alt+W` dictation, `Win+Ctrl+Shift+G` assistant, plus one-button mode). `dictate.py` hot-reloads `gemma_agent.py` via `importlib.reload`.
 - **LLM Server**: OpenVINO `OpenVINO/gemma-3-4b-it-int4-cw-ov` (`npu_server.py`, port `8081`), **unloaded by default** (`gemma_state.txt = off`) and started on demand. Optional cloud provider (`gemini-3.5-flash-lite`) is also supported.
 - **Voice Agent**: `C:\AI\openvino-npu\gemma_agent.py` uses deterministic Python `fast_route()` for most commands and a 32-line `SYSTEM` prompt (~845 tokens measured with schema/examples, 11 built-in tools plus dynamic plugin/user tools). Notifications display via custom WPF `OverlayWindow` (UDP `47330`, toast fallback); TTS supports Windows system voices (Irina) and optional Silero TTS.
 
 ---
 
-## 6. Verification Scripts & Tools
+## 7. Verification Scripts & Tools
 
 - Location: `c:\ClaudeCode\WinMCPHuawei\BootCD\scratch/`.
 - `verify_all.py`: Validates zero em/en dashes, valid internal `#anchor` targets, and valid relative file links across all 14 HTML files.
@@ -137,23 +148,23 @@ Intel graphics driver manages Variable Refresh Rate (VRR / Intel Arc Sync) throu
 
 ---
 
-## 7. Current In-Progress Task: VRR Display Guide Surgical Correction
+## 8. Pending Tasks / Confirmed Website Fixes Needed
 
-### Objective
-Correct the inaccurate statement in `guides/vrr-display.html` and `en/guides/vrr-display.html` regarding automatic 60 Hz limit removal in games.
-
-### Affected Files and Lines
-1. `guides/vrr-display.html` (lines 680-683, Section 2, sub-item "Автоматический переход в играх", plus table cell at line 646):
-   - Current text (lines 680-683):
-     "При запуске трехмерной игры в полноэкранном режиме графический драйвер переключается в специализированный игровой профиль. Ограничение 60 Гц мгновенно снимается, открывая полный диапазон 48-120 Гц и подключая алгоритм компенсации низкой частоты кадров (LFC)."
-   - Target replacement:
-     Clarify that upon launching a 3D title, the stock Intel driver switches to profile COMPATIBLE (clamped to 60..120 Hz). The 60 Hz limit is not automatically removed on its own. To lift the 60 Hz clamp and unlock the true hardware 48..120 Hz range, the user must switch the driver into profile EXCELLENT via ArcSyncSwitch.
-2. `en/guides/vrr-display.html` (lines 603-606, Section 2, sub-item "Automatic Gaming Transition", plus table cell at line 569):
-   - Current text (lines 603-606):
-     "Launching a 3D title in exclusive or borderless fullscreen switches the driver into its gaming profile. The 60 Hz floor lifts, opening the full 48-120 Hz hardware window and engaging Low Framerate Compensation (LFC)."
-   - Target replacement:
-     Mirror the Russian clarification in English: in stock, the driver remains in COMPATIBLE mode (60..120 Hz). Opening the full 48..120 Hz window requires switching to EXCELLENT via ArcSyncSwitch.
-
-### Verification Requirements
-- Execute `python c:\ClaudeCode\WinMCPHuawei\BootCD\scratch\verify_all.py` to ensure zero em/en dashes and 100% link resolution.
-- Commit to `msi-claw-suite` and push immediately to `origin/main`.
+1. **VRR Display Guide (`guides/vrr-display.html`, `en/guides/vrr-display.html`)**:
+   - Fix Section 2 table (RU L646, EN L569) and "Автоматический переход в играх" / "Automatic Gaming Transition" (RU L680-683, EN L603-606): stock driver runs `COMPATIBLE` (`60..120 Hz`); `48..120 Hz` requires switching to `EXCELLENT` via `ArcSyncSwitch`.
+   - Prune unverified `56..62 FPS` / lack of hysteresis LFC oscillation claim in `#lfc-boundary` (RU L729, EN L651) and `guides/game-tuning.html` Section 5 (RU/EN L647).
+   - Clarify `Calibration Loader` scheduled task applies the ICC LUT at logon (vs saying no loader is involved).
+2. **Game Tuning Guide (`guides/game-tuning.html`, `en/guides/game-tuning.html`)**:
+   - Fix XeSS on Lunar Lake description (L545): Arc 140V runs XeSS natively on **Intel XMX** matrix cores, not `DP4a` fallback.
+3. **Memory Guide (`guides/memory-and-stability.html`, `en/guides/memory-and-stability.html`)**:
+   - Fix audio services section (RU L714-717, EN L680-683): `Optimize-Handheld` disables optional **DTS (`DtsApo4Service`) and MSI intelliGo (`IgoAudioService`)** (~90 MB), not `Nahimic` / `Realtek Audio Effects` (250 MB).
+   - Add `Fast Boot` off caveat to `RB + RT` BIOS combo.
+4. **Software Choice Guide (`guides/software-choice.html`, `en/guides/software-choice.html`)**:
+   - Remove erroneous attribution of screen-reactive Ambilight to `ClawTweaks` (L670; `ClawAmbilight` provides screen Ambilight).
+5. **Index Pages (`index.html`, `en/index.html`)**:
+   - Update catalog versions to actual releases (`SaySo v0.3.17`, `ClawAmbilight v0.9.9`, `kbdhaptic v0.9.3`).
+   - Clarify `SaySo` UI localization status (RU/EN speech & commands; Settings UI currently Russian).
+   - Resolve `ClawAmbilight` CPU load discrepancy (comparison table "zero CPU" vs card "~1.5% of one core"; live in-game check pending).
+   - Align `1600x1000` load reduction percentage (`30.5%` vs `31%` in `game-tuning.html`).
+6. **Fan Curve / White Point Details (`setup-guide.html`, `power-and-sleep.html`, `vrr-display.html`)**:
+   - Reconcile `MsiFan_FactoryDuty6` (`0,40,58,70,85,110`) vs website's `67% / 75%` -> `85% / 120%`, and `7,852 K` Notebookcheck factory CCT measurement vs `~7200K`.
