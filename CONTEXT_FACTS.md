@@ -85,6 +85,11 @@ Intel graphics driver manages Variable Refresh Rate (VRR / Intel Arc Sync) throu
 - **Intel Endurance Gaming (Official Spec)**: Active when unplugged; presets `Performance` (60 FPS cap), `Balanced` (40 FPS cap), `Battery Saver` (30 FPS cap).
 
 ### 3.2 ClawTweaks (`v1.0.7.42`) & MSI Center M Verified Details
+- **MSI Center M Factory Fan Curves (Verified in Registry `HKLM:\SOFTWARE\WOW6432Node\MSI\MSI Center M\Component\User Scenario`)**:
+  - `Default_Temp`: `0;50;60;70;80;88` (6 temperature points per fan).
+  - `Default_Fan`: `0;40;49;58;67;75` (confirming stock 80°C = `67%` and 88°C = `75%`).
+  - `High_Fan`: `0;40;58;70;85;110`.
+  - `ECversion`: `1T52EMS1.109...` (`1T52` = Claw 8 AI+ A2VM).
 - **ClawTweaks Capabilities (Verified in Binaries/UI)**:
   - `Extended range (>75%)` (`MsiFan_Extended`) removes the 75% MSI ceiling (`MSI max 75%`) and `Apply fan curve` writes custom curves. Local `settings.json` records `MsiFan_FactoryDuty6 = "0,40,58,70,85,110"` and 75%-capped `MsiFan_Curve3 = "1|0,40,58,70,75,75|0,40,58,70,75,75"`.
   - Built-in `A2vmPl1MinusOneToggle` (`PL2 = PL1 + 1W`), `MsiCenterManager` (plus standalone `MsiCenterToggle` utility in ecosystem), virtual controller targets (`Xbox 360`, `DualShock4`, `DualSense`, `Steam Deck`), `Gyro-to-Stick`, and `Battery Charge Limit` (`MsiChargeLimit_Pct`).
@@ -110,8 +115,8 @@ Intel graphics driver manages Variable Refresh Rate (VRR / Intel Arc Sync) throu
 - **Strict Prohibition on Dashes**: Never use em dash or en dash anywhere in user-facing content, UI copy, or chat responses.
 - **Navigation Controls Sizing**: `.btn-back` and `.lang-switch` locked to `32px` height; `@media (max-width: 768px)` switches `.btn-back-desktop` to `.btn-back-mobile`.
 - **Suite Software Catalog (Actual Repo Versions vs Portal Table)**:
-  - `SaySo`: Repo/installer `v0.3.17` (portal `#downloads` currently lists `v0.3.7`). Supports RU / EN / Auto speech recognition and commands; WPF Settings UI (`SettingsWindow.xaml`) is currently Russian-only.
-  - `ClawAmbilight`: Repo/installer `v0.9.9` (portal `#downloads` currently lists `v0.9.8`). Bilingual UI (RU / EN) with OS language auto-detection.
+  - `SaySo`: Repo/installer `v0.3.17` (portal `#downloads` currently lists `v0.3.7`). Full bilingual UI (RU / EN) with OS auto-detection implemented in `C:\ClaudeCode\SaySo-Dev` (`src/Lang.cs`, UI, wizard, tray, overlay, installer; `C:\ClaudeCode\SaySo` mirrors pre-l10n snapshot).
+  - `ClawAmbilight`: Repo/installer `v0.9.9` (portal `#downloads` currently lists `v0.9.8`). Bilingual UI (RU / EN) with OS language auto-detection; CPU usage documented uniformly as `~1.5%` of one CPU core (until live in-game verification).
   - `kbdhaptic`: Repo release `v0.9.3` (portal `#downloads` currently lists `v0.9.2`). Bilingual UI (RU / EN) with OS language auto-detection.
   - `ArcSyncSwitch`: Repo/installer & portal `v1.0.0`. Bilingual UI (RU / EN) with OS language auto-detection.
   - `Optimize-Handheld`: `v1.2.0`; `MSI Claw Resolution Pack`: `v1.0.0`; ICC profile: `CSW0801` (`PN8007QB1_2_cal.icm`).
@@ -163,8 +168,9 @@ Intel graphics driver manages Variable Refresh Rate (VRR / Intel Arc Sync) throu
    - Remove erroneous attribution of screen-reactive Ambilight to `ClawTweaks` (L670; `ClawAmbilight` provides screen Ambilight).
 5. **Index Pages (`index.html`, `en/index.html`)**:
    - Update catalog versions to actual releases (`SaySo v0.3.17`, `ClawAmbilight v0.9.9`, `kbdhaptic v0.9.3`).
-   - Clarify `SaySo` UI localization status (RU/EN speech & commands; Settings UI currently Russian).
-   - Resolve `ClawAmbilight` CPU load discrepancy (comparison table "zero CPU" vs card "~1.5% of one core"; live in-game check pending).
+   - Standardize `ClawAmbilight` CPU load wording across comparison table and card to `~1.5%` of one CPU core (until live in-game verification).
    - Align `1600x1000` load reduction percentage (`30.5%` vs `31%` in `game-tuning.html`).
-6. **Fan Curve / White Point Details (`setup-guide.html`, `power-and-sleep.html`, `vrr-display.html`)**:
-   - Reconcile `MsiFan_FactoryDuty6` (`0,40,58,70,85,110`) vs website's `67% / 75%` -> `85% / 120%`, and `7,852 K` Notebookcheck factory CCT measurement vs `~7200K`.
+6. **Setup, White Point & Repository Docs (`setup-guide.html`, `vrr-display.html`, `index.html`, `AGENTS.md`)**:
+   - Remove duplicate `Win + Ctrl + Shift + B` driver restart step after `Run_As_Admin.cmd` (which already restarts the graphics driver).
+   - Update factory white point reference from `~7200K` to Notebookcheck's measured `7,852 K`, and note Windows `Calibration Loader` task for ICC LUT loading.
+   - Align footer Windows version (`25H2` for build `26300`) and add `game-tuning.html` to `msi-claw-suite/AGENTS.md`.
