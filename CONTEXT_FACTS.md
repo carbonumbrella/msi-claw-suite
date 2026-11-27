@@ -133,3 +133,27 @@ Intel graphics driver manages Variable Refresh Rate (VRR / Intel Arc Sync) throu
 - `verify_all.py`: Validates zero em/en dashes, 100% valid anchor targets, and 100% valid relative links across all 14 HTML files.
 - `verify_checklist.py`: Validates UI control heights (32px), SVG arrows, and catalog items.
 - `audit_vrr_claims.py`: Validates consistency of VRR and LFC text across the portal.
+
+---
+
+## 7. Current In-Progress Task: VRR Display Guide Surgical Correction
+
+### Objective
+Correct the inaccurate statement in `guides/vrr-display.html` and `en/guides/vrr-display.html` regarding automatic 60 Hz limit removal in games.
+
+### Affected Files and Lines
+1. `guides/vrr-display.html` (lines ~680:684, Section 2, sub-item "Автоматический переход в играх"):
+   - Current text:
+     "При запуске трехмерной игры в полноэкранном режиме графический драйвер переключается в специализированный игровой профиль. Ограничение 60 Гц мгновенно снимается, открывая полный диапазон 48-120 Гц и подключая алгоритм компенсации низкой частоты кадров (LFC)."
+   - Target replacement:
+     Clarify that upon launching a 3D title, the stock Intel driver switches to profile COMPATIBLE (clamped to 60..120 Hz). The 60 Hz limit is not automatically removed on its own. To lift the 60 Hz clamp and unlock the true hardware 48..120 Hz range, the user must switch the driver into profile EXCELLENT via ArcSyncSwitch.
+2. `en/guides/vrr-display.html` (lines ~604:606, Section 2, sub-item "Automatic Gaming Transition"):
+   - Current text:
+     "Launching a 3D title in exclusive or borderless fullscreen switches the driver into its gaming profile. The 60 Hz floor lifts, opening the full 48-120 Hz hardware window and engaging Low Framerate Compensation (LFC)."
+   - Target replacement:
+     Mirror the Russian clarification in English: in stock, the driver remains in COMPATIBLE mode (60..120 Hz). Opening the full 48..120 Hz window requires switching to EXCELLENT via ArcSyncSwitch.
+
+### Verification Requirements
+- Execute `python c:\ClaudeCode\WinMCPHuawei\BootCD\scratch\verify_all.py` to ensure zero em/en dashes and 100% link resolution.
+- Commit to `msi-claw-suite` and push immediately to `origin/main`.
+
