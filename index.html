@@ -1266,7 +1266,7 @@
                             <li>Диктовка с голосовой правкой («удали слово», «замени на») без облачных задержек</li>
                             <li>Прямое управление мощностью TDP, вентиляторами и паузой игр через интеграцию с ClawTweaks</li>
                             <li>Автоматическое назначение действий на задние лепестки M1 и M2, включая профили конкретных игр</li>
-                            <li>Интерфейс на C# WPF с автоматической перестройкой в одну колонку при вертикальной ориентации экрана</li>
+                            <li>Двуязычный интерфейс (RU / EN) на C# WPF с автоопределением языка Windows и адаптивным перестроением</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/sayso" target="_blank" class="btn btn-secondary">Репозиторий SaySo на GitHub</a>
@@ -1295,7 +1295,7 @@
                             <li>Режимы «Мягкий» (спокойные цвета сцены) и «Яркий» (динамический акцент на полной яркости)</li>
                             <li>Пресет «Как Joy-Con» с классическими неоновыми синим и красным цветами Nintendo Switch</li>
                             <li>Прямая запись байтов через HID vendor-отчет 0x0F в RAM контроллера без износа микросхемы флеш-памяти</li>
-                            <li>Автоматическое снижение частоты опроса экрана и обновления подсветки при переходе на батарею</li>
+                            <li>Автоматическое снижение частоты опроса экрана при работе от батареи и двуязычный интерфейс (RU / EN)</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank" class="btn btn-secondary">Репозиторий ClawAmbilight на GitHub</a>
@@ -1324,10 +1324,39 @@
                             <li>Короткий импульс моторов XInput на каждое экранное нажатие по интерфейсу IFrameworkInputPane</li>
                             <li>Навигация в окнах Проводника кнопками геймпада (A: открыть, B: назад, Y: вверх, X: меню)</li>
                             <li>Обход ограничения датчика Simple Device Orientation через WinRT с вызовом ChangeDisplaySettingsEx</li>
-                            <li>Синхронизация с системным тумблером «Автоповорот» в быстрых настройках панели задач Windows</li>
+                            <li>Синхронизация с системным тумблером «Автоповорот» и двуязычный интерфейс (RU / EN) с темной темой</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank" class="btn btn-secondary">Репозиторий kbdhaptic на GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ArcSyncSwitch -->
+            <div class="app-card">
+                <div class="app-card-header">
+                    <span class="app-badge">ControlLib.dll • D3DKMT • 48..120 Hz • Ноль нагрузки в фоне</span>
+                    <h3>ArcSyncSwitch: Профили Intel Arc Sync и LFC</h3>
+                </div>
+                <div class="app-card-content">
+                    <div class="app-img-wrap">
+                        <img src="assets/img/arcsync-preview.png" alt="Окно управления ArcSyncSwitch">
+                    </div>
+                    <div class="app-text">
+                        <p>
+                            Утилита переключения профилей Intel Arc Sync (VRR) и компенсации низкого фреймрейта LFC.
+                            Снимает заводской программный зажим драйвера 60..120 Гц и разблокирует полный аппаратный диапазон матрицы 48..120 Гц без правок EDID,
+                            устраняя микроразрывы и статтеры в районе 60 FPS.
+                        </p>
+                        <ul class="app-features">
+                            <li>Перевод драйвера в профиль EXCELLENT (48..120 Гц) через системную библиотеку ControlLib.dll</li>
+                            <li>Полное сохранение кастомных разрешений 1600x1000 и 1536x960 без конфликтов с оверрайдами EDID</li>
+                            <li>Раздельное переключение внутренних флагов LFC драйвера через интерфейс D3DKMTEscape</li>
+                            <li>Тихое автоприменение при входе в Windows (--apply) через планировщик задач без фонового процесса</li>
+                            <li>Двуязычный интерфейс (RU / EN) с автоматическим выбором под язык операционной системы</li>
+                        </ul>
+                        <div class="app-actions">
+                            <a href="https://github.com/carbonumbrella/arcsync-switch" target="_blank" class="btn btn-secondary">Репозиторий ArcSyncSwitch на GitHub</a>
                         </div>
                     </div>
                 </div>
@@ -1559,7 +1588,14 @@
                             <td><a href="https://github.com/carbonumbrella/kbdhaptic/releases" target="_blank" class="btn-download-link">Скачать ZIP</a></td>
                             <td><a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank">kbdhaptic</a></td>
                         </tr>
-                        <tr>
+                                                <tr>
+                            <td><strong>ArcSyncSwitch</strong></td>
+                            <td>Снятие зажима 60 Гц, разблокировка полного VRR 48..120 Гц и управление LFC без правок EDID (RU / EN)</td>
+                            <td><span class="tag-version">v1.0.0</span></td>
+                            <td><a href="https://github.com/carbonumbrella/arcsync-switch/releases" target="_blank" class="btn-download-link">Установщик EXE</a></td>
+                            <td><a href="https://github.com/carbonumbrella/arcsync-switch" target="_blank">arcsync-switch</a></td>
+                        </tr>
+<tr>
                             <td><strong>ClawTweaks</strong> <span class="tag-external">Стороннее</span></td>
                             <td>Виджет Xbox Game Bar: управление TDP, кривыми вентиляторов, разрешением и оверлеем</td>
                             <td><span class="tag-version">GitHub</span></td>

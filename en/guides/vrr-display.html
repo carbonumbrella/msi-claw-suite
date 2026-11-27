@@ -643,12 +643,18 @@
                 </p>
 
                 <div class="info-box" id="lfc-boundary">
-                    <strong>VRR Operational Envelope and the 116 FPS Ceiling:</strong>
+                    <strong>VRR Operational Envelope, 116 FPS Ceiling, and Micro-Stutter Fix:</strong>
                     <p style="margin-top: 6px;">
                         <strong>Upper Boundary (116 or 117 FPS Cap):</strong> Reaching 120.0 FPS instantly disengages VRR, causing tearing (without V-Sync) or buffer latency spikes (with V-Sync). Setting a hard cap at 116 FPS provides a ~0.3 ms margin, ensuring the game stays 100% within the VRR window with minimal input lag.
                     </p>
                     <p style="margin-top: 6px;">
-                        <strong>LFC Boundary Zone (56 to 62 FPS range):</strong> In the Intel Arc driver, the baseline 1x sync floor is tied to 60 Hz (half of 120 Hz). Due to a lack of driver hysteresis, hovering at values of 58, 59, or 60 FPS causes the multiplier to rapidly oscillate between 1x (60 Hz) and 2x (116:120 Hz), causing micro-tearing. Practical capping rules are detailed in the <a href="game-tuning.html#framerate-strategy">Game Tuning Guide</a>.
+                        <strong>Root Cause of 60 Hz Micro-Stutter (Stock Driver):</strong> Under the default Intel Arc Sync driver profile (COMPATIBLE), the 1x sync floor is clamped to 60 Hz. Due to lack of driver hysteresis, hovering at 56:62 FPS (specifically 58, 59, and 60 FPS) causes the multiplier to rapidly oscillate between 1x (60 Hz) and 2x (116:120 Hz), causing frame pacing flutter and micro-tears.
+                    </p>
+                    <p style="margin-top: 6px;">
+                        <strong>Driver-Level Fix via ArcSyncSwitch:</strong> The dedicated <a href="../index.html#apps">ArcSyncSwitch</a> utility calls ControlLib.dll to switch the Intel driver into its native EXCELLENT profile (48..120 Hz). This drops the 1x VRR floor to 48 Hz, allowing 50, 54, 58, and 60 FPS caps to run with seamless frame pacing in native VRR without LFC flutter. Custom 16:10 resolutions remain fully intact, and a logon task silently restores the profile on reboot.
+                    </p>
+                    <p style="margin-top: 6px;">
+                        <strong>Important Operational Notes:</strong> Keep the VRR toggle in ClawTweaks game profiles off, as the widget resets the driver back to stock 60..120 Hz on launch. Also note that telemetry overlays over borderless games can break Independent Flip / MPO presentation, forcing the game into compositor-locked 60 Hz sync.
                     </p>
                 </div>
 

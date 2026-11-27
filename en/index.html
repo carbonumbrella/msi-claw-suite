@@ -1203,7 +1203,7 @@
                             <li>Fast speech-to-text with spoken correction ("delete word", "replace with") without cloud latency</li>
                             <li>Direct TDP power adjustments, fan curves, and game pausing via ClawTweaks integration</li>
                             <li>Automatic mapping to rear M1 and M2 paddles, with per-game profile awareness</li>
-                            <li>Responsive C# WPF UI that re-flows into a single column in vertical screen orientation</li>
+                            <li>Bilingual UI (EN / RU) on C# WPF with automatic Windows language detection and responsive layout</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/sayso" target="_blank" class="btn btn-secondary">SaySo Repository on GitHub</a>
@@ -1232,7 +1232,7 @@
                             <li>Soft (subtle ambient scene colors) and Vivid (dynamic high-brightness accents) modes</li>
                             <li>Joy-Con preset inspired by classic neon blue and neon red Nintendo Switch palettes</li>
                             <li>Direct HID vendor 0x0F report writes into controller RAM without flash memory wear</li>
-                            <li>Automatic frame polling drop and LED update throttle when switching to battery power</li>
+                            <li>Automatic polling drop on battery power and bilingual UI (EN / RU) with manual language switch</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank" class="btn btn-secondary">ClawAmbilight Repository on GitHub</a>
@@ -1261,10 +1261,39 @@
                             <li>Crisp XInput motor pulses on each screen keystroke via IFrameworkInputPane notification</li>
                             <li>File Explorer navigation using gamepad buttons (A: open, B: back, Y: up, X: context menu)</li>
                             <li>Bypasses Simple Device Orientation limitations via WinRT sensor polling and ChangeDisplaySettingsEx</li>
-                            <li>Synchronized with the native Windows Quick Settings Auto-Rotate toggle button</li>
+                            <li>Synchronized with Windows Auto-Rotate toggle and bilingual UI (EN / RU) following dark theme</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank" class="btn btn-secondary">kbdhaptic Repository on GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ArcSyncSwitch -->
+            <div class="app-card">
+                <div class="app-card-header">
+                    <span class="app-badge">ControlLib.dll • D3DKMT • 48..120 Hz • Zero Background Load</span>
+                    <h3>ArcSyncSwitch: Intel Arc Sync &amp; LFC Profiles</h3>
+                </div>
+                <div class="app-card-content">
+                    <div class="app-img-wrap">
+                        <img src="../assets/img/arcsync-preview.png" alt="ArcSyncSwitch Control Window">
+                    </div>
+                    <div class="app-text">
+                        <p>
+                            Utility for switching Intel Arc Sync (VRR) profiles and LFC frame compensation.
+                            Unlocks the panels full hardware 48..120 Hz range without EDID modifications by lifting the default 60..120 Hz driver clamp,
+                            eliminating micro-stutter and frame pacing flutter around 60 FPS.
+                        </p>
+                        <ul class="app-features">
+                            <li>Switches driver into EXCELLENT profile (48..120 Hz) directly via ControlLib.dll</li>
+                            <li>Preserves custom 1600x1000 and 1536x960 modes without EDID override collisions</li>
+                            <li>Independent toggling of internal Intel LFC driver flags via D3DKMTEscape</li>
+                            <li>Silent logon re-apply (--apply) via Windows Task Scheduler with zero background memory or CPU usage</li>
+                            <li>Bilingual interface (EN / RU) with automatic Windows OS language detection</li>
+                        </ul>
+                        <div class="app-actions">
+                            <a href="https://github.com/carbonumbrella/arcsync-switch" target="_blank" class="btn btn-secondary">ArcSyncSwitch Repository on GitHub</a>
                         </div>
                     </div>
                 </div>
@@ -1496,7 +1525,14 @@
                             <td><a href="https://github.com/carbonumbrella/kbdhaptic/releases" target="_blank" class="btn-download-link">Download ZIP</a></td>
                             <td><a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank">kbdhaptic</a></td>
                         </tr>
-                        <tr>
+                                                <tr>
+                            <td><strong>ArcSyncSwitch</strong></td>
+                            <td>Unlocks native 48..120 Hz VRR, eliminates 60 Hz LFC flutter without EDID changes (EN / RU)</td>
+                            <td><span class="tag-version">v1.0.0</span></td>
+                            <td><a href="https://github.com/carbonumbrella/arcsync-switch/releases" target="_blank" class="btn-download-link">Installer EXE</a></td>
+                            <td><a href="https://github.com/carbonumbrella/arcsync-switch" target="_blank">arcsync-switch</a></td>
+                        </tr>
+<tr>
                             <td><strong>ClawTweaks</strong> <span class="tag-external">Third-party</span></td>
                             <td>Xbox Game Bar widget: TDP control, custom fan curves, resolution switcher, and overlay</td>
                             <td><span class="tag-version">GitHub</span></td>
