@@ -992,17 +992,17 @@
     <section class="hero">
         <div class="container">
             <span class="badge-pill">Комплект оптимизаций для MSI Claw (Intel Lunar Lake, Meteor Lake)</span>
-            <h1>Оптимизация и специализированные утилиты для MSI Claw</h1>
+            <h1>Оптимизация и утилиты для MSI Claw</h1>
             <p>
-                Технические руководства, скрипты настройки Windows 11 и открытое программное обеспечение:
-                кастомные разрешения 16:10 для апскейлинга, освобождение оперативной памяти под видеочип,
-                экранный Ambilight без нагрузки на процессор и локальное голосовое управление на встроенном Intel NPU.
+                Руководства, скрипты настройки Windows 11 и открытые утилиты:
+                разрешения 16:10 для апскейлинга, освобождение RAM под GPU,
+                подсветка стиков Ambilight (~1.5% CPU) и локальный голосовой ассистент на Intel NPU.
             </p>
 
             <div class="hero-actions">
-                <a href="guides/setup-guide.html" class="btn btn-primary">Пошаговая установка стека с нуля →</a>
+                <a href="guides/setup-guide.html" class="btn btn-primary">Установка с нуля →</a>
                 <a href="#guides" class="btn btn-secondary">База знаний</a>
-                <a href="#downloads" class="btn btn-secondary">Каталог загрузок</a>
+                <a href="#downloads" class="btn btn-secondary">Загрузки</a>
                 <a href="#resolutions" class="btn btn-secondary">Разрешения 16:10</a>
                 <a href="#optimize" class="btn btn-secondary">Очистка ОС</a>
             </div>
@@ -1010,19 +1010,19 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="val">1.20x и 1.25x</div>
-                    <div class="label">Точный шаг сетки пикселей для корректной работы XeSS, FSR и TAAU</div>
+                    <div class="label">Кратность сетки для XeSS, FSR и TAAU</div>
                 </div>
                 <div class="stat-card">
                     <div class="val">> 5.7 → 3.5 ГБ</div>
-                    <div class="label">Снижение расхода системной памяти Windows 11 в состоянии покоя</div>
+                    <div class="label">Память Windows 11 в простое</div>
                 </div>
                 <div class="stat-card">
                     <div class="val">120 Гц и VRR</div>
-                    <div class="label">Сохранение переменной частоты по протоколу DisplayID 2.0</div>
+                    <div class="label">Адаптивная частота DisplayID 2.0</div>
                 </div>
                 <div class="stat-card">
                     <div class="val">100% офлайн</div>
-                    <div class="label">Аппаратное распознавание речи Whisper на встроенном NPU без облака</div>
+                    <div class="label">Whisper на Intel NPU без облака</div>
                 </div>
             </div>
         </div>
@@ -1033,7 +1033,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>Сравнение параметров системы</h2>
-                <p>Сопоставление штатных параметров заводской Windows 11 и конфигурации после применения набора инструментов.</p>
+                <p>Заводская Windows 11 против настроенной системы.</p>
             </div>
 
             <div class="swipe-hint">
@@ -1047,56 +1047,56 @@
                             <th>Параметр</th>
                             <th>Заводская конфигурация</th>
                             <th>Оптимизированное состояние</th>
-                            <th>Используемый модуль</th>
+                            <th>Модуль</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><strong>Промежуточные разрешения</strong></td>
-                            <td>1680x1050 (дробный шаг 1.143x) и 1440x900 (1.333x)</td>
-                            <td>1600x1000 (кратность 1.20x) и 1536x960 (кратность 1.25x / 80%)</td>
+                            <td>1680x1050 (1.143x) и 1440x900 (1.333x)</td>
+                            <td>1600x1000 (1.20x) и 1536x960 (1.25x / 80%)</td>
                             <td><a href="#resolutions">MSI Claw Resolution Pack</a></td>
                         </tr>
                         <tr>
                             <td><strong>Переключение разрешений</strong></td>
-                            <td>Только глубоко в системных параметрах Windows</td>
-                            <td>Быстрый выбор в выпадающем меню виджета ClawTweaks в Game Bar</td>
-                            <td><a href="#resolutions">Патч виджета ClawTweaks</a></td>
+                            <td>В параметрах экрана Windows</td>
+                            <td>В меню виджета ClawTweaks (Game Bar)</td>
+                            <td><a href="#resolutions">Патч ClawTweaks</a></td>
                         </tr>
                         <tr>
-                            <td><strong>Режим энергосбережения</strong></td>
-                            <td>S0 Modern Standby: фоновые задачи, нагрев и разряд в чехле</td>
-                            <td>S4 гибернация: полное обесточивание компонентов и нулевой расход</td>
+                            <td><strong>Режим сна</strong></td>
+                            <td>S0 Modern Standby: фон, нагрев и разряд в чехле</td>
+                            <td>S4 гибернация: полное обесточивание, 0% расхода</td>
                             <td><a href="#optimize">Optimize-Handheld</a></td>
                         </tr>
                         <tr>
                             <td><strong>Память Windows в простое</strong></td>
-                            <td>Более 5.7 ГБ (только системные службы Windows)</td>
-                            <td>Около 3.5 ГБ (освобождение ресурсов под общий пул VRAM видеокарты)</td>
+                            <td>Более 5.7 ГБ (только базовые службы)</td>
+                            <td>Около 3.5 ГБ (резерв под общий пул VRAM)</td>
                             <td><a href="#optimize">Optimize-Handheld</a></td>
                         </tr>
                         <tr>
                             <td><strong>Автоповорот дисплея</strong></td>
-                            <td>Не работает из-за формата данных Simple Device Orientation</td>
-                            <td>Опрос датчика через WinRT и вызов системного поворота по таймеру</td>
+                            <td>Не работает (только Simple Device Orientation)</td>
+                            <td>Опрос через WinRT и системный поворот</td>
                             <td><a href="#apps">kbdhaptic</a></td>
                         </tr>
                         <tr>
                             <td><strong>Подсветка стиков и кнопок</strong></td>
-                            <td>Статичные системные пресеты MSI Center</td>
-                            <td>Динамический Ambilight по цветам экрана без нагрузки на процессор</td>
+                            <td>Статичные пресеты MSI Center</td>
+                            <td>Экранный Ambilight на GPU (~1.5% одного ядра CPU)</td>
                             <td><a href="#apps">ClawAmbilight</a></td>
                         </tr>
                         <tr>
-                            <td><strong>Тактильный отклик ввода</strong></td>
-                            <td>Сенсорный ввод на клавиатуре без физической отдачи</td>
-                            <td>Виброотклик встроенных моторов геймпада при каждом тапе</td>
+                            <td><strong>Отклик экранной клавиатуры</strong></td>
+                            <td>Без вибрации</td>
+                            <td>Импульс вибромоторов XInput на каждое нажатие</td>
                             <td><a href="#apps">kbdhaptic</a></td>
                         </tr>
                         <tr>
-                            <td><strong>Голосовые команды и диктовка</strong></td>
-                            <td>Облачные службы с сетевой задержкой либо отсутствуют</td>
-                            <td>Локальная модель Whisper int8 на аппаратном нейропроцессоре Intel NPU</td>
+                            <td><strong>Голос и диктовка</strong></td>
+                            <td>Отсутствует или через облако</td>
+                            <td>Локальный Whisper (small int8 по умолчанию) на Intel NPU</td>
                             <td><a href="#apps">SaySo</a></td>
                         </tr>
                     </tbody>
@@ -1104,7 +1104,7 @@
             </div>
 
             <div class="note-box">
-                <strong>Обратите внимание:</strong> Потребление памяти только самой системой Windows в заводском состоянии превышает 5.7 ГБ. С учетом игровых лаунчеров, системных оверлеев и фоновых процессов вендоров общий расход в простое может быть существенно выше, что сокращает объем памяти, доступный встроенному графическому ядру.
+                <strong>Примечание:</strong> В стоке одни системные службы Windows занимают более 5.7 ГБ RAM. Лаунчеры и оверлеи повышают расход ещё сильнее, уменьшая общий пул памяти для GPU.
             </div>
         </div>
     </section>
@@ -1114,9 +1114,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>Кастомные разрешения 16:10 (1600x1000 и 1536x960)</h2>
-                <p>
-                    Промежуточные режимы с ровной кратностью 1.20x и 1.25x заменяют нестандартные 1050p и 900p, снижая нагрузку на видеоядро без субпиксельных искажений.
-                </p>
+                <p>Режимы с кратностью 1.20x и 1.25x заменяют дробные 1050p и 900p, снижая нагрузку на GPU без размытия.</p>
             </div>
 
             <div class="res-grid">
@@ -1124,17 +1122,14 @@
                     <div>
                         <div class="res-header">
                             <span class="res-title">1600x1000 (1000p)</span>
-                            <span class="res-scale">Кратность ровно 1.20x</span>
+                            <span class="res-scale">Кратность 1.20x</span>
                         </div>
                         <div class="res-math">1920 / 1.20 = 1600 | 1200 / 1.20 = 1000</div>
-                        <p class="res-desc">
-                            Альтернатива стандартному 1050p (1680x1050).
-                            Шаг 1.20x исключает ошибки сэмплирования, сохраняя четкость 1200p при снижении нагрузки на видеоядро на 30.5%.
-                        </p>
+                        <p class="res-desc">Альтернатива 1680x1050. Четкость близка к 1200p при снижении нагрузки на GPU на 30.5%.</p>
                         <ul class="res-bullets">
                             <li>Промежуточная ступень между 1200p и 900p</li>
-                            <li>Снижение нагрузки на видеочип на 30.5%</li>
-                            <li>Четкий шаг 1.20x для темпоральных апскейлеров</li>
+                            <li>Нагрузка на видеочип: -30.5%</li>
+                            <li>Шаг 1.20x для темпоральных апскейлеров</li>
                             <li>Пропорции 16:10 без черных полос</li>
                         </ul>
                     </div>
@@ -1144,26 +1139,22 @@
                     <div>
                         <div class="res-header">
                             <span class="res-title">1536x960 (960p)</span>
-                            <span class="res-scale">Кратность ровно 1.25x (80%)</span>
+                            <span class="res-scale">Кратность 1.25x (80%)</span>
                         </div>
                         <div class="res-math">1920 * 0.80 = 1536 | 1200 * 0.80 = 960</div>
-                        <p class="res-desc">
-                            Альтернатива стандартному 900p (1440x900). Ровно 80% от нативного разрешения по ширине и высоте.
-                            Коэффициент 1.25x совпадает с сеткой пикселей и алгоритмами реконструкции Intel XeSS и AMD FSR.
-                        </p>
+                        <p class="res-desc">Альтернатива 1440x900: ровно 80% от 1200p, точная сетка под Intel XeSS и AMD FSR.</p>
                         <ul class="res-bullets">
-                            <li>Снижение нагрузки на видеочип на 36%</li>
-                            <li>Четкие шрифты и элементы интерфейса без размытия</li>
-                            <li>Коэффициент 1.25x (80%) для масштабирования</li>
-                            <li>Поддержка 120 Гц и переменной частоты VRR 48:120 Гц</li>
+                            <li>Нагрузка на видеочип: -36%</li>
+                            <li>Четкие шрифты и интерфейс</li>
+                            <li>Кратность 1.25x (80%) для апскейлеров</li>
+                            <li>Полная поддержка 120 Гц и VRR 48:120 Гц</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
             <div class="note-box" style="margin-bottom: 24px;">
-                <strong>Оба режима доступны одновременно:</strong> Разрешения 1600x1000 и 1536x960 добавляются параллельно в общий список системы.
-                Они доступны как в стандартных настройках экрана Windows и внутри игр, так и в выпадающем меню быстрого переключения виджета ClawTweaks в Game Bar.
+                <strong>Оба режима сразу:</strong> 1600x1000 и 1536x960 добавляются одновременно и доступны в Windows, играх и меню ClawTweaks.
             </div>
 
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
@@ -1179,56 +1170,49 @@
         <div class="container">
             <div class="section-header">
                 <h2>Очистка и тюнинг Windows: Optimize-Handheld</h2>
-                <p>
-                    Безопасный комплекс настройки Windows 10/11 для портативных ПК.
-                    Собран строго на основе проверенного журнала изменений MSI Claw 8 AI+.
-                </p>
+                <p>Скрипт настройки Windows 10/11 по журналу изменений MSI Claw 8 AI+.</p>
             </div>
 
             <div class="opt-grid">
                 <div class="opt-card">
                     <span class="opt-badge std">Уровень Standard</span>
                     <h3>Базовая оптимизация</h3>
-                    <p>Безопасный набор для любых сценариев. Отключает компоненты, не нужные на игровом устройстве.</p>
+                    <p>Безопасный набор: убирает лишние компоненты, не затрагивая игровой стек.</p>
                     <ul class="opt-list">
-                        <li>• Удаление фоновых пакетов ИИ (Recall, Copilot)</li>
+                        <li>• Удаление Recall и Copilot</li>
                         <li>• Отключение телеметрии и службы DiagTrack</li>
-                        <li>• Полная гибернация S4: отключение S0, автогибернация (10м DC / 60м AC), кнопки на гибернацию</li>
-                        <li>• Фиксированный файл подкачки 16 ГБ для защиты от вылетов DirectX DXGI</li>
-                        <li>• Аппаратное масштабирование GPU с сохранением пропорций (Maintain Aspect Ratio)</li>
-                        <li>• Сенсорная клавиатура на экране входа (отключение политики ARSO)</li>
+                        <li>• Гибернация S4: отключение S0, автогибернация (10м DC / 60м AC), кнопки на гибернацию</li>
+                        <li>• Фиксированный pagefile 16 ГБ (16384 МБ) от вылетов DXGI</li>
+                        <li>• GPU-масштабирование Maintain Aspect Ratio</li>
+                        <li>• Экранная клавиатура на входе (отключение ARSO)</li>
                     </ul>
                 </div>
 
                 <div class="opt-card">
                     <span class="opt-badge full">Уровень Full</span>
                     <h3>Глубокая разгрузка</h3>
-                    <p>Стандартный уровень плюс выгрузка второстепенных фоновых утилит и служб синхронизации.</p>
+                    <p>Standard плюс второстепенные службы и устаревшие приложения.</p>
                     <ul class="opt-list">
-                        <li>• Блокировка фоновой синхронизации OneDrive</li>
-                        <li>• Выгрузка фонового агента обновления Intel DSA</li>
-                        <li>• Остановка неиспользуемых фоновых служб аудиоэффектов</li>
-                        <li>• Удаление устаревших компонентов (WMIC, Media Player, Phone Link)</li>
+                        <li>• Блокировка синхронизации OneDrive</li>
+                        <li>• Отключение автозапуска Intel Graphics и Logitech Options+ (плюс опционально Intel DSA и аудиоэффекты DTS/intelliGo)</li>
+                        <li>• Удаление WMIC, Media Player, Phone Link и Maps</li>
                     </ul>
                 </div>
 
                 <div class="opt-card">
-                    <span class="opt-badge save">Режим Check savings</span>
-                    <h3>Объективный замер</h3>
-                    <p>Встроенная функция проверки реальной экономии ресурсов без прав администратора.</p>
+                    <span class="opt-badge save">Check savings и BitLocker</span>
+                    <h3>Замер и шифрование</h3>
+                    <p>Оценка экономии без прав администратора и отключение BitLocker.</p>
                     <ul class="opt-list">
-                        <li>• Замер сэкономленной оперативной памяти</li>
-                        <li>• Подсчет освобожденного места на SSD</li>
-                        <li>• Список завершенных фоновых процессов</li>
-                        <li>• Сравнение с исходным состоянием до применения</li>
+                        <li>• Сравнение RAM и места на SSD до/после</li>
+                        <li>• Список убранных фоновых процессов</li>
+                        <li>• Пункт 6: дешифровка BitLocker на диске C:</li>
                     </ul>
                 </div>
             </div>
 
             <div class="note-box" style="margin-bottom: 24px;">
-                <strong>Защита игровых сервисов:</strong> Скрипт содержит жесткий белый список компонентов и гарантированно не удаляет
-                Xbox, Game Bar, службы Gaming Services, магазин Microsoft Store, Защитник Windows, системные видеодрайверы
-                и управляющие службы MSI (MSI Center M, ClawTweaks, HidHide). Предусмотрен откат любого действия через пункт <code>Undo</code>.
+                <strong>Белый список:</strong> Скрипт не трогает Xbox, Game Bar, Gaming Services, Microsoft Store, Defender, видеодрайверы, MSI Center M, ClawTweaks и HidHide. Любое изменение откатывается пунктом <code>Undo</code>.
             </div>
 
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
@@ -1242,14 +1226,14 @@
     <section id="apps">
         <div class="container">
             <div class="section-header">
-                <h2>Специализированные утилиты для MSI Claw</h2>
-                <p>Программные решения, разработанные специально с учетом аппаратных особенностей консолей линейки Claw.</p>
+                <h2>Утилиты для MSI Claw</h2>
+                <p>Инструменты с открытым кодом под аппаратные особенности консоли.</p>
             </div>
 
             <!-- SaySo -->
             <div class="app-card">
                 <div class="app-card-header">
-                    <span class="app-badge">Whisper int8 • Intel NPU • Push-to-Talk</span>
+                    <span class="app-badge">Whisper • Intel NPU • Push-to-Talk</span>
                     <h3>SaySo: Голосовой помощник и диктовка</h3>
                 </div>
                 <div class="app-card-content">
@@ -1257,16 +1241,12 @@
                         <img src="assets/img/sayso-main.png" alt="Окно настроек SaySo на MSI Claw">
                     </div>
                     <div class="app-text">
-                        <p>
-                            Голосовой помощник для Windows, работающий прямо на встроенном нейропроцессоре Intel NPU (Lunar Lake).
-                            Позволяет вводить текст в любые поля ввода в играх и приложениях, удерживая назначенную кнопку,
-                            а также управлять системными функциями консоли.
-                        </p>
+                        <p>Локальная диктовка и голосовое управление на Intel NPU (модель <code>small int8</code> по умолчанию, поддерживается <code>large-v3-turbo fp16</code>).</p>
                         <ul class="app-features">
-                            <li>Диктовка с голосовой правкой («удали слово», «замени на») без облачных задержек</li>
-                            <li>Прямое управление мощностью TDP, вентиляторами и паузой игр через интеграцию с ClawTweaks</li>
-                            <li>Автоматическое назначение действий на задние лепестки M1 и M2, включая профили конкретных игр</li>
-                            <li>Двуязычный интерфейс (RU / EN) на C# WPF с автоопределением языка Windows и адаптивным перестроением</li>
+                            <li>Ввод текста по удержанию кнопки с голосовой правкой («удали слово», «замени на») без облака</li>
+                            <li>Управление TDP, вентиляторами и паузой игр через ClawTweaks</li>
+                            <li>Привязка лепестков M1/M2 и профилей игр</li>
+                            <li>Двуязычный интерфейс (RU / EN) с автоопределением языка Windows</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/sayso" target="_blank" class="btn btn-secondary">Репозиторий SaySo на GitHub</a>
@@ -1278,7 +1258,7 @@
             <!-- ClawAmbilight -->
             <div class="app-card">
                 <div class="app-card-header">
-                    <span class="app-badge">Direct HID • DXGI Desktop Duplication • GPU Averaging</span>
+                    <span class="app-badge">HID 0x0F • DXGI Desktop Duplication • ~1.5% CPU</span>
                     <h3>ClawAmbilight: Динамическая подсветка стиков</h3>
                 </div>
                 <div class="app-card-content">
@@ -1286,16 +1266,11 @@
                         <img src="assets/img/ambilight-main.png" alt="Панель ClawAmbilight">
                     </div>
                     <div class="app-text">
-                        <p>
-                            Адаптивная подсветка колец аналоговых стиков и кнопок ABXY по картинке на экране, работающая по принципу телевизоров Ambilight.
-                            Кадр захватывается через DXGI Desktop Duplication и усредняется прямо на видеокарте,
-                            потребляя около 1.5% одного ядра центрального процессора и не снижая FPS в играх.
-                        </p>
+                        <p>Подсветка колец стиков и кнопок ABXY по цветам экрана через DXGI и мипмапы GPU (~1.5% одного ядра CPU).</p>
                         <ul class="app-features">
-                            <li>Режимы «Мягкий» (спокойные цвета сцены) и «Яркий» (динамический акцент на полной яркости)</li>
-                            <li>Пресет «Как Joy-Con» с классическими неоновыми синим и красным цветами Nintendo Switch</li>
-                            <li>Прямая запись байтов через HID vendor-отчет 0x0F в RAM контроллера без износа микросхемы флеш-памяти</li>
-                            <li>Автоматическое снижение частоты опроса экрана при работе от батареи и двуязычный интерфейс (RU / EN)</li>
+                            <li>Режимы «Мягкий», «Яркий», «Кнопки» и пресет «Как Joy-Con»</li>
+                            <li>Прямая запись отчета HID <code>0x0F</code> в RAM контроллера без износа флеш-памяти</li>
+                            <li>Эко-опрос от батареи и двуязычный интерфейс (RU / EN)</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank" class="btn btn-secondary">Репозиторий ClawAmbilight на GitHub</a>
@@ -1307,7 +1282,7 @@
             <!-- kbdhaptic -->
             <div class="app-card">
                 <div class="app-card-header">
-                    <span class="app-badge">XInput Haptics • WinRT Reflection • Auto-Rotate</span>
+                    <span class="app-badge">XInput Haptics • WinRT • Auto-Rotate</span>
                     <h3>kbdhaptic: Виброотклик и автоповорот</h3>
                 </div>
                 <div class="app-card-content">
@@ -1315,16 +1290,12 @@
                         <img src="assets/img/kbdhaptic-main.png" alt="Окно конфигурации kbdhaptic">
                     </div>
                     <div class="app-text">
-                        <p>
-                            Утилита решает две аппаратные особенности портативных консолей на Windows 11:
-                            добавляет тактильную виброотдачу встроенных моторов геймпада при наборе текста на сенсорной клавиатуре
-                            и восстанавливает аппаратный автоповорот экрана.
-                        </p>
+                        <p>Добавляет тактильный виброотклик экранной клавиатуры и исправляет автоповорот экрана в Windows 11.</p>
                         <ul class="app-features">
-                            <li>Короткий импульс моторов XInput на каждое экранное нажатие по интерфейсу IFrameworkInputPane</li>
-                            <li>Навигация в окнах Проводника кнопками геймпада (A: открыть, B: назад, Y: вверх, X: меню)</li>
-                            <li>Обход ограничения датчика Simple Device Orientation через WinRT с вызовом ChangeDisplaySettingsEx</li>
-                            <li>Синхронизация с системным тумблером «Автоповорот» и двуязычный интерфейс (RU / EN) с темной темой</li>
+                            <li>Импульс XInput при нажатиях экранной клавиатуры (<code>IFrameworkInputPane</code>)</li>
+                            <li>Навигация в Проводнике геймпадом (A: открыть, B: назад, Y: вверх, X: меню)</li>
+                            <li>Автоповорот через WinRT <code>Simple Device Orientation</code> и <code>ChangeDisplaySettingsEx</code> с синхронизацией системного тумблера</li>
+                            <li>Двуязычный интерфейс (RU / EN)</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank" class="btn btn-secondary">Репозиторий kbdhaptic на GitHub</a>
@@ -1335,7 +1306,7 @@
             <!-- ArcSyncSwitch -->
             <div class="app-card">
                 <div class="app-card-header">
-                    <span class="app-badge">ControlLib.dll • D3DKMT • 48..120 Hz • Ноль нагрузки в фоне</span>
+                    <span class="app-badge">ControlLib.dll • D3DKMT • 48..120 Hz • 0% в фоне</span>
                     <h3>ArcSyncSwitch: Профили Intel Arc Sync и LFC</h3>
                 </div>
                 <div class="app-card-content">
@@ -1343,17 +1314,13 @@
                         <img src="assets/img/arcsync-preview.png" alt="Окно управления ArcSyncSwitch">
                     </div>
                     <div class="app-text">
-                        <p>
-                            Утилита переключения профилей Intel Arc Sync (VRR) и компенсации низкого фреймрейта LFC.
-                            Снимает заводской программный зажим драйвера 60..120 Гц и разблокирует полный аппаратный диапазон матрицы 48..120 Гц без правок EDID,
-                            устраняя микроразрывы и статтеры в районе 60 FPS.
-                        </p>
+                        <p>Переключатель профилей VRR и LFC: снимает заводской зажим 60..120 Гц и открывает аппаратные 48..120 Гц без правок EDID.</p>
                         <ul class="app-features">
-                            <li>Перевод драйвера в профиль EXCELLENT (48..120 Гц) через системную библиотеку ControlLib.dll</li>
-                            <li>Полное сохранение кастомных разрешений 1600x1000 и 1536x960 без конфликтов с оверрайдами EDID</li>
-                            <li>Раздельное переключение внутренних флагов LFC драйвера через интерфейс D3DKMTEscape</li>
-                            <li>Тихое автоприменение при входе в Windows (--apply) через планировщик задач без фонового процесса</li>
-                            <li>Двуязычный интерфейс (RU / EN) с автоматическим выбором под язык операционной системы</li>
+                            <li>Переводит драйвер в профиль <code>EXCELLENT</code> (48..120 Гц) через <code>ControlLib.dll</code></li>
+                            <li>Сохраняет кастомные разрешения 1600x1000 и 1536x960</li>
+                            <li>Отдельное управление флагами LFC через <code>D3DKMTEscape</code></li>
+                            <li>Тихий автозапуск <code>--apply</code> через планировщик без фонового процесса</li>
+                            <li>Двуязычный интерфейс (RU / EN)</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/arcsync-switch" target="_blank" class="btn btn-secondary">Репозиторий ArcSyncSwitch на GitHub</a>
@@ -1371,11 +1338,7 @@
                 <div class="external-text">
                     <span class="app-badge" style="background: rgba(239, 68, 68, 0.15); color: var(--accent-red); border-color: rgba(239, 68, 68, 0.3);">Сторонняя интеграция</span>
                     <h3>Виджет ClawTweaks для Xbox Game Bar</h3>
-                    <p>
-                        Основной инструмент для оперативного управления питанием (TDP PL1/PL2), кривыми вентиляторов
-                        и профилями управления на MSI Claw. Наш пакет кастомных разрешений автоматически патчит хелпер
-                        виджета ClawTweaks, а голосовой помощник SaySo управляет его профилями через именованный канал.
-                    </p>
+                    <p>Управление TDP (PL1/PL2), кривыми вентиляторов, лимитами FPS и профилями геймпада. Пакет разрешений патчит его список режимов, а SaySo управляет профилями через pipe.</p>
                 </div>
                 <div>
                     <a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank" class="btn btn-secondary">Проект ClawTweaks на GitHub</a>
@@ -1386,9 +1349,7 @@
                 <div class="external-text">
                     <span class="app-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); border-color: rgba(56, 189, 248, 0.3);">Сторонняя утилита</span>
                     <h3>OptiClick: автоматизация OptiScaler для XeSS и XeFG</h3>
-                    <p>
-                        Утилита для внедрения OptiScaler в игры с поддержкой DLSS или FSR в один клик. Перенаправляет вызовы апскейлинга в нативный Intel XeSS и активирует генерацию кадров XeFG внутри движка без размытия интерфейса и с минимальным инпут-лагом.
-                    </p>
+                    <p>Внедряет OptiScaler в игры с DLSS или FSR в один клик, подключая нативный Intel XeSS и генерацию кадров XeFG.</p>
                 </div>
                 <div>
                     <a href="https://github.com/onehoon/OptiClick" target="_blank" class="btn btn-secondary">Проект OptiClick на GitHub</a>
@@ -1401,33 +1362,25 @@
     <section id="guides">
         <div class="container">
             <div class="section-header">
-                <h2>База знаний и технические руководства</h2>
-                <p>
-                    Практические статьи по архитектуре оборудования, экрану, калибровке питания, памяти и софту для MSI Claw.
-                </p>
+                <h2>База знаний и руководства</h2>
+                <p>Практические статьи по установке, экрану, питанию, памяти, играм и софту.</p>
             </div>
 
             <div class="guides-grid">
                 <a href="guides/setup-guide.html" class="portal-guide-card" style="border-color: rgba(16, 185, 129, 0.35); background: linear-gradient(180deg, rgba(16, 185, 129, 0.06) 0%, var(--bg-card) 100%);">
                     <div>
                         <span class="card-badge badge-power">Установка с нуля</span>
-                        <h3>Пошаговая установка стека: с чистой Windows 11 до игр</h3>
-                        <p>
-                            Последовательность развертывания системы: установка драйверов, MSI Center M,
-                            снятие заводского ограничения кулеров 75%, ClawTweaks, очистка Windows, отключение BitLocker и кастомные разрешения.
-                        </p>
+                        <h3>Пошаговая установка: от чистой Windows 11 до игр</h3>
+                        <p>Драйверы, MSI Center M, разблокировка кулеров >75%, ClawTweaks, очистка ОС, BitLocker и разрешения 16:10.</p>
                     </div>
-                    <span class="read-link" style="color: var(--accent-green);">Читать пошаговый гайд →</span>
+                    <span class="read-link" style="color: var(--accent-green);">Читать гайд →</span>
                 </a>
 
                 <a href="guides/vrr-display.html" class="portal-guide-card">
                     <div>
                         <span class="card-badge badge-vrr">Дисплей и VRR</span>
-                        <h3>Экран и переменная частота (VRR): DisplayID 2.0 и LFC</h3>
-                        <p>
-                            Разбор дескриптора DisplayID 2.0, причины отображения 60:120 Гц на рабочем столе и 48:120 Гц в играх,
-                            физика компенсации LFC, сценарии 120 Гц с VRR против фиксированных 48 Гц и цветовая калибровка.
-                        </p>
+                        <h3>Экран и VRR: DisplayID 2.0, ArcSyncSwitch и LFC</h3>
+                        <p>Профили драйвера 60..120 и 48..120 Гц, LFC, отсечка 116 FPS, влияние оверлеев и калибровка ICC.</p>
                     </div>
                     <span class="read-link">Читать руководство →</span>
                 </a>
@@ -1435,11 +1388,8 @@
                 <a href="guides/power-and-sleep.html" class="portal-guide-card">
                     <div>
                         <span class="card-badge badge-power">Питание и сон</span>
-                        <h3>Настройка питания, режима S4 и теплопакета (TDP)</h3>
-                        <p>
-                            Опасности сна S0 Modern Standby в чехле, надежная гибернация S4, среднестатистический ориентир 20-21 Вт,
-                            специфика процессорозависимых игр, ограничение FPS вместо удушения ватт, тихая кривая кулеров и устранение свиста дросселей.
-                        </p>
+                        <h3>Питание, гибернация S4 и теплопакет (TDP)</h3>
+                        <p>Переход с S0 на S4, ориентир 20-21 Вт, правило PL2 = PL1 + 1W, настройка буста CPU, кривые кулеров и БП 100 Вт.</p>
                     </div>
                     <span class="read-link">Читать руководство →</span>
                 </a>
@@ -1447,11 +1397,8 @@
                 <a href="guides/memory-and-stability.html" class="portal-guide-card">
                     <div>
                         <span class="card-badge badge-memory">Память и стабильность</span>
-                        <h3>Память GPU, файл подкачки и безопасность ядра</h3>
-                        <p>
-                            Архитектура объединенной памяти LPDDR5x MoP, предотвращение вылетов DXGI через статическую фиксацию 16 ГБ pagefile,
-                            отключение BitLocker, аварийный сброс EC Reset и строгое предостережение по скрытому меню BIOS.
-                        </p>
+                        <h3>Память GPU, pagefile 16 ГБ и ядро</h3>
+                        <p>LPDDR5x MoP, пул Shared VRAM, фиксация 16 ГБ pagefile против вылетов DXGI, BitLocker, EC Reset и BIOS.</p>
                     </div>
                     <span class="read-link">Читать руководство →</span>
                 </a>
@@ -1459,25 +1406,19 @@
                 <a href="guides/software-choice.html" class="portal-guide-card" style="border-color: rgba(168, 85, 247, 0.35); background: linear-gradient(180deg, rgba(168, 85, 247, 0.06) 0%, var(--bg-card) 100%);">
                     <div>
                         <span class="card-badge" style="background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); border: 1px solid rgba(168, 85, 247, 0.3);">Управляющий софт</span>
-                        <h3>Выбор софта: ClawTweaks, MSI Center M и HandheldCompanion</h3>
-                        <p>
-                            Сравнение управляющих пакетов, эмуляция контроллеров Xbox 360, DualShock и Steam Controller,
-                            работа гироскопа через правый стик, консольный лаунчер FSE и лимит заряда батареи.
-                        </p>
+                        <h3>ClawTweaks, MSI Center M и HandheldCompanion</h3>
+                        <p>Сравнение нагрузки на память и EC, лаунчер FSE, эмуляция геймпадов, гироскоп и лимит заряда батареи.</p>
                     </div>
-                    <span class="read-link" style="color: var(--accent-purple);">Читать сравнение утилит →</span>
+                    <span class="read-link" style="color: var(--accent-purple);">Читать сравнение →</span>
                 </a>
 
                 <a href="guides/game-tuning.html" class="portal-guide-card" style="border-color: rgba(0, 210, 255, 0.35); background: linear-gradient(180deg, rgba(0, 210, 255, 0.06) 0%, var(--bg-card) 100%);">
                     <div>
                         <span class="card-badge" style="background: rgba(0, 210, 255, 0.15); color: var(--accent-cyan); border: 1px solid rgba(0, 210, 255, 0.3);">Игровая оптимизация</span>
-                        <h3>Настройка игр и максимальный FPS: апскейлинг и генерация</h3>
-                        <p>
-                            Практическое руководство: выбор Intel XeSS против FSR, интеграция OptiClick, генерация LSFG 2x,
-                            режимы Low Latency On/Boost, фиксация FPS вместо занижения ватт и кастомные разрешения 16:10.
-                        </p>
+                        <h3>Настройка игр: апскейлинг, генерация и FPS</h3>
+                        <p>Intel XeSS (XMX) против FSR, OptiClick, LSFG, Low Latency On/Boost, лимиты FPS и разрешения 16:10.</p>
                     </div>
-                    <span class="read-link" style="color: var(--accent-cyan);">Читать руководство по FPS →</span>
+                    <span class="read-link" style="color: var(--accent-cyan);">Читать руководство →</span>
                 </a>
             </div>
         </div>
@@ -1487,17 +1428,14 @@
     <section id="calibration">
         <div class="container">
             <div class="section-header">
-                <h2>Аппаратная калибровка и системные параметры</h2>
-                <p>Дополнительные точечные настройки, улучшающие поведение экрана, клавиатуры и графической памяти.</p>
+                <h2>Калибровка и системные твики</h2>
+                <p>Точечные правки для экрана, клавиатуры входа и охлаждения.</p>
             </div>
 
             <div class="calib-grid">
                 <div class="calib-card">
-                    <h3>Цветовой профиль матрицы CSW PN8007QB1-2</h3>
-                    <p>
-                        Опциональный теплый профиль ICC от лаборатории Notebookcheck для любителей кинематографичной палитры (6500K)
-                        вместо яркого заводского холодного белого (7200K).
-                    </p>
+                    <h3>Профиль экрана CSW PN8007QB1-2</h3>
+                    <p>Теплый профиль ICC от Notebookcheck (6500K sRGB вместо заводских ~7852K).</p>
                     <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
                         <a href="assets/calib/PN8007QB1_2_cal.icm" download="PN8007QB1_2_cal.icm" class="btn-download-link">Скачать ICM (26 КБ)</a>
                         <a href="https://www.notebookcheck.net/MSI-Claw-8-AI-review-The-best-gaming-handheld-thanks-to-Intel-Lunar-Lake.974004.0.html" target="_blank" style="font-size: 0.85rem; color: var(--text-muted);">Обзор Notebookcheck ↗</a>
@@ -1505,18 +1443,13 @@
                 </div>
 
                 <div class="calib-card">
-                    <h3>Сенсорная клавиатура на экране входа</h3>
-                    <p>
-                        Отключение системной политики Automatic Restart Sign-On (ARSO) через реестр Windows.
-                        Предотвращает внезапное сворачивание сенсорной экранной клавиатуры при попытке ввода PIN-кода на экране блокировки.
-                    </p>
+                    <h3>Клавиатура на экране входа</h3>
+                    <p>Отключение политики ARSO предотвращает сворачивание сенсорной клавиатуры при вводе PIN.</p>
                 </div>
 
                 <div class="calib-card">
                     <h3>Разблокировка кривой кулеров</h3>
-                    <p>
-                        Активация переключателя Extended range &gt;75 внизу вкладки кулеров ClawTweaks и выставление двух верхних точек (80°C и 88°C) на 85% и 120% для исключения перегрева под нагрузкой.
-                    </p>
+                    <p>Переключатель <code>Extended range &gt;75</code> в ClawTweaks и подъем точек 80°C/88°C с 67%/75% до 85%/120%.</p>
                 </div>
             </div>
         </div>
@@ -1527,7 +1460,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>Каталог загрузок</h2>
-                <p>Фирменные модули MSI Claw Suite распространяются под открытой лицензией MIT, сторонние компоненты доступны в официальных репозиториях авторов на GitHub.</p>
+                <p>Собственные модули под лицензией MIT и сторонние инструменты на GitHub.</p>
             </div>
 
             <div class="swipe-hint">
@@ -1548,63 +1481,63 @@
                     <tbody>
                         <tr>
                             <td><strong>MSI Claw Resolution Pack</strong></td>
-                            <td>Разрешения 1600x1000 и 1536x960, EDID оверрайды, патч ClawTweaks</td>
+                            <td>Разрешения 1600x1000 и 1536x960, EDID_OVERRIDE, патч ClawTweaks</td>
                             <td><span class="tag-version">v1.0.0</span></td>
                             <td><a href="https://github.com/carbonumbrella/handheld-resolution-pack/releases/tag/v1.0.0" target="_blank" class="btn-download-link">Скачать ZIP (v1.0.0)</a></td>
                             <td><a href="https://github.com/carbonumbrella/handheld-resolution-pack" target="_blank">handheld-resolution-pack</a></td>
                         </tr>
                         <tr>
-                            <td><strong>Цветовой профиль матрицы (ICC / ICM)</strong></td>
-                            <td>Калибровка экрана CSW PN8007QB1-2 (6500K sRGB) от лаборатории Notebookcheck</td>
+                            <td><strong>Профиль матрицы (ICC / ICM)</strong></td>
+                            <td>Калибровка CSW PN8007QB1-2 (6500K sRGB) от Notebookcheck</td>
                             <td><span class="tag-version">CSW0801</span></td>
                             <td><a href="assets/calib/PN8007QB1_2_cal.icm" download="PN8007QB1_2_cal.icm" class="btn-download-link">Скачать ICM (26 КБ)</a></td>
                             <td><a href="https://www.notebookcheck.net/MSI-Claw-8-AI-review-The-best-gaming-handheld-thanks-to-Intel-Lunar-Lake.974004.0.html" target="_blank">notebookcheck.net ↗</a></td>
                         </tr>
                         <tr>
                             <td><strong>Optimize-Handheld</strong></td>
-                            <td>Очистка Windows 11, удаление Recall/ИИ, отключение BitLocker, автонастройка S4 гибернации, 16 ГБ pagefile, масштабирование GPU</td>
+                            <td>Очистка Windows 11, удаление Recall/ИИ, BitLocker, S4, 16 ГБ pagefile, масштабирование GPU</td>
                             <td><span class="tag-version">v1.2.0</span></td>
                             <td><a href="https://github.com/carbonumbrella/optimize-handheld/releases/tag/v1.2.0" target="_blank" class="btn-download-link">Скачать ZIP (v1.2.0)</a></td>
                             <td><a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">optimize-handheld</a></td>
                         </tr>
                         <tr>
                             <td><strong>SaySo</strong></td>
-                            <td>Локальный голосовой помощник и диктовка на Intel NPU (Whisper int8)</td>
-                            <td><span class="tag-version">v0.3.7</span></td>
+                            <td>Голосовой помощник и диктовка на Intel NPU (Whisper, RU / EN)</td>
+                            <td><span class="tag-version">v0.3.17</span></td>
                             <td><a href="https://github.com/carbonumbrella/sayso/releases" target="_blank" class="btn-download-link">Установщик EXE</a></td>
                             <td><a href="https://github.com/carbonumbrella/sayso" target="_blank">sayso</a></td>
                         </tr>
                         <tr>
                             <td><strong>ClawAmbilight</strong></td>
-                            <td>Динамическая Ambilight-подсветка стиков и кнопок ABXY по экрану</td>
-                            <td><span class="tag-version">v0.9.8</span></td>
+                            <td>Экранный Ambilight стиков и ABXY (~1.5% CPU, RU / EN)</td>
+                            <td><span class="tag-version">v0.9.9</span></td>
                             <td><a href="https://github.com/carbonumbrella/claw-ambilight/releases" target="_blank" class="btn-download-link">Установщик EXE</a></td>
                             <td><a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank">claw-ambilight</a></td>
                         </tr>
                         <tr>
                             <td><strong>kbdhaptic</strong></td>
-                            <td>Тактильный отклик экранной клавиатуры и аппаратный автоповорот дисплея</td>
-                            <td><span class="tag-version">v0.9.2</span></td>
+                            <td>Виброотклик экранной клавиатуры и автоповорот экрана (RU / EN)</td>
+                            <td><span class="tag-version">v0.9.3</span></td>
                             <td><a href="https://github.com/carbonumbrella/kbdhaptic/releases" target="_blank" class="btn-download-link">Скачать ZIP</a></td>
                             <td><a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank">kbdhaptic</a></td>
                         </tr>
-                                                <tr>
+                        <tr>
                             <td><strong>ArcSyncSwitch</strong></td>
-                            <td>Снятие зажима 60 Гц, разблокировка полного VRR 48..120 Гц и управление LFC без правок EDID (RU / EN)</td>
+                            <td>Разблокировка VRR 48..120 Гц и тумблер LFC без правок EDID (RU / EN)</td>
                             <td><span class="tag-version">v1.0.0</span></td>
                             <td><a href="https://github.com/carbonumbrella/arcsync-switch/releases" target="_blank" class="btn-download-link">Установщик EXE</a></td>
                             <td><a href="https://github.com/carbonumbrella/arcsync-switch" target="_blank">arcsync-switch</a></td>
                         </tr>
-<tr>
+                        <tr>
                             <td><strong>ClawTweaks</strong> <span class="tag-external">Стороннее</span></td>
-                            <td>Виджет Xbox Game Bar: управление TDP, кривыми вентиляторов, разрешением и оверлеем</td>
+                            <td>Виджет Game Bar: TDP, кулеры, разрешения, оверлей</td>
                             <td><span class="tag-version">GitHub</span></td>
                             <td><a href="https://github.com/enterTheVoidCode/ClawTweaks/releases" target="_blank" class="btn-download-link">Релизы GitHub ↗</a></td>
                             <td><a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank">enterTheVoidCode/ClawTweaks ↗</a></td>
                         </tr>
                         <tr>
                             <td><strong>OptiClick</strong> <span class="tag-external">Стороннее</span></td>
-                            <td>Автоматическая интеграция OptiScaler, апскейлинга XeSS и генерации кадров в игры</td>
+                            <td>Внедрение OptiScaler, XeSS и генерации кадров в один клик</td>
                             <td><span class="tag-version">GitHub</span></td>
                             <td><a href="https://github.com/onehoon/OptiClick/releases" target="_blank" class="btn-download-link">Релизы GitHub ↗</a></td>
                             <td><a href="https://github.com/onehoon/OptiClick" target="_blank">onehoon/OptiClick ↗</a></td>
@@ -1620,7 +1553,7 @@
         <div class="container footer-content">
             <div>
                 <p>MSI Claw Suite • Автор: <a href="https://github.com/carbonumbrella" target="_blank">carbonumbrella</a></p>
-                <p style="font-size: 0.8rem; margin-top: 4px;">Лицензия MIT. Проверено на MSI Claw 8 AI+ (Windows 11 Home SL 24H2/25H2/26H2).</p>
+                <p style="font-size: 0.8rem; margin-top: 4px;">Лицензия MIT. Проверено на MSI Claw 8 AI+ (Windows 11 Home SL 24H2/25H2).</p>
             </div>
             <div>
                 <a href="#overview" style="color: var(--text-subtle);">Наверх ↑</a>

@@ -2,6 +2,15 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-27: Apply Audited Factual Corrections and Tighten Portal Copy Across All 14 Pages
+- **Decision:** Reconciled every factual discrepancy found during the portal audit against Intel/Notebookcheck docs, local machine state, and source repositories, and compressed prose across both index pages and all 12 RU/EN guides without removing technical parameters:
+  - Corrected Lunar Lake Intel XeSS execution path (`Intel XMX` matrix engines with `DP4a` fallback only for non-XMX GPUs).
+  - Clarified stock Intel Arc driver (`COMPATIBLE`, `60..120 Hz` LFC threshold near 60 FPS) vs `ArcSyncSwitch` (`EXCELLENT`, `48..120 Hz`), pruning unverified `56..62 FPS` hysteresis oscillation wording.
+  - Standardized `ClawAmbilight` CPU load estimate to `~1.5%`, updated factory white point to `~7852K` (Notebookcheck), and documented Windows `Calibration Loader` scheduled task behavior.
+  - Corrected audio cleanup details in the memory guide to optional `VendorAudio` disabling DTS (`DtsApo4Service`) and MSI intelliGo (`IgoAudioService`) (`~90 MB`), removed duplicate `Win+Ctrl+Shift+B` restart instructions in `setup-guide`, added the `Fast Boot` disabled condition to `RB + RT` BIOS recovery, and removed screen Ambilight attribution from `ClawTweaks` feature lists.
+  - Updated catalog versions (`SaySo v0.3.17`, `ClawAmbilight v0.9.9`, `kbdhaptic v0.9.3`), aligned `1600x1000` load reduction to `30.5%`, updated Windows version compatibility (`24H2/25H2`), and added `game-tuning.html` to `AGENTS.md`.
+- **Reason:** Eliminate unverified claims while cutting reading bloat so handheld users can scan specifications, commands, and workflows quickly without losing technical detail.
+
 ### 2026-11-27: Compile Comprehensive Context Facts and Eliminate Speculative Deductions
 - **Decision:** Compile a comprehensive, strictly empirical `CONTEXT_FACTS.md` document covering:
   - Hardware specifications and environmental constraints for MSI Claw 8 AI+.

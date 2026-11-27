@@ -529,8 +529,7 @@
             <span class="guide-badge">Efficiency &amp; Thermal Control</span>
             <h1>Power Tuning, S4 Hibernation and TDP Limits on MSI Claw</h1>
             <p class="lead">
-                Why standard S0 Modern Standby causes battery drain in carry cases,
-                how to properly configure dependable S4 hibernation, and why the PL2 = PL1 + 1W rule stabilizes cooling acoustics.
+                S0 Modern Standby hazards, switching to S4 hibernation, the PL2 = PL1 + 1W rule, 3 TDP scenarios, and unlocking fans past 75%.
             </p>
             <div class="guide-meta">
                 <div class="guide-meta-item">
@@ -550,34 +549,23 @@
 
         <article>
             <section id="s0-standby">
-                <h2>1. The Problem with S0 Modern Standby on Handhelds</h2>
+                <h2>1. The S0 Modern Standby Problem</h2>
                 <p>
-                    By default, Windows 11 enables S0 Low Power Idle (also known as Modern Standby).
-                    Unlike traditional ACPI S3 deep sleep, S0 never completely removes power from system rails:
-                    the SoC continues executing background polling, maintaining Wi-Fi connections, running Windows Update tasks,
-                    checking mailbox syncs, and uploading diagnostic telemetry.
+                    By default, Windows 11 uses S0 Low Power Idle (Modern Standby): the SoC and Wi-Fi stay powered for background updates and telemetry.
                 </p>
-
                 <div class="warning-box">
-                    <strong>Critical Hazards of S0 Mode on Handheld PCs:</strong>
-                    <p style="margin-top: 8px;">
-                        <strong>Thermal Trapping in Carry Cases:</strong> Pressing the power button and zipping the handheld into a protective case
-                        leaves the SoC vulnerable to background wake-up triggers. As fabric blocks ventilation grilles, the trapped unit
-                        can heat up to 90-95°C inside the case. This triggers thermal shutdown and accelerates lithium battery wear.
-                    </p>
-                    <p style="margin-top: 8px;">
-                        <strong>Uncontrolled Battery Discharge:</strong> In S0 mode, constant background connectivity drains 3% to 8% battery per hour.
-                        A sleeping console stowed overnight will frequently be found completely dead by morning.
-                    </p>
+                    <strong>Hazards of S0 on a Handheld:</strong>
+                    <ul>
+                        <li><strong>Thermal trapping in cases:</strong> background wake triggers spin up the SoC inside a sealed carry case, heating to 90-95°C and damaging the battery.</li>
+                        <li><strong>Overnight drain:</strong> continuous background wakeups lose 25%..100% charge overnight.</li>
+                    </ul>
                 </div>
             </section>
 
             <section id="s4-hibernation">
-                <h2>2. Switching to S4 Hibernation: Reliability and Zero Drain</h2>
+                <h2>2. Switching to S4 Hibernation</h2>
                 <p>
-                    The only dependable sleep implementation for a handheld gaming PC is ACPI S4 (Hibernation).
-                    When hibernating, Windows writes a direct memory image snapshot into <code>hiberfil.sys</code> on the NVMe SSD,
-                    after which the power management controller fully shuts off all power rails across the motherboard.
+                    In S4 Hibernation, Windows writes RAM to <code>hiberfil.sys</code> on the NVMe SSD and cuts all board power.
                 </p>
 
                 <div class="table-wrap">
@@ -585,179 +573,90 @@
                         <thead>
                             <tr>
                                 <th>Metric</th>
-                                <th>S0 Modern Standby (Factory)</th>
+                                <th>S0 Modern Standby (Stock)</th>
                                 <th>S4 Hibernation (Recommended)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>Battery Consumption in Sleep</strong></td>
-                                <td>3-8% per hour (continuous drain)</td>
-                                <td>0% (complete hardware power-off)</td>
+                                <td><strong>Idle Battery Drain</strong></td>
+                                <td>3-8% per hour</td>
+                                <td>0% (full power-off)</td>
                             </tr>
                             <tr>
-                                <td><strong>Case Overheating Risk</strong></td>
-                                <td>High (background wake triggers)</td>
-                                <td>Completely eliminated</td>
+                                <td><strong>Bag Overheat Risk</strong></td>
+                                <td>High (wake triggers)</td>
+                                <td>Eliminated</td>
                             </tr>
                             <tr>
-                                <td><strong>Suspended Game Safety</strong></td>
-                                <td>Unreliable (DirectX driver crashes)</td>
-                                <td>100% full memory preservation</td>
+                                <td><strong>Suspended Game State</strong></td>
+                                <td>May crash</td>
+                                <td>100% RAM preserved</td>
                             </tr>
                             <tr>
                                 <td><strong>Resume Time</strong></td>
                                 <td>1-2 seconds</td>
-                                <td>6-9 seconds from PCIe 4.0 SSD</td>
+                                <td>6-9 seconds via PCIe 4.0 SSD</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="info-box" style="margin-bottom: 20px;">
-                    <strong>One-Click Automation:</strong> The complete S4 hibernation configuration (enabling hibernation, disabling S0 sleep timeout, setting auto-hibernation to 10 min battery / 60 min AC, mapping hardware buttons to hibernate, and disabling wake timers) is executed automatically by the <a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">Optimize-Handheld</a> utility (Power module). Below are the manual configuration steps.
+                <div class="info-box" style="margin-bottom: 14px;">
+                    <strong>One-Click Setup:</strong> the <strong>Power</strong> module in <a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">Optimize-Handheld</a> configures S4 automatically (S0 timeout = 0, auto-hibernate 10 min battery / 60 min AC, power buttons to hibernate, wake timers disabled).
                 </div>
 
-                <h3>PowerShell Configuration Commands:</h3>
-                <p>
-                    Launch an elevated PowerShell terminal as Administrator and execute:
-                </p>
+                <h3>Manual Setup (Elevated PowerShell):</h3>
                 <pre>powercfg /hibernate on
 powercfg /h /type full</pre>
-
                 <p>
-                    Next, configure the physical power button behavior in Windows Control Panel:
+                    Then open <code>Win + R</code> → <code>control powercfg.cpl</code> → "Choose what the power buttons do" → "Change settings that are currently unavailable" → set <strong>Hibernate</strong> for On battery and Plugged in, and save.
                 </p>
-                <ol>
-                    <li>Press <code>Win + R</code>, type <code>control powercfg.cpl</code> and press Enter.</li>
-                    <li>In the left column, click "Choose what the power buttons do".</li>
-                    <li>Click "Change settings that are currently unavailable".</li>
-                    <li>Under "When I press the power button", select <strong>"Hibernate"</strong> for both On battery and Plugged in modes.</li>
-                    <li>Click Save changes.</li>
-                </ol>
-
-                <div class="success-box">
-                    <strong>Result:</strong> Tapping the power button now saves RAM to SSD and cuts system power.
-                    The console can safely be stowed in any case, remaining cool and preserving battery charge indefinitely.
-                </div>
             </section>
 
             <section id="tdp-tuning">
-                <h2>3. TDP and Boost Tuning via Performance Overlay</h2>
-                <p>
-                    On Lunar Lake (Intel Core Ultra 200V), CPU cores and the Arc 140V GPU share a single power envelope.
-                </p>
-
+                <h2>3. TDP (PL1/PL2) and CPU Boost Tuning via Overlay</h2>
                 <div class="info-box">
-                    <strong>Baseline Rule: Keep the PL2 Switch Off</strong>
-                    <p style="margin-top: 6px;">
-                        In ClawTweaks, the PL2 toggle is off by default.
-                        When off, the burst limit tracks the baseline: <code>PL2 = PL1 + 1W</code>.
-                        This eliminates 37W power spikes and sudden fan bursts during asset streaming.
-                    </p>
-                    <p style="margin-top: 6px;">
-                        Target GPU clock rates for monitoring via overlay: flat <strong>1950 MHz</strong> on Lunar Lake (MSI Claw 8 AI+) and <strong>2250 MHz</strong> on Meteor Lake (MSI Claw A1M).
-                    </p>
+                    <strong>Keep the PL2 Switch Off:</strong> off by default in ClawTweaks (<code>PL2 = PL1 + 1W</code>), eliminating 37W power spikes and sudden fan ramps. Target GPU clocks in overlay: <strong>1950 MHz</strong> on Lunar Lake (Claw 8 AI+) and <strong>2250 MHz</strong> on Meteor Lake (Claw A1M).
                 </div>
 
-                <h3>Tuning Algorithm Using the On-Screen Overlay:</h3>
-                <p>
-                    Launch your game, enable the performance overlay, and evaluate the workload:
-                </p>
-
-                <h4>Scenario 1: GPU-Bound Workload (GPU at 99 to 100%, Core Clock Flat at Maximum 1950 MHz)</h4>
+                <h3>Three Overlay Scenarios (Right Claw Button):</h3>
                 <ul>
-                    <li><strong>Diagnosis:</strong> Graphics silicon is running flat at maximum 1950 MHz; the game does not demand high CPU clocks.</li>
-                    <li><strong>Action:</strong> Disable CPU Turbo Boost in Windows power plan settings.</li>
-                    <li><strong>Verification:</strong> Monitor game behavior during level loading and shader compilation. If frametimes remain flat without microstuttering, keep CPU boost permanently disabled.</li>
+                    <li><strong>1. GPU-Bound (99:100% GPU load, flat 1950 MHz):</strong> disable CPU Turbo Boost; if shader loads and frametimes stay smooth, keep it off permanently.</li>
+                    <li><strong>2. CPU Starves GPU (GPU &lt;95% or dips below 1950 MHz):</strong> disable CPU Turbo Boost so power flows back to hold 1950 MHz; on battery, set PL1 1W below observed peak draw.</li>
+                    <li><strong>3. CPU-Heavy Titles (strategies, emulators, Ubisoft Anvil):</strong> enable CPU Turbo Boost, turn the PL2 switch On (+3..5W over PL1), and raise limits (recommended on AC power).</li>
                 </ul>
 
-                <h4>Scenario 2: GPU Starved by Excessive CPU Power Consumption</h4>
+                <h4>Practical Power Targets:</h4>
                 <ul>
-                    <li><strong>Diagnosis:</strong> GPU utilization sits below 95% or clock speeds dip below 1950 MHz (even momentary dips), despite high total package power draw. Aggressive CPU turbo spikes are stealing power headroom from graphics cores.</li>
-                    <li><strong>Action:</strong> Disable CPU Turbo Boost. The reclaimed power budget flows directly into the GPU, locking it flat at 1950 MHz without drops.</li>
-                    <li><strong>Battery Conservation:</strong> Observe actual package wattage in the overlay, and set PL1 to 1 Watt below this peak to stabilize battery discharge.</li>
+                    <li><strong>Typical 3D Gaming:</strong> <code>PL1 = 20W</code>, <code>PL2 = 21W</code> with CPU boost off keeps Arc 140V at 1950 MHz cleanly.</li>
+                    <li><strong>FPS Cap Over Watt Clamping:</strong> capping at 40/45/60 FPS in ClawTweaks scales wattage down automatically while preserving transient headroom.</li>
+                    <li><strong>Max Endurance (2D, visual novels, retro):</strong> <code>PL1 = 8W</code>, <code>PL2 = 9W</code> + FPS cap.</li>
                 </ul>
 
-                <h4>Scenario 3: CPU-Heavy Titles (Simulation, Strategy, Emulators)</h4>
-                <ul>
-                    <li><strong>Diagnosis:</strong> The title relies heavily on single-thread CPU performance; turning off CPU boost leads to lower framerates.</li>
-                    <li><strong>Action:</strong> Enable CPU Turbo Boost, toggle the PL2 switch to On (it is off by default in ClawTweaks), and raise power limits so both CPU and GPU receive adequate wattage simultaneously.</li>
-                    <li><strong>Best Practice:</strong> Running with active CPU boost and the PL2 switch at high PL1 and PL2 values is recommended primarily when plugged into AC power, as it significantly accelerates battery discharge and increases thermal output.</li>
-                </ul>
-
-                <p style="margin-top: 20px;">
-                    To summon the ClawTweaks overlay and power sliders mid-game, press the physical right Claw button (located directly beneath the Menu / Start button).
-                </p>
-
-                <h4>Practical Power Targets and Consumption Profiles</h4>
-                <ul>
-                    <li>
-                        <strong>Average 3D Gaming Package Draw (20-21W):</strong>
-                        For the majority of standard 3D games, optimal efficiency is achieved around <code>PL1 = 20W</code> and <code>PL2 = 21W</code> with CPU boost disabled. The Arc 140V GPU core receives ample power to sustain its flat 1950 MHz maximum without overheating the handheld chassis.
-                    </li>
-                    <li>
-                        <strong>CPU-Heavy Game Engines (e.g. Ubisoft Anvil):</strong>
-                        Certain engine architectures (such as the Assassin's Creed series or large-scale strategy titles) demand higher CPU clocks. These titles require enabling CPU Turbo Boost, maxing out PL1, and setting the PL2 switch 3-5W higher so the CPU has sufficient power headroom for transient calculations without starving the GPU. Playing in this configuration is recommended on AC power.
-                    </li>
-                    <li>
-                        <strong>Framerate Capping Instead of Hard Power Throttling:</strong>
-                        Locking the framerate (e.g., 40, 45, or 60 FPS on the 120 Hz VRR display) allows the GPU core to automatically scale down clock speed and voltage without arbitrary PL1 throttling, preserving instant power headroom for demanding scenes.
-                    </li>
-                    <li>
-                        <strong>Maximum Battery Longevity Mode (8-9W):</strong>
-                        For 2D indie titles, visual novels, and classic emulators, maximum runtime is achieved by setting <code>PL1 = 8W</code> and <code>PL2 = 9W</code> alongside an in-game framerate cap.
-                    </li>
-                </ul>
-
-                <div class="warning-box" style="margin-top: 16px;">
-                    <strong>Dock Station Power: 65W Factory Charger Limitation</strong>
-                    <p style="margin-top: 6px;">
-                        The factory 65W AC adapter is sized strictly for the handheld alone. When connected through a USB-C dock driving an external monitor (HDMI/DP) and USB peripherals under high TDP limits (30:35W), the power draw exceeds 65W and the battery begins discharging while plugged into AC power.
-                    </p>
-                    <p style="margin-top: 6px;">
-                        <strong>Recommendation:</strong> For stationary docking station use with external displays, use a third-party 100W USB Power Delivery adapter.
-                    </p>
+                <div class="warning-box" style="margin-top: 14px;">
+                    <strong>Docked Play &amp; 65W Charger Limit:</strong> the stock 65W charger covers the handheld alone. Through a USB-C dock with an external display and 30:35W TDP, the battery discharges; use a <strong>100W USB Power Delivery</strong> adapter.
                 </div>
 
-                <div class="info-box" style="margin-top: 16px; border-left-color: var(--accent-cyan); background: rgba(0, 210, 255, 0.06);">
-                    <strong>Practical Game Tuning &amp; Battery Pacing:</strong>
-                    Framerate locking strategies, Intel Endurance Gaming battery profiles (60/40/30 FPS), XeSS/FSR upscaling, and OptiClick/LSFG frame generation are detailed in our dedicated guide: <a href="game-tuning.html" style="font-weight: 700; color: var(--accent-cyan);">Game Tuning and Maximum FPS on MSI Claw →</a>.
+                <div class="info-box" style="margin-top: 14px; border-left-color: var(--accent-cyan); background: rgba(0, 210, 255, 0.06);">
+                    XeSS/FSR, FPS limits, and Endurance Gaming: <a href="game-tuning.html" style="font-weight: 700; color: var(--accent-cyan);">Game Tuning Guide →</a>.
                 </div>
             </section>
 
             <section id="fan-curves">
-                <h2>4. Custom Fan Curves: Removing the 75% Factory Limit</h2>
+                <h2>4. Fan Curves: Removing the 75% Ceiling</h2>
                 <p>
-                    Stock MSI firmware caps fan speeds at 75% across a 6-point curve (0°C, 50°C, 60°C, 70°C, 80°C, 88°C).
-                    In the factory curve, the top two points (80°C and 88°C) are capped at 67% and 75%, causing heat soak above 85:90°C and thermal throttling under sustained loads above 20W.
+                    The EC controller defines a 6-point curve (0°C, 50°C, 60°C, 70°C, 80°C, 88°C), where stock firmware clamps the top two points at 67% and 75% (causing 85:90°C heat soak and throttling above 20W).
                 </p>
-
                 <div class="warning-box">
-                    <strong>Solution: Unlocking Upper Cooling Headroom</strong>
-                    <p style="margin-top: 6px;">
-                        In the ClawTweaks Fan tab, scroll down and activate the <strong>Extended range &gt;75</strong> toggle to remove the software ceiling.
-                    </p>
-                    <p style="margin-top: 6px;">
-                        Adjust the top two temperature points (80°C and 88°C) from factory 67% and 75% up to <strong>85%</strong> and <strong>120%</strong>, then click <strong>Apply Fan Curve</strong> to write the curve into the EC controller.
-                    </p>
-                    <p style="margin-top: 6px;">
-                        This unlocks the full cooling potential of the dual-fan vapor chamber assembly, keeping temperatures in check and sustaining the 1950 MHz GPU core clock indefinitely.
-                    </p>
+                    <strong>Unlocking in ClawTweaks:</strong> scroll down in the Fan tab, toggle <strong>Extended range &gt;75</strong>, raise 80°C and 88°C to <strong>85%</strong> and <strong>120%</strong>, and click <strong>Apply Fan Curve</strong>.
                 </div>
-
-                <h3>Verified Quiet Fan Curve Points</h3>
                 <p>
-                    If configuring a custom curve in MSI Center M (User Scenario -&gt; Fan Speed -&gt; Advanced) or ClawTweaks for silent low-load operation, the community has verified the following 6-point curve:
+                    <strong>Verified Quiet Fan Curve</strong> (for MSI Center M <em>User Scenario → Fan Speed → Advanced</em> or ClawTweaks under light loads):
                 </p>
                 <pre>5%, 5%, 25%, 65%, 75%, 100%</pre>
                 <p>
-                    This profile maintains complete silence during media playback and lightweight 2D gaming, keeping fans at minimal RPM, while smoothly scaling up to 100% when die temperatures cross 75°C.
-                </p>
-
-                <h3>Mitigating Inductor Coil Whine</h3>
-                <p>
-                    If high-frequency inductor coil whine is audible under transient loads, a thermal stabilization procedure can resolve it: run the fans at maximum speed (Cooler Boost or 100-150% RPM) for 5 minutes. This evens out thermal gradients across power delivery chokes, after which you can return to your quiet fan profile.
+                    <strong>Coil Whine Mitigation:</strong> if inductor whine appears under shifting loads, run maximum fans (Cooler Boost or 100-150%) for 5 minutes to equalize choke temperatures.
                 </p>
             </section>
         </article>

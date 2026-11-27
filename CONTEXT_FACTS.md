@@ -153,24 +153,23 @@ Intel graphics driver manages Variable Refresh Rate (VRR / Intel Arc Sync) throu
 
 ---
 
-## 8. Pending Tasks / Confirmed Website Fixes Needed
+## 8. Completed Website Fixes (Applied 2026-11-27)
 
 1. **VRR Display Guide (`guides/vrr-display.html`, `en/guides/vrr-display.html`)**:
-   - Fix Section 2 table (RU L646, EN L569) and "Автоматический переход в играх" / "Automatic Gaming Transition" (RU L680-683, EN L603-606): stock driver runs `COMPATIBLE` (`60..120 Hz`); `48..120 Hz` requires switching to `EXCELLENT` via `ArcSyncSwitch`.
-   - Prune unverified `56..62 FPS` / lack of hysteresis LFC oscillation claim in `#lfc-boundary` (RU L729, EN L651) and `guides/game-tuning.html` Section 5 (RU/EN L647).
-   - Clarify `Calibration Loader` scheduled task applies the ICC LUT at logon (vs saying no loader is involved).
+   - Fixed Section 2 table and transition notes: stock driver runs `COMPATIBLE` (`60..120 Hz`, early LFC below ~60 FPS); `48..120 Hz` requires switching to `EXCELLENT` via `ArcSyncSwitch`.
+   - Pruned unverified `56..62 FPS` / lack of hysteresis LFC oscillation claim in `#lfc-boundary` and `guides/game-tuning.html` Section 5.
+   - Clarified Windows `Calibration Loader` scheduled task keeps ICC LUT active across windowed/borderless modes.
 2. **Game Tuning Guide (`guides/game-tuning.html`, `en/guides/game-tuning.html`)**:
-   - Fix XeSS on Lunar Lake description (L545): Arc 140V runs XeSS natively on **Intel XMX** matrix cores, not `DP4a` fallback.
+   - Fixed XeSS on Lunar Lake description: Arc 140V runs XeSS natively on **Intel XMX** matrix cores, with `DP4a` fallback only on non-XMX GPUs.
 3. **Memory Guide (`guides/memory-and-stability.html`, `en/guides/memory-and-stability.html`)**:
-   - Fix audio services section (RU L714-717, EN L680-683): `Optimize-Handheld` disables optional **DTS (`DtsApo4Service`) and MSI intelliGo (`IgoAudioService`)** (~90 MB), not `Nahimic` / `Realtek Audio Effects` (250 MB).
-   - Add `Fast Boot` off caveat to `RB + RT` BIOS combo.
+   - Fixed audio services section: optional `VendorAudio` in `Optimize-Handheld` disables **DTS (`DtsApo4Service`) and MSI intelliGo (`IgoAudioService`)** (~90 MB), keeping Realtek core intact.
+   - Added `Fast Boot` disabled condition to `RB + RT` BIOS combo.
 4. **Software Choice Guide (`guides/software-choice.html`, `en/guides/software-choice.html`)**:
-   - Remove erroneous attribution of screen-reactive Ambilight to `ClawTweaks` (L670; `ClawAmbilight` provides screen Ambilight).
+   - Replaced screen-reactive Ambilight claim in `ClawTweaks` list with its built-in RGB modes (referencing `ClawAmbilight` for screen sync).
 5. **Index Pages (`index.html`, `en/index.html`)**:
-   - Update catalog versions to actual releases (`SaySo v0.3.17`, `ClawAmbilight v0.9.9`, `kbdhaptic v0.9.3`).
-   - Standardize `ClawAmbilight` CPU load wording across comparison table and card to `~1.5%` of one CPU core (until live in-game verification).
-   - Align `1600x1000` load reduction percentage (`30.5%` vs `31%` in `game-tuning.html`).
-6. **Setup, White Point & Repository Docs (`setup-guide.html`, `vrr-display.html`, `index.html`, `AGENTS.md`)**:
-   - Remove duplicate `Win + Ctrl + Shift + B` driver restart step after `Run_As_Admin.cmd` (which already restarts the graphics driver).
-   - Update factory white point reference from `~7200K` to Notebookcheck's measured `7,852 K`, and note Windows `Calibration Loader` task for ICC LUT loading.
-   - Align footer Windows version (`25H2` for build `26300`) and add `game-tuning.html` to `msi-claw-suite/AGENTS.md`.
+   - Updated catalog versions to actual releases (`SaySo v0.3.17`, `ClawAmbilight v0.9.9`, `kbdhaptic v0.9.3`) and RU/EN localization across `SaySo` (`small int8` default).
+   - Standardized `ClawAmbilight` CPU load wording across comparison table and cards to `~1.5%`.
+   - Aligned `1600x1000` load reduction percentage to `30.5%`.
+6. **Setup, White Point, Prose Compression & Repository Docs**:
+   - Removed duplicate `Win + Ctrl + Shift + B` driver restart step after `Run_As_Admin.cmd`, added `ArcSyncSwitch` and `Fast Boot` off note to `setup-guide`.
+   - Updated factory white point reference to Notebookcheck's measured `~7852K`, aligned footer Windows version (`24H2/25H2`), added `game-tuning.html` to `msi-claw-suite/AGENTS.md`, and tightened all 14 HTML pages while preserving technical details.

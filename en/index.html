@@ -929,17 +929,17 @@
     <section class="hero">
         <div class="container">
             <span class="badge-pill">Optimization Suite for MSI Claw (Intel Lunar Lake, Meteor Lake)</span>
-            <h1>Optimization and Dedicated Utilities for MSI Claw</h1>
+            <h1>Optimization and Utilities for MSI Claw</h1>
             <p>
-                Technical guides, Windows 11 tuning scripts, and open-source tools:
-                custom resolutions for upscaling, system RAM reclamation for the GPU,
-                zero-CPU stick Ambilight, and local speech recognition on the built-in Intel NPU.
+                Guides, Windows 11 tuning scripts, and open-source tools:
+                16:10 resolutions for upscaling, RAM reclamation for GPU,
+                screen Ambilight (~1.5% CPU), and local voice control on Intel NPU.
             </p>
 
             <div class="hero-actions">
-                <a href="guides/setup-guide.html" class="btn btn-primary">Clean Setup Guide from Scratch →</a>
+                <a href="guides/setup-guide.html" class="btn btn-primary">Clean Setup Guide →</a>
                 <a href="#guides" class="btn btn-secondary">Knowledge Base</a>
-                <a href="#downloads" class="btn btn-secondary">Download Catalog</a>
+                <a href="#downloads" class="btn btn-secondary">Downloads</a>
                 <a href="#resolutions" class="btn btn-secondary">16:10 Resolutions</a>
                 <a href="#optimize" class="btn btn-secondary">OS Debloat</a>
             </div>
@@ -947,19 +947,19 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="val">1.20x &amp; 1.25x</div>
-                    <div class="label">Exact pixel grid ratios for clean XeSS, FSR, and TAAU scaling</div>
+                    <div class="label">Exact grid multipliers for XeSS, FSR, and TAAU</div>
                 </div>
                 <div class="stat-card">
                     <div class="val">&gt; 5.7 → 3.5 GB</div>
-                    <div class="label">Reduced Windows 11 idle system RAM footprint</div>
+                    <div class="label">Windows 11 idle RAM footprint</div>
                 </div>
                 <div class="stat-card">
                     <div class="val">120 Hz &amp; VRR</div>
-                    <div class="label">Preserved Variable Refresh Rate via DisplayID 2.0 protocol</div>
+                    <div class="label">Adaptive sync via DisplayID 2.0</div>
                 </div>
                 <div class="stat-card">
                     <div class="val">100% Offline</div>
-                    <div class="label">Hardware Whisper speech recognition on Intel NPU without cloud calls</div>
+                    <div class="label">Whisper on Intel NPU without cloud</div>
                 </div>
             </div>
         </div>
@@ -970,7 +970,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>System Configuration Comparison</h2>
-                <p>Side-by-side comparison between factory Windows 11 settings and the optimized handheld stack.</p>
+                <p>Factory Windows 11 vs tuned handheld setup.</p>
             </div>
 
             <div class="swipe-hint">
@@ -982,58 +982,58 @@
                     <thead>
                         <tr>
                             <th>Parameter</th>
-                            <th>Factory Out-of-the-Box</th>
+                            <th>Factory Default</th>
                             <th>Optimized State</th>
-                            <th>Applied Tool</th>
+                            <th>Module</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><strong>Intermediate Resolutions</strong></td>
-                            <td>1680x1050 (fractional 1.143x) and 1440x900 (1.333x)</td>
-                            <td>1600x1000 (exact 1.20x) and 1536x960 (exact 1.25x / 80%)</td>
+                            <td>1680x1050 (1.143x) and 1440x900 (1.333x)</td>
+                            <td>1600x1000 (1.20x) and 1536x960 (1.25x / 80%)</td>
                             <td><a href="#resolutions">MSI Claw Resolution Pack</a></td>
                         </tr>
                         <tr>
                             <td><strong>Resolution Switching</strong></td>
-                            <td>Buried deep inside Windows Display Settings</td>
-                            <td>Quick dropdown in ClawTweaks Xbox Game Bar widget overlay</td>
-                            <td><a href="#resolutions">ClawTweaks Widget Patch</a></td>
+                            <td>Windows Display Settings</td>
+                            <td>ClawTweaks quick dropdown (Game Bar)</td>
+                            <td><a href="#resolutions">ClawTweaks Patch</a></td>
                         </tr>
                         <tr>
-                            <td><strong>Sleep / Standby Mode</strong></td>
-                            <td>S0 Modern Standby: background tasks, heat, and case battery drain</td>
-                            <td>S4 Hibernation: complete hardware power-off with zero battery drain</td>
+                            <td><strong>Sleep Mode</strong></td>
+                            <td>S0 Modern Standby: background tasks, heat, and drain</td>
+                            <td>S4 Hibernation: full power-off, 0% drain</td>
                             <td><a href="#optimize">Optimize-Handheld</a></td>
                         </tr>
                         <tr>
-                            <td><strong>Windows Idle RAM Usage</strong></td>
-                            <td>Over 5.7 GB (Windows base services alone)</td>
-                            <td>Around 3.5 GB (reclaiming memory for shared Intel Arc VRAM)</td>
+                            <td><strong>Windows Idle RAM</strong></td>
+                            <td>Over 5.7 GB (base services alone)</td>
+                            <td>Around 3.5 GB (more shared VRAM pool)</td>
                             <td><a href="#optimize">Optimize-Handheld</a></td>
                         </tr>
                         <tr>
-                            <td><strong>Display Auto-Rotation</strong></td>
-                            <td>Broken due to Simple Device Orientation sensor format</td>
-                            <td>Polled via WinRT with timer-based ChangeDisplaySettingsEx call</td>
+                            <td><strong>Screen Auto-Rotation</strong></td>
+                            <td>Broken (Simple Device Orientation sensor only)</td>
+                            <td>WinRT sensor poll and OS rotation</td>
                             <td><a href="#apps">kbdhaptic</a></td>
                         </tr>
                         <tr>
                             <td><strong>Stick &amp; Button Lighting</strong></td>
                             <td>Static MSI Center presets</td>
-                            <td>Dynamic real-time screen Ambilight with zero CPU load</td>
+                            <td>Screen-reactive GPU Ambilight (~1.5% of one CPU core)</td>
                             <td><a href="#apps">ClawAmbilight</a></td>
                         </tr>
                         <tr>
                             <td><strong>Keyboard Haptics</strong></td>
-                            <td>Flat touch input without physical confirmation</td>
-                            <td>Haptic motor kick on every touch keyboard tap</td>
+                            <td>No tactile feedback</td>
+                            <td>XInput motor pulse on every key tap</td>
                             <td><a href="#apps">kbdhaptic</a></td>
                         </tr>
                         <tr>
-                            <td><strong>Voice Commands &amp; Dictation</strong></td>
-                            <td>Cloud-dependent with network latency or absent</td>
-                            <td>Local Whisper int8 model running on hardware Intel NPU</td>
+                            <td><strong>Voice &amp; Dictation</strong></td>
+                            <td>Absent or cloud-based</td>
+                            <td>Local Whisper (small int8 default) on Intel NPU</td>
                             <td><a href="#apps">SaySo</a></td>
                         </tr>
                     </tbody>
@@ -1041,7 +1041,7 @@
             </div>
 
             <div class="note-box">
-                <strong>Memory Note:</strong> Base Windows services alone consume over 5.7 GB on a factory image. With game storefronts, vendor overlays, and background updater services running, total idle consumption climbs even higher, cutting into memory needed by the integrated graphics core.
+                <strong>Note:</strong> Base Windows services alone use over 5.7 GB out of the box. Storefronts and overlays raise idle usage further, shrinking the shared GPU pool.
             </div>
         </div>
     </section>
@@ -1051,9 +1051,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>Custom 16:10 Resolutions (1600x1000 and 1536x960)</h2>
-                <p>
-                    Intermediate modes with clean 1.20x and 1.25x scaling ratios reduce GPU shading workload without subpixel distortion.
-                </p>
+                <p>Clean 1.20x and 1.25x modes replace fractional 1050p and 900p, reducing GPU load without blur.</p>
             </div>
 
             <div class="res-grid">
@@ -1064,15 +1062,12 @@
                             <span class="res-scale">Exact 1.20x Ratio</span>
                         </div>
                         <div class="res-math">1920 / 1.20 = 1600 | 1200 / 1.20 = 1000</div>
-                        <p class="res-desc">
-                            Alternative to standard 1050p (1680x1050).
-                            The 1.20x multiplier eliminates sampling errors, matching 1200p clarity while cutting GPU shading load by 30.5%.
-                        </p>
+                        <p class="res-desc">Alternative to 1680x1050. Near-native 1200p sharpness with 30.5% lower GPU workload.</p>
                         <ul class="res-bullets">
                             <li>Intermediate step between 1200p and 900p</li>
-                            <li>30.5% reduction in processed pixel count</li>
-                            <li>Clean 1.20x step for temporal upscalers</li>
-                            <li>Native 16:10 aspect ratio without letterboxing</li>
+                            <li>GPU pixel workload: -30.5%</li>
+                            <li>1.20x step for temporal upscalers</li>
+                            <li>16:10 aspect ratio without black bars</li>
                         </ul>
                     </div>
                 </div>
@@ -1084,23 +1079,19 @@
                             <span class="res-scale">Exact 1.25x Ratio (80%)</span>
                         </div>
                         <div class="res-math">1920 * 0.80 = 1536 | 1200 * 0.80 = 960</div>
-                        <p class="res-desc">
-                            Alternative to standard 900p (1440x900). Exactly 80% of native panel resolution horizontally and vertically.
-                            The clean 1.25x multiplier aligns with the pixel grid for Intel XeSS and AMD FSR reconstruction.
-                        </p>
+                        <p class="res-desc">Alternative to 1440x900: exactly 80% of 1200p, matching Intel XeSS and AMD FSR pixel grids.</p>
                         <ul class="res-bullets">
-                            <li>36% reduction in GPU fillrate workload</li>
-                            <li>Crisp text and HUD elements without blur</li>
-                            <li>Clean 1.25x (80%) ratio for reconstruction algorithms</li>
-                            <li>Full support for 120 Hz and VRR 48:120 Hz range</li>
+                            <li>GPU pixel workload: -36%</li>
+                            <li>Crisp text and UI without blur</li>
+                            <li>1.25x (80%) multiplier for upscalers</li>
+                            <li>Full 120 Hz and VRR 48:120 Hz support</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
             <div class="note-box" style="margin-bottom: 24px;">
-                <strong>Both Modes Coexist Simultaneously:</strong> 1600x1000 and 1536x960 are added alongside existing system resolutions.
-                They are immediately selectable in Windows Display Settings, inside in-game menus, and in the ClawTweaks Game Bar dropdown.
+                <strong>Both Modes Together:</strong> 1600x1000 and 1536x960 are added simultaneously and appear in Windows, games, and the ClawTweaks quick menu.
             </div>
 
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
@@ -1116,56 +1107,49 @@
         <div class="container">
             <div class="section-header">
                 <h2>Windows Debloat &amp; Tuning: Optimize-Handheld</h2>
-                <p>
-                    Safe, modular Windows 10/11 optimization suite designed specifically for handheld gaming PCs.
-                    Derived strictly from real-world telemetry logs of the MSI Claw 8 AI+.
-                </p>
+                <p>Windows 10/11 tuning script built strictly from the MSI Claw 8 AI+ system ledger.</p>
             </div>
 
             <div class="opt-grid">
                 <div class="opt-card">
                     <span class="opt-badge std">Standard Level</span>
                     <h3>Core Optimization</h3>
-                    <p>Safe baseline for all handheld users. Disables components unnecessary on a dedicated gaming device.</p>
+                    <p>Safe baseline: removes bloatware while keeping the gaming stack untouched.</p>
                     <ul class="opt-list">
-                        <li>• Removal of background AI packages (Recall, Copilot)</li>
-                        <li>• Disabled telemetry tasks and DiagTrack service</li>
-                        <li>• S4 Hibernation: S0 standby disabled, timeouts (10m DC / 60m AC), buttons to hibernate</li>
-                        <li>• Static 16 GB pagefile on C: to prevent DXGI DirectX crashes</li>
-                        <li>• Hardware GPU scaling set to Maintain Aspect Ratio via CCD API</li>
-                        <li>• Touch keyboard on login screen (DisableAutomaticRestartSignOn)</li>
+                        <li>• Removal of Recall and Copilot packages</li>
+                        <li>• Disabled telemetry and DiagTrack service</li>
+                        <li>• S4 Hibernation: S0 disabled, timeouts (10m DC / 60m AC), buttons to hibernate</li>
+                        <li>• Static 16 GB pagefile (16384 MB) preventing DXGI crashes</li>
+                        <li>• GPU Maintain Aspect Ratio scaling</li>
+                        <li>• Lock screen touch keyboard (ARSO fix)</li>
                     </ul>
                 </div>
 
                 <div class="opt-card">
                     <span class="opt-badge full">Full Level</span>
                     <h3>Deep Resource Freeing</h3>
-                    <p>Includes Standard level plus unloaded secondary background tools and sync services.</p>
+                    <p>Standard plus secondary background services and legacy apps.</p>
                     <ul class="opt-list">
-                        <li>• Blocked OneDrive background file sync</li>
-                        <li>• Unloaded Intel DSA background updater service</li>
-                        <li>• Stopped unused background audio processing effects</li>
-                        <li>• Removed deprecated Windows components (WMIC, Media Player, Phone Link)</li>
+                        <li>• Blocked OneDrive background sync</li>
+                        <li>• Disabled Intel Graphics and Logitech Options+ startup (plus optional Intel DSA and DTS/intelliGo audio)</li>
+                        <li>• Removed WMIC, Media Player, Phone Link, and Maps</li>
                     </ul>
                 </div>
 
                 <div class="opt-card">
-                    <span class="opt-badge save">Check Savings Mode</span>
-                    <h3>Objective Measurement</h3>
-                    <p>Built-in audit function to measure verified resource savings without administrator rights.</p>
+                    <span class="opt-badge save">Check Savings &amp; BitLocker</span>
+                    <h3>Audit &amp; Encryption</h3>
+                    <p>Non-admin resource comparison and BitLocker decryption.</p>
                     <ul class="opt-list">
-                        <li>• Measurement of reclaimed system RAM</li>
-                        <li>• Tally of freed SSD storage space</li>
+                        <li>• Reclaimed RAM and SSD space metrics</li>
                         <li>• List of eliminated background processes</li>
-                        <li>• Before/after state comparison against baseline</li>
+                        <li>• Option 6: BitLocker decryption on C:</li>
                     </ul>
                 </div>
             </div>
 
             <div class="note-box" style="margin-bottom: 24px;">
-                <strong>Gaming Stack Protection:</strong> The script enforces a strict whitelist and will never touch or remove
-                Xbox, Game Bar, Gaming Services, Microsoft Store, Windows Defender, GPU drivers,
-                or handheld management tools (MSI Center M, ClawTweaks, HidHide). Every action supports full reversal via <code>Undo</code>.
+                <strong>Whitelist Protection:</strong> Never modifies Xbox, Game Bar, Gaming Services, Microsoft Store, Defender, GPU drivers, MSI Center M, ClawTweaks, or HidHide. Every step is reversible via <code>Undo</code>.
             </div>
 
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
@@ -1180,13 +1164,13 @@
         <div class="container">
             <div class="section-header">
                 <h2>Dedicated Utilities for MSI Claw</h2>
-                <p>Software solutions engineered specifically around the hardware features of the Claw platform.</p>
+                <p>Open-source tools built specifically for Claw hardware.</p>
             </div>
 
             <!-- SaySo -->
             <div class="app-card">
                 <div class="app-card-header">
-                    <span class="app-badge">Whisper int8 • Intel NPU • Push-to-Talk</span>
+                    <span class="app-badge">Whisper • Intel NPU • Push-to-Talk</span>
                     <h3>SaySo: Voice Assistant &amp; Dictation</h3>
                 </div>
                 <div class="app-card-content">
@@ -1194,16 +1178,12 @@
                         <img src="../assets/img/sayso-main.png" alt="SaySo Settings Window on MSI Claw">
                     </div>
                     <div class="app-text">
-                        <p>
-                            Voice assistant and dictation daemon running locally on the integrated Intel NPU (Lunar Lake).
-                            Enables hands-free text input into any game chat or app field by holding a controller paddle,
-                            alongside voice-driven hardware control.
-                        </p>
+                        <p>Local voice dictation and commands on Intel NPU (<code>small int8</code> default, optional <code>large-v3-turbo fp16</code>).</p>
                         <ul class="app-features">
-                            <li>Fast speech-to-text with spoken correction ("delete word", "replace with") without cloud latency</li>
-                            <li>Direct TDP power adjustments, fan curves, and game pausing via ClawTweaks integration</li>
-                            <li>Automatic mapping to rear M1 and M2 paddles, with per-game profile awareness</li>
-                            <li>Bilingual UI (EN / RU) on C# WPF with automatic Windows language detection and responsive layout</li>
+                            <li>Hold-to-talk dictation with voice edits ("delete word", "replace with") without cloud latency</li>
+                            <li>TDP, fan, and game pause control via ClawTweaks integration</li>
+                            <li>M1/M2 paddle binding and per-game profiles</li>
+                            <li>Bilingual UI (EN / RU) with automatic Windows language detection</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/sayso" target="_blank" class="btn btn-secondary">SaySo Repository on GitHub</a>
@@ -1215,7 +1195,7 @@
             <!-- ClawAmbilight -->
             <div class="app-card">
                 <div class="app-card-header">
-                    <span class="app-badge">Direct HID • DXGI Desktop Duplication • GPU Averaging</span>
+                    <span class="app-badge">HID 0x0F • DXGI Desktop Duplication • ~1.5% CPU</span>
                     <h3>ClawAmbilight: Dynamic Stick Lighting</h3>
                 </div>
                 <div class="app-card-content">
@@ -1223,16 +1203,11 @@
                         <img src="../assets/img/ambilight-main.png" alt="ClawAmbilight Control Panel">
                     </div>
                     <div class="app-text">
-                        <p>
-                            Adaptive LED ring lighting for analog sticks and ABXY buttons reactive to on-screen game colors.
-                            Frames are captured via DXGI Desktop Duplication and averaged directly on the GPU shader core,
-                            consuming only ~1.5% of one CPU core without impacting game framerates.
-                        </p>
+                        <p>Screen-reactive LED lighting for stick rings and ABXY via DXGI and GPU mipmap averaging (~1.5% of one CPU core).</p>
                         <ul class="app-features">
-                            <li>Soft (subtle ambient scene colors) and Vivid (dynamic high-brightness accents) modes</li>
-                            <li>Joy-Con preset inspired by classic neon blue and neon red Nintendo Switch palettes</li>
-                            <li>Direct HID vendor 0x0F report writes into controller RAM without flash memory wear</li>
-                            <li>Automatic polling drop on battery power and bilingual UI (EN / RU) with manual language switch</li>
+                            <li>Ambient, Vibrant, Buttons Only, and Joy-Con preset modes</li>
+                            <li>Direct HID <code>0x0F</code> RAM writes with zero flash wear</li>
+                            <li>Eco battery polling and bilingual UI (EN / RU)</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank" class="btn btn-secondary">ClawAmbilight Repository on GitHub</a>
@@ -1244,7 +1219,7 @@
             <!-- kbdhaptic -->
             <div class="app-card">
                 <div class="app-card-header">
-                    <span class="app-badge">XInput Haptics • WinRT Reflection • Auto-Rotate</span>
+                    <span class="app-badge">XInput Haptics • WinRT • Auto-Rotate</span>
                     <h3>kbdhaptic: Haptic Typing &amp; Auto-Rotation</h3>
                 </div>
                 <div class="app-card-content">
@@ -1252,16 +1227,12 @@
                         <img src="../assets/img/kbdhaptic-main.png" alt="kbdhaptic Configuration Window">
                     </div>
                     <div class="app-text">
-                        <p>
-                            Addresses two hardware quirks of Windows 11 handhelds:
-                            delivers tactile motor feedback from built-in rumble motors on touch keyboard typing,
-                            and restores functional screen auto-rotation.
-                        </p>
+                        <p>Adds tactile rumble feedback for touch keyboard typing and restores screen auto-rotation on Windows 11.</p>
                         <ul class="app-features">
-                            <li>Crisp XInput motor pulses on each screen keystroke via IFrameworkInputPane notification</li>
-                            <li>File Explorer navigation using gamepad buttons (A: open, B: back, Y: up, X: context menu)</li>
-                            <li>Bypasses Simple Device Orientation limitations via WinRT sensor polling and ChangeDisplaySettingsEx</li>
-                            <li>Synchronized with Windows Auto-Rotate toggle and bilingual UI (EN / RU) following dark theme</li>
+                            <li>XInput motor pulses per keystroke via <code>IFrameworkInputPane</code></li>
+                            <li>Explorer gamepad navigation (A: open, B: back, Y: up, X: menu)</li>
+                            <li>Auto-rotation via WinRT <code>Simple Device Orientation</code> and <code>ChangeDisplaySettingsEx</code> synced with Windows Auto-Rotate lock</li>
+                            <li>Bilingual UI (EN / RU)</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank" class="btn btn-secondary">kbdhaptic Repository on GitHub</a>
@@ -1272,7 +1243,7 @@
             <!-- ArcSyncSwitch -->
             <div class="app-card">
                 <div class="app-card-header">
-                    <span class="app-badge">ControlLib.dll • D3DKMT • 48..120 Hz • Zero Background Load</span>
+                    <span class="app-badge">ControlLib.dll • D3DKMT • 48..120 Hz • 0% Background</span>
                     <h3>ArcSyncSwitch: Intel Arc Sync &amp; LFC Profiles</h3>
                 </div>
                 <div class="app-card-content">
@@ -1280,17 +1251,13 @@
                         <img src="../assets/img/arcsync-preview.png" alt="ArcSyncSwitch Control Window">
                     </div>
                     <div class="app-text">
-                        <p>
-                            Utility for switching Intel Arc Sync (VRR) profiles and LFC frame compensation.
-                            Unlocks the panels full hardware 48..120 Hz range without EDID modifications by lifting the default 60..120 Hz driver clamp,
-                            eliminating micro-stutter and frame pacing flutter around 60 FPS.
-                        </p>
+                        <p>Switches Intel VRR and LFC profiles: lifts the 60..120 Hz clamp to unlock hardware 48..120 Hz without EDID changes.</p>
                         <ul class="app-features">
-                            <li>Switches driver into EXCELLENT profile (48..120 Hz) directly via ControlLib.dll</li>
-                            <li>Preserves custom 1600x1000 and 1536x960 modes without EDID override collisions</li>
-                            <li>Independent toggling of internal Intel LFC driver flags via D3DKMTEscape</li>
-                            <li>Silent logon re-apply (--apply) via Windows Task Scheduler with zero background memory or CPU usage</li>
-                            <li>Bilingual interface (EN / RU) with automatic Windows OS language detection</li>
+                            <li>Switches driver to <code>EXCELLENT</code> (48..120 Hz) via <code>ControlLib.dll</code></li>
+                            <li>Preserves custom 1600x1000 and 1536x960 resolutions</li>
+                            <li>Independent LFC flag toggling via <code>D3DKMTEscape</code></li>
+                            <li>Silent logon task (<code>--apply</code>) with zero background process</li>
+                            <li>Bilingual UI (EN / RU)</li>
                         </ul>
                         <div class="app-actions">
                             <a href="https://github.com/carbonumbrella/arcsync-switch" target="_blank" class="btn btn-secondary">ArcSyncSwitch Repository on GitHub</a>
@@ -1308,11 +1275,7 @@
                 <div class="external-text">
                     <span class="app-badge" style="background: rgba(239, 68, 68, 0.15); color: var(--accent-red); border-color: rgba(239, 68, 68, 0.3);">External Integration</span>
                     <h3>ClawTweaks Widget for Xbox Game Bar</h3>
-                    <p>
-                        Essential companion for real-time TDP power tuning (PL1/PL2), fan curve control,
-                        and controller profiles on MSI Claw. Our custom resolution pack automatically patches the ClawTweaks
-                        helper whitelist, and the SaySo voice assistant controls profiles via named pipes.
-                    </p>
+                    <p>Real-time TDP (PL1/PL2), fan curves, FPS caps, and gamepad profiles. Resolution Pack patches its mode list, and SaySo controls profiles over named pipes.</p>
                 </div>
                 <div>
                     <a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank" class="btn btn-secondary">ClawTweaks Project on GitHub</a>
@@ -1323,9 +1286,7 @@
                 <div class="external-text">
                     <span class="app-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); border-color: rgba(56, 189, 248, 0.3);">Third-Party Tool</span>
                     <h3>OptiClick: One-Click OptiScaler Automation for XeSS &amp; XeFG</h3>
-                    <p>
-                        Automated OptiScaler installer for titles with DLSS or FSR support. Bridges upscaling calls to native Intel XeSS and activates in-engine XeFG frame generation with clean HUD elements and lower input latency.
-                    </p>
+                    <p>Injects OptiScaler into DLSS/FSR games in one click, enabling native Intel XeSS and XeFG frame generation.</p>
                 </div>
                 <div>
                     <a href="https://github.com/onehoon/OptiClick" target="_blank" class="btn btn-secondary">OptiClick Project on GitHub</a>
@@ -1338,33 +1299,25 @@
     <section id="guides">
         <div class="container">
             <div class="section-header">
-                <h2>Knowledge Base &amp; Technical Guides</h2>
-                <p>
-                    Practical guides covering hardware architecture, display tuning, power calibration, memory management, and gaming software.
-                </p>
+                <h2>Knowledge Base &amp; Guides</h2>
+                <p>Practical manuals on deployment, display, power, memory, game tuning, and software.</p>
             </div>
 
             <div class="guides-grid">
                 <a href="guides/setup-guide.html" class="portal-guide-card" style="border-color: rgba(16, 185, 129, 0.35); background: linear-gradient(180deg, rgba(16, 185, 129, 0.06) 0%, var(--bg-card) 100%);">
                     <div>
                         <span class="card-badge badge-power">Clean Installation</span>
-                        <h3>Step-by-Step Setup: From Fresh Windows 11 to Gaming</h3>
-                        <p>
-                            Complete system deployment order: driver installation, MSI Center M,
-                            removing the 75% fan lock, ClawTweaks, OS debloating, BitLocker removal, and custom resolutions.
-                        </p>
+                        <h3>Step-by-Step Setup: From Windows 11 to Gaming</h3>
+                        <p>Drivers, MSI Center M, unlocking fans &gt;75%, ClawTweaks, OS cleanup, BitLocker, and 16:10 resolutions.</p>
                     </div>
-                    <span class="read-link" style="color: var(--accent-green);">Read Setup Guide →</span>
+                    <span class="read-link" style="color: var(--accent-green);">Read Guide →</span>
                 </a>
 
                 <a href="guides/vrr-display.html" class="portal-guide-card">
                     <div>
                         <span class="card-badge badge-vrr">Display &amp; VRR</span>
-                        <h3>Display &amp; Variable Refresh Rate: DisplayID 2.0 &amp; LFC</h3>
-                        <p>
-                            DisplayID 2.0 descriptor breakdown, why the desktop shows 60:120 Hz while games run 48:120 Hz,
-                            LFC framerate doubling physics, 120 Hz VRR vs fixed 48 Hz scenarios, and panel color calibration.
-                        </p>
+                        <h3>Display &amp; VRR: DisplayID 2.0, ArcSyncSwitch &amp; LFC</h3>
+                        <p>60..120 vs 48..120 Hz driver profiles, LFC, 116 FPS cap, overlay impact, and ICC color calibration.</p>
                     </div>
                     <span class="read-link">Read Guide →</span>
                 </a>
@@ -1372,11 +1325,8 @@
                 <a href="guides/power-and-sleep.html" class="portal-guide-card">
                     <div>
                         <span class="card-badge badge-power">Power &amp; Sleep</span>
-                        <h3>Power Tuning, S4 Hibernation &amp; TDP Limits (PL1/PL2)</h3>
-                        <p>
-                            Dangers of S0 Modern Standby in carry cases, configuring dependable S4 hibernation, 20-21W gaming baseline,
-                            handling CPU-heavy game engines, framerate capping instead of wattage throttling, and quiet fan curves.
-                        </p>
+                        <h3>Power Tuning, S4 Hibernation &amp; TDP Limits</h3>
+                        <p>S0 to S4 switch, 20-21W baseline, PL2 = PL1 + 1W rule, CPU boost tuning, fan curves, and 100W PD docks.</p>
                     </div>
                     <span class="read-link">Read Guide →</span>
                 </a>
@@ -1384,11 +1334,8 @@
                 <a href="guides/memory-and-stability.html" class="portal-guide-card">
                     <div>
                         <span class="card-badge badge-memory">Memory &amp; Stability</span>
-                        <h3>GPU Memory, Pagefile &amp; Kernel Security</h3>
-                        <p>
-                            Unified LPDDR5x MoP architecture, preventing DXGI crashes through a fixed 16 GB pagefile,
-                            disabling BitLocker, emergency EC reset procedure, and warnings against hidden BIOS menus.
-                        </p>
+                        <h3>GPU Memory, 16 GB Pagefile &amp; Kernel</h3>
+                        <p>LPDDR5x MoP, Shared VRAM pool, static 16 GB pagefile against DXGI crashes, BitLocker, EC reset, and BIOS.</p>
                     </div>
                     <span class="read-link">Read Guide →</span>
                 </a>
@@ -1396,25 +1343,19 @@
                 <a href="guides/software-choice.html" class="portal-guide-card" style="border-color: rgba(168, 85, 247, 0.35); background: linear-gradient(180deg, rgba(168, 85, 247, 0.06) 0%, var(--bg-card) 100%);">
                     <div>
                         <span class="card-badge" style="background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); border: 1px solid rgba(168, 85, 247, 0.3);">Handheld Software</span>
-                        <h3>Software Choice: ClawTweaks, MSI Center M, and HandheldCompanion</h3>
-                        <p>
-                            Architectural comparison of management utilities, Xbox 360, DualShock and Steam Controller emulation,
-                            gyro aiming via right stick, console FSE launcher, and battery health limits.
-                        </p>
+                        <h3>ClawTweaks, MSI Center M &amp; HandheldCompanion</h3>
+                        <p>RAM and EC overhead comparison, FSE launcher, controller emulation, gyro, and battery charge limits.</p>
                     </div>
-                    <span class="read-link" style="color: var(--accent-purple);">Read Comparison Guide →</span>
+                    <span class="read-link" style="color: var(--accent-purple);">Read Comparison →</span>
                 </a>
 
                 <a href="guides/game-tuning.html" class="portal-guide-card" style="border-color: rgba(0, 210, 255, 0.35); background: linear-gradient(180deg, rgba(0, 210, 255, 0.06) 0%, var(--bg-card) 100%);">
                     <div>
                         <span class="card-badge" style="background: rgba(0, 210, 255, 0.15); color: var(--accent-cyan); border: 1px solid rgba(0, 210, 255, 0.3);">Game Tuning</span>
-                        <h3>Game Tuning &amp; Maximum FPS: Upscaling and Frame Generation</h3>
-                        <p>
-                            Practical optimization guide: Intel XeSS vs FSR, OptiClick automation, LSFG 2x generation,
-                            Low Latency On/Boost modes, framerate capping over wattage choking, and 16:10 resolutions.
-                        </p>
+                        <h3>Game Tuning: Upscaling, Frame Gen &amp; FPS</h3>
+                        <p>Intel XeSS (XMX) vs FSR, OptiClick, LSFG, Low Latency On/Boost, FPS caps, and 16:10 resolutions.</p>
                     </div>
-                    <span class="read-link" style="color: var(--accent-cyan);">Read FPS Tuning Guide →</span>
+                    <span class="read-link" style="color: var(--accent-cyan);">Read Guide →</span>
                 </a>
             </div>
         </div>
@@ -1424,17 +1365,14 @@
     <section id="calibration">
         <div class="container">
             <div class="section-header">
-                <h2>Hardware Calibration &amp; System Tuning</h2>
-                <p>Targeted adjustments improving panel color accuracy, touch keyboard behavior, and cooling stability.</p>
+                <h2>Calibration &amp; System Tweaks</h2>
+                <p>Targeted adjustments for display white point, lock screen keyboard, and fan limits.</p>
             </div>
 
             <div class="calib-grid">
                 <div class="calib-card">
-                    <h3>Panel Color Profile CSW PN8007QB1-2</h3>
-                    <p>
-                        Optional warm sRGB ICC profile by Notebookcheck laboratory for users preferring cinematic 6500K color balance
-                        over the cooler factory default (7200K).
-                    </p>
+                    <h3>Panel Profile CSW PN8007QB1-2</h3>
+                    <p>Warm ICC profile by Notebookcheck (6500K sRGB instead of factory ~7852K).</p>
                     <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
                         <a href="../assets/calib/PN8007QB1_2_cal.icm" download="PN8007QB1_2_cal.icm" class="btn-download-link">Download ICM (26 KB)</a>
                         <a href="https://www.notebookcheck.net/MSI-Claw-8-AI-review-The-best-gaming-handheld-thanks-to-Intel-Lunar-Lake.974004.0.html" target="_blank" style="font-size: 0.85rem; color: var(--text-muted);">Notebookcheck Review ↗</a>
@@ -1442,18 +1380,13 @@
                 </div>
 
                 <div class="calib-card">
-                    <h3>Touch Keyboard on Lock Screen</h3>
-                    <p>
-                        Disabling Automatic Restart Sign-On (ARSO) policy via Windows Registry.
-                        Prevents the on-screen touch keyboard from abruptly collapsing when entering PIN on the lock screen.
-                    </p>
+                    <h3>Lock Screen Touch Keyboard</h3>
+                    <p>Disabling ARSO policy prevents the touch keyboard from collapsing on PIN entry.</p>
                 </div>
 
                 <div class="calib-card">
-                    <h3>Unlocking the Upper Fan Curve</h3>
-                    <p>
-                        Enabling Extended range &gt;75 in the ClawTweaks Fan tab and setting the top two curve points (80°C and 88°C) to 85% and 120% to prevent thermal throttling under sustained load.
-                    </p>
+                    <h3>Unlocking Upper Fan Curve</h3>
+                    <p><code>Extended range &gt;75</code> toggle in ClawTweaks raises 80°C/88°C points from 67%/75% to 85%/120%.</p>
                 </div>
             </div>
         </div>
@@ -1464,7 +1397,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>Download Catalog</h2>
-                <p>MSI Claw Suite modules are distributed under the open-source MIT license, third-party utilities are hosted in their authors official GitHub repositories.</p>
+                <p>First-party MIT tools and official third-party GitHub releases.</p>
             </div>
 
             <div class="swipe-hint">
@@ -1485,63 +1418,63 @@
                     <tbody>
                         <tr>
                             <td><strong>MSI Claw Resolution Pack</strong></td>
-                            <td>1600x1000 &amp; 1536x960 modes, EDID overrides, ClawTweaks patch</td>
+                            <td>1600x1000 &amp; 1536x960 modes, EDID_OVERRIDE, ClawTweaks patch</td>
                             <td><span class="tag-version">v1.0.0</span></td>
                             <td><a href="https://github.com/carbonumbrella/handheld-resolution-pack/releases/tag/v1.0.0" target="_blank" class="btn-download-link">Download ZIP (v1.0.0)</a></td>
                             <td><a href="https://github.com/carbonumbrella/handheld-resolution-pack" target="_blank">handheld-resolution-pack</a></td>
                         </tr>
                         <tr>
                             <td><strong>Display Color Profile (ICC / ICM)</strong></td>
-                            <td>CSW PN8007QB1-2 panel calibration (6500K sRGB) by Notebookcheck laboratory</td>
+                            <td>CSW PN8007QB1-2 calibration (6500K sRGB) by Notebookcheck</td>
                             <td><span class="tag-version">CSW0801</span></td>
                             <td><a href="../assets/calib/PN8007QB1_2_cal.icm" download="PN8007QB1_2_cal.icm" class="btn-download-link">Download ICM (26 KB)</a></td>
                             <td><a href="https://www.notebookcheck.net/MSI-Claw-8-AI-review-The-best-gaming-handheld-thanks-to-Intel-Lunar-Lake.974004.0.html" target="_blank">notebookcheck.net ↗</a></td>
                         </tr>
                         <tr>
                             <td><strong>Optimize-Handheld</strong></td>
-                            <td>Windows 11 debloat, Recall/AI removal, BitLocker management, auto S4 hibernation, 16 GB pagefile, GPU scaling</td>
+                            <td>Windows 11 debloat, Recall/AI removal, BitLocker, S4 hibernation, 16 GB pagefile, GPU scaling</td>
                             <td><span class="tag-version">v1.2.0</span></td>
                             <td><a href="https://github.com/carbonumbrella/optimize-handheld/releases/tag/v1.2.0" target="_blank" class="btn-download-link">Download ZIP (v1.2.0)</a></td>
                             <td><a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">optimize-handheld</a></td>
                         </tr>
                         <tr>
                             <td><strong>SaySo</strong></td>
-                            <td>Local voice assistant and speech dictation on Intel NPU (Whisper int8)</td>
-                            <td><span class="tag-version">v0.3.7</span></td>
+                            <td>Local voice assistant and dictation on Intel NPU (Whisper, EN / RU)</td>
+                            <td><span class="tag-version">v0.3.17</span></td>
                             <td><a href="https://github.com/carbonumbrella/sayso/releases" target="_blank" class="btn-download-link">Installer EXE</a></td>
                             <td><a href="https://github.com/carbonumbrella/sayso" target="_blank">sayso</a></td>
                         </tr>
                         <tr>
                             <td><strong>ClawAmbilight</strong></td>
-                            <td>Dynamic ambient lighting for analog stick rings and ABXY buttons reactive to screen colors</td>
-                            <td><span class="tag-version">v0.9.8</span></td>
+                            <td>Screen-reactive stick &amp; ABXY Ambilight (~1.5% CPU, EN / RU)</td>
+                            <td><span class="tag-version">v0.9.9</span></td>
                             <td><a href="https://github.com/carbonumbrella/claw-ambilight/releases" target="_blank" class="btn-download-link">Installer EXE</a></td>
                             <td><a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank">claw-ambilight</a></td>
                         </tr>
                         <tr>
                             <td><strong>kbdhaptic</strong></td>
-                            <td>Haptic typing feedback for touch keyboard and hardware display auto-rotation</td>
-                            <td><span class="tag-version">v0.9.2</span></td>
+                            <td>Touch keyboard haptics and display auto-rotation (EN / RU)</td>
+                            <td><span class="tag-version">v0.9.3</span></td>
                             <td><a href="https://github.com/carbonumbrella/kbdhaptic/releases" target="_blank" class="btn-download-link">Download ZIP</a></td>
                             <td><a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank">kbdhaptic</a></td>
                         </tr>
-                                                <tr>
+                        <tr>
                             <td><strong>ArcSyncSwitch</strong></td>
-                            <td>Unlocks native 48..120 Hz VRR, eliminates 60 Hz LFC flutter without EDID changes (EN / RU)</td>
+                            <td>Unlocks 48..120 Hz VRR and LFC toggles without EDID changes (EN / RU)</td>
                             <td><span class="tag-version">v1.0.0</span></td>
                             <td><a href="https://github.com/carbonumbrella/arcsync-switch/releases" target="_blank" class="btn-download-link">Installer EXE</a></td>
                             <td><a href="https://github.com/carbonumbrella/arcsync-switch" target="_blank">arcsync-switch</a></td>
                         </tr>
-<tr>
+                        <tr>
                             <td><strong>ClawTweaks</strong> <span class="tag-external">Third-party</span></td>
-                            <td>Xbox Game Bar widget: TDP control, custom fan curves, resolution switcher, and overlay</td>
+                            <td>Xbox Game Bar widget: TDP, fan curves, resolutions, overlay</td>
                             <td><span class="tag-version">GitHub</span></td>
                             <td><a href="https://github.com/enterTheVoidCode/ClawTweaks/releases" target="_blank" class="btn-download-link">GitHub Releases ↗</a></td>
                             <td><a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank">enterTheVoidCode/ClawTweaks ↗</a></td>
                         </tr>
                         <tr>
                             <td><strong>OptiClick</strong> <span class="tag-external">Third-party</span></td>
-                            <td>One-click OptiScaler automation: XeSS upscaling and frame generation injection for games</td>
+                            <td>One-click OptiScaler injection for XeSS and frame generation</td>
                             <td><span class="tag-version">GitHub</span></td>
                             <td><a href="https://github.com/onehoon/OptiClick/releases" target="_blank" class="btn-download-link">GitHub Releases ↗</a></td>
                             <td><a href="https://github.com/onehoon/OptiClick" target="_blank">onehoon/OptiClick ↗</a></td>
@@ -1557,7 +1490,7 @@
         <div class="container footer-content">
             <div>
                 <p>MSI Claw Suite • Author: <a href="https://github.com/carbonumbrella" target="_blank">carbonumbrella</a></p>
-                <p style="font-size: 0.8rem; margin-top: 4px;">MIT License. Verified on MSI Claw 8 AI+ (Windows 11 Home SL 24H2/25H2/26H2).</p>
+                <p style="font-size: 0.8rem; margin-top: 4px;">MIT License. Verified on MSI Claw 8 AI+ (Windows 11 Home SL 24H2/25H2).</p>
             </div>
             <div>
                 <a href="#overview" style="color: var(--text-subtle);">Back to top ↑</a>

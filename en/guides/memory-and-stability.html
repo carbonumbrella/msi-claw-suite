@@ -552,10 +552,9 @@
         <!-- Guide Header -->
         <div class="guide-header">
             <span class="guide-badge">Operating System and Architecture</span>
-            <h1>Memory Optimization, Pagefile and System Stability on MSI Claw</h1>
+            <h1>Memory Optimization, Pagefile, and System Stability</h1>
             <p class="lead">
-                Unified LPDDR5x memory architecture, eliminating DirectX crashes by locking a 16 GB pagefile,
-                and Windows 11 kernel security considerations.
+                Unified LPDDR5x memory, static 16 GB pagefile against DirectX crashes, Windows 11 services, EC Reset, and BIOS access.
             </p>
             <div class="guide-meta">
                 <div class="guide-meta-item">
@@ -576,170 +575,83 @@
         <!-- Article -->
         <article>
             <section id="lpddr5x">
-                <h2>1. Unified LPDDR5x Memory Architecture</h2>
+                <h2>1. Unified LPDDR5x Memory</h2>
                 <p>
-                    Intel Core Ultra 200V processors (Lunar Lake) feature Memory on Package (MoP) architecture:
-                    LPDDR5x memory dies (running at up to 8533 MT/s) are soldered directly on the processor substrate.
-                    This design provides minimal physical latency and a wide data exchange bus.
-                </p>
-                <p>
-                    The device memory is fully unified:
-                    the physical array is dynamically shared between CPU cores, the Intel Arc graphics processor (GPU),
-                    and the neural processing unit (NPU).
+                    Intel Core Ultra 200V (Lunar Lake) uses Memory on Package (MoP): LPDDR5x dies (up to 8533 MT/s) sit directly on the processor substrate and share bandwidth dynamically across CPU cores, the Intel Arc GPU, and the NPU.
                 </p>
             </section>
 
             <section id="gpu-memory">
-                <h2>2. GPU Memory Allocation in Windows and Intel Arc Driver</h2>
+                <h2>2. GPU Memory Allocation in Windows and Intel Arc</h2>
                 <p>
-                    On Intel Core Ultra (Lunar Lake), factory firmware does not include a UMA Frame Buffer toggle.
-                    Memory is allocated dynamically: under Windows Display Driver Model (WDDM) specifications, the graphics subsystem is allocated up to half of total physical system memory.
+                    BIOS offers no UMA Frame Buffer switch: under WDDM, Windows assigns up to 50% of system RAM as <strong>16.0 GB Shared GPU Memory</strong> on a 32 GB device (Intel Graphics Software also exposes <em>Shared GPU Memory Override</em> defaulting to 57% ~18.2 GB). Modern games need no BIOS overrides.
                 </p>
-                <p>
-                    On a 32 GB console, this guarantees that the Intel Arc GPU has access to
-                    <strong>16 GB of Shared GPU Memory</strong>.
-                    This pool provides ample headroom for high-resolution texture packs in modern titles without any manual BIOS adjustments.
-                </p>
-
                 <div class="info-box">
-                    <strong>Monitoring Memory Parameters in Windows:</strong>
-                    The real-time status of the video buffer is visible directly in Windows: in Task Manager
-                    (shortcut <code>Ctrl + Shift + Esc</code>) under the Performance tab, the GPU section displays
-                    Shared GPU Memory at 16.0 GB.
+                    Check live allocation in Task Manager (<code>Ctrl + Shift + Esc</code>) → Performance → GPU → Shared GPU Memory (16.0 GB default).
                 </div>
             </section>
 
             <section id="pagefile">
                 <h2>3. Fixed 16 GB Pagefile</h2>
                 <p>
-                    When modern games demand 8 to 16 GB for graphics rendering, the remaining physical memory available
-                    for Windows 11 system components and background services is reduced.
+                    Once graphics workloads claim 8..16 GB, remaining system RAM shrinks. With a System Managed dynamic pagefile, Windows expands the SSD paging file mid-game, causing I/O latency spikes.
                 </p>
-                <p>
-                    In its default state, Windows uses a dynamic pagefile set to System Managed.
-                    When a game suddenly requests additional memory for system libraries, Windows attempts to expand
-                    the pagefile on the SSD storage drive during active gameplay.
-                </p>
-
                 <div class="warning-box">
-                    <strong>Root Cause of Fatal DirectX (DXGI) Crashes:</strong>
-                    Expanding the pagefile on disk causes an instant I/O latency spike.
-                    The game render pipeline fails to receive a response from the system memory manager within the allowed timeout window
-                    and crashes with <code>DXGI_ERROR_DEVICE_REMOVED</code>, <code>DXGI_ERROR_DEVICE_HUNG</code>,
-                    or <code>Out of Video Memory</code> errors, even though total memory capacity has not been exhausted.
+                    <strong>Root Cause of DirectX (DXGI) Crashes:</strong> pagefile expansion stalls the render pipeline past the GPU timeout window, triggering <code>DXGI_ERROR_DEVICE_REMOVED</code>, <code>DXGI_ERROR_DEVICE_HUNG</code>, or <code>Out of Video Memory</code>.
                 </div>
 
-                <h3>The Fix: Static Pagefile Locked at 16384 MB</h3>
-                <div class="info-box" style="margin-bottom: 20px;">
-                    <strong>Automated Setup:</strong> Locking a static 16 GB pagefile (16384 MB), disabling automatic Windows management, and skipping pagefile zeroing on shutdown are performed automatically via the <a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">Optimize-Handheld</a> script (Memory category).
+                <h3>Static 16384 MB Lock (Manual or Optimize-Handheld)</h3>
+                <div class="info-box" style="margin-bottom: 14px;">
+                    The <strong>Memory</strong> category in <a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">Optimize-Handheld</a> locks a static 16 GB (16384 MB) pagefile and disables shutdown zeroing automatically.
                 </div>
-                <p>
-                    Locking the pagefile (setting Initial Size and Maximum Size to identical values of 16 GB)
-                    forces Windows to allocate an unfragmented container on the fast PCIe 4.0 SSD immediately.
-                    The operating system never needs to resize the paging pool during gaming.
-                </p>
-                <p>
-                    Run the following command in PowerShell as Administrator:
-                </p>
+                <p>Manual setup in elevated PowerShell:</p>
                 <pre>Set-CimInstance -Query "Select * from Win32_PageFileSetting where Name like 'C:%'" -Property @{InitialSize = 16384; MaximumSize = 16384}</pre>
-                <p>
-                    Alternatively, configure it through the Windows GUI:
-                </p>
+                <p>Via Windows GUI:</p>
                 <ol>
-                    <li>Press <code>Win + R</code>, type <code>sysdm.cpl</code>, and press Enter.</li>
-                    <li>Go to the Advanced tab, then under Performance click Settings.</li>
-                    <li>Go to the Advanced tab, then under Virtual memory click Change.</li>
-                    <li>Uncheck "Automatically manage paging file size for all drives".</li>
-                    <li>Select drive <code>C:</code>, click "Custom size", set Initial size: <strong>16384</strong>, Maximum size: <strong>16384</strong>.</li>
-                    <li>Click <strong>Set</strong>, then click <strong>OK</strong>, and restart the device.</li>
+                    <li>Press <code>Win + R</code>, run <code>sysdm.cpl</code> → Advanced → Performance (Settings) → Advanced → Virtual memory (Change).</li>
+                    <li>Uncheck automatic management, pick <code>C:</code>, set Initial and Maximum size to <strong>16384</strong>, click <strong>Set</strong> → <strong>OK</strong>, and reboot.</li>
                 </ol>
-                <div class="info-box" style="margin-top: 16px;">
-                    <strong>Unified Memory Footprint:</strong>
-                    Every 300:500 MB consumed by heavy background management tools is taken directly from graphics memory and triggers unnecessary pagefile swaps. A detailed comparison of background overhead is covered in <a href="software-choice.html" style="font-weight: 600; color: var(--accent-cyan);">Software Choice: Why ClawTweaks over MSI Center M and HandheldCompanion →</a>.
+                <div class="info-box" style="margin-top: 12px;">
+                    Every 300:500 MB consumed by heavy background apps cuts GPU headroom and triggers paging. See <a href="software-choice.html" style="font-weight: 600; color: var(--accent-cyan);">Software Choice →</a>.
                 </div>
             </section>
 
             <section id="hvci-audio">
-                <h2>4. Kernel Security (HVCI) and Service Optimization</h2>
-
-                <h3>Core Isolation (Memory Integrity / HVCI)</h3>
-                <p>
-                    Hypervisor-Protected Code Integrity (HVCI) in Windows 11 isolates critical memory processes
-                    inside a virtualized container.
-                    Certain low-level handheld tuning utilities that access CPU power limits or MSR registers
-                    can be blocked by this security layer.
-                </p>
-                <p>
-                    If tuning utilities report driver access errors:
-                    open Windows Security, navigate to Device security, select Core isolation details,
-                    toggle Memory integrity to Off, and restart the device.
-                </p>
-
-                <h3>Stopping Background Audio Effects</h3>
-                <p>
-                    The <a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">Optimize-Handheld</a> utility disables idle background spatial audio services from Nahimic
-                    and Realtek Audio Effects.
-                    This frees up to 250 MB of RAM and removes unnecessary audio post-processing cycles,
-                    reducing background load on CPU cores.
-                </p>
-
-                <h3>Disabling BitLocker Device Encryption</h3>
-                <p>
-                    Windows 11 enables automated BitLocker drive encryption out of the box. This places a constant background load on CPU cores and the SSD controller during texture streaming and asset loading in games.
-                </p>
-                <p>
-                    Disabling encryption via option 6 in the <a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">Optimize-Handheld</a> script (or via Windows Settings -&gt; Privacy &amp; security -&gt; Device encryption) completely eliminates this overhead, lowering disk I/O latency and smoothing frame pacing.
-                </p>
+                <h2>4. Core Isolation (HVCI), Audio Services, and BitLocker</h2>
+                <ul>
+                    <li><strong>Core Isolation (HVCI):</strong> if tuning apps fail to access MSR/TDP drivers, open Windows Security → Device security → Core isolation details, disable Memory integrity, and reboot.</li>
+                    <li><strong>Background Audio Effects:</strong> the optional <code>VendorAudio</code> category in <a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">Optimize-Handheld</a> disables third-party audio services <strong>DTS (<code>DtsApo4Service</code>)</strong> and <strong>MSI intelliGo (<code>IgoAudioService</code>)</strong> (~90 MB RAM and background CPU cycles) while leaving the core Realtek audio driver untouched.</li>
+                    <li><strong>BitLocker Device Encryption:</strong> enabled by default in Windows 11, adding constant SSD and CPU overhead during asset streaming. Disable via option 6 in <a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">Optimize-Handheld</a> or Settings → Privacy &amp; security → Device encryption.</li>
+                </ul>
             </section>
 
             <section id="emergency-reset">
-                <h2>5. Emergency Procedures: Embedded Controller (EC) Reset and UEFI Access</h2>
-                <p>
-                    If the handheld freezes, shows a black screen, or stops responding to short power button presses, the Embedded Controller (EC) may have locked up due to an anomalous power state or hardware stall.
-                </p>
-
+                <h2>5. Embedded Controller (EC) Reset and UEFI Access</h2>
                 <div class="warning-box">
-                    <strong>Hardware EC Reset Procedure:</strong>
-                    <ol style="margin-left: 20px; margin-top: 8px;">
-                        <li>Press and hold the power button down for a full <strong>20-30 seconds</strong> until all LED indicators and thumbstick ring lights turn completely off.</li>
-                        <li><strong>Critical Step:</strong> Performing an EC reset places the motherboard into hardware protection mode (Shipping Mode). Pressing the power button on battery power will not power up the device.</li>
-                        <li><strong>You must connect the factory Type-C wall charger</strong> to the device. Only external power delivery clears the shipping protection lock.</li>
-                        <li>Press the power button once: the system will boot normally.</li>
+                    <strong>Hardware EC Reset (for freezes or black screens):</strong>
+                    <ol style="margin-left: 20px; margin-top: 6px;">
+                        <li>Hold the power button for <strong>20-30 seconds</strong> until all LEDs and thumbstick rings turn off completely.</li>
+                        <li>The motherboard enters <strong>Shipping Mode</strong>: pressing power on battery will not turn it on.</li>
+                        <li>Plug in the <strong>factory Type-C charger</strong> and press power once to boot normally.</li>
                     </ol>
                 </div>
-
-                <h3>Methods to Enter BIOS / UEFI</h3>
+                <h3>Entering BIOS / UEFI:</h3>
                 <ul>
-                    <li>
-                        <strong>Hardware Method Without a Keyboard:</strong> With the console completely powered off, press and hold <code>RB + RT</code>, then press the power button. The system boots directly into the UEFI BIOS interface.
-                    </li>
-                    <li>
-                        <strong>Standard Windows Interface Method:</strong> Open Settings -&gt; System -&gt; Recovery -&gt; Advanced startup -&gt; Restart now. After restart, select: Troubleshoot -&gt; Advanced options -&gt; UEFI Firmware Settings.
-                    </li>
-                    <li>
-                        <strong>External Keyboard Method:</strong> Tap <code>Del</code> or <code>F2</code> immediately after pressing the power button.
-                    </li>
+                    <li><strong>Gamepad shortcut:</strong> while powered off, hold <code>RB + RT</code> and press power (works with Fast Boot disabled in BIOS).</li>
+                    <li><strong>Windows UI:</strong> Settings → System → Recovery → Advanced startup → Restart now → Troubleshoot → Advanced options → UEFI Firmware Settings.</li>
+                    <li><strong>External keyboard:</strong> tap <code>Del</code> or <code>F2</code> during boot.</li>
                 </ul>
             </section>
 
             <section id="bios-hidden-menu-warning">
-                <h2>6. Warning: Hidden Service BIOS Menu</h2>
-                <p>
-                    MSI motherboards feature a technician shortcut to unlock hidden setup menus:
-                </p>
+                <h2>6. Hidden Service BIOS Menu</h2>
                 <pre>Right Ctrl + Right Shift + Left Alt + F2</pre>
-
-                <div class="note-box" style="border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.06); margin: 16px 0;">
-                    <div style="font-weight: 700; color: var(--accent-red); margin-bottom: 6px;">Input Requirements and Warnings:</div>
+                <div class="note-box" style="border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.06); margin: 14px 0;">
                     <ul style="margin-left: 20px; color: var(--text-muted);">
-                        <li><strong>Wired USB Keyboard Only:</strong> This shortcut requires a physical keyboard connected via USB cable or 2.4 GHz USB dongle. Bluetooth keyboards do not function in the UEFI pre-boot environment because Bluetooth drivers load exclusively inside Windows.</li>
-                        <li><strong>High Risk of Bootloop:</strong> Tweaking memory timings, bus clocks, or hidden VRAM parameters in this menu yields zero performance benefits on Lunar Lake architecture, while frequently causing bricked bootloops that require full hardware disassembly.</li>
+                        <li><strong>Wired USB keyboard (or 2.4 GHz dongle) only:</strong> Bluetooth keyboards do not operate before Windows boots.</li>
+                        <li><strong>Bootloop risk:</strong> changing hidden memory timings or manual VRAM limits on Lunar Lake brings zero gains and frequently causes unrecoverable bootloops; Intel microcode and the Arc driver manage memory allocation automatically.</li>
                     </ul>
                 </div>
-
-                <p>
-                    The MoP memory controller is governed strictly by Intel microcode. Video memory pool allocation is handled through the official Intel Arc driver and Windows settings, so accessing hidden BIOS parameters is not recommended.
-                </p>
             </section>
         </article>
 

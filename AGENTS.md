@@ -14,15 +14,17 @@ Hosted on GitHub Pages from the repository `carbonumbrella/msi-claw-suite`.
 - **Russian Version (Root)**:
   - `index.html`: Portal home, software catalog, resolution specs, downloads.
   - `guides/setup-guide.html`: Step-by-step clean setup guide from scratch.
-  - `guides/power-and-sleep.html`: Power management, S4 hibernation, TDP tuning.
-  - `guides/vrr-display.html`: Display scaling, 16:10 custom resolutions, VRR.
-  - `guides/memory-and-stability.html`: Unified LPDDR5x RAM, pagefile, HVCI.
+  - `guides/power-and-sleep.html`: Power management, S4 hibernation, TDP tuning, fan curves.
+  - `guides/vrr-display.html`: DisplayID 2.0 panel specs, VRR ranges (`ArcSyncSwitch`), LFC, calibration.
+  - `guides/game-tuning.html`: Upscalers (`XeSS` / `FSR`), frame generation (`OptiScaler` / `LSFG`), latency, caps, resolutions.
+  - `guides/memory-and-stability.html`: Unified LPDDR5x RAM, pagefile, HVCI, audio services, EC/BIOS recovery.
   - `guides/software-choice.html`: ClawTweaks vs MSI Center M vs HandheldCompanion.
 - **English Version (`/en/`)**:
   - `en/index.html`: Mirror home page translated into English.
   - `en/guides/setup-guide.html`: English setup guide.
   - `en/guides/power-and-sleep.html`: English power guide.
   - `en/guides/vrr-display.html`: English display & VRR guide.
+  - `en/guides/game-tuning.html`: English game tuning guide.
   - `en/guides/memory-and-stability.html`: English memory & stability guide.
   - `en/guides/software-choice.html`: English software choice guide.
 - **Assets**:

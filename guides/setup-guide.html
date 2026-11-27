@@ -570,11 +570,9 @@
         <!-- Заголовок статьи -->
         <div class="guide-header">
             <span class="guide-badge">Инструкция по развертыванию</span>
-            <h1>Пошаговая установка и настройка стека на MSI Claw: с чистой Windows 11 до игр</h1>
+            <h1>Пошаговая настройка MSI Claw: с нуля до игр</h1>
             <p class="lead">
-                Последовательность действий при развертывании системы: установка драйверов,
-                MSI Center M, снятие заводского ограничения кулеров, настройка ClawTweaks,
-                очистка Windows и добавление кастомных разрешений 16:10.
+                Порядок развертывания: Windows 11, драйверы и прошивки, ClawTweaks, снятие лимита кулеров 75%, Optimize-Handheld и разрешения 16:10.
             </p>
             <div class="guide-meta">
                 <div class="guide-meta-item">
@@ -593,188 +591,138 @@
         </div>
 
         <!-- Развилка сценариев -->
-        <div class="branch-card" style="background: var(--bg-card); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-cyan); border-radius: 8px; padding: 16px 20px; margin-bottom: 30px;">
-            <strong style="color: var(--accent-cyan); font-size: 1rem; display: block; margin-bottom: 8px;">Выбор начальной точки:</strong>
+        <div class="branch-card" style="background: var(--bg-card); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-cyan); border-radius: 8px; padding: 14px 18px; margin-bottom: 24px;">
+            <strong style="color: var(--accent-cyan); font-size: 1rem; display: block; margin-bottom: 6px;">Выбор точки старта:</strong>
             <ul style="margin-left: 20px; color: var(--text-muted); font-size: 0.95rem;">
-                <li style="margin-bottom: 6px;">
-                    <strong style="color: var(--text-main);">Консоль из магазина (заводская Windows):</strong>
-                    Если операционная система уже установлена производителем, шаги 1 и 2 пропускаются. Начинайте сразу с <a href="#step-3">Шага 3 (Обновления системы)</a>.
-                </li>
-                <li>
-                    <strong style="color: var(--text-main);">Чистая установка с накопителя:</strong>
-                    Если вы переустанавливаете систему на чистый SSD, выполняйте все пункты по порядку, начиная с <a href="#step-1">Шага 1</a>.
-                </li>
+                <li style="margin-bottom: 4px;"><strong style="color: var(--text-main);">Заводская Windows (консоль из магазина):</strong> пропустите шаги 1 и 2, начните с <a href="#step-3">Шага 3</a>.</li>
+                <li><strong style="color: var(--text-main);">Чистый SSD:</strong> выполняйте все шаги по порядку с <a href="#step-1">Шага 1</a>.</li>
             </ul>
         </div>
 
         <!-- Статья -->
         <article>
             <section id="step-1">
-                <h2><span class="step-num">1</span> Чистая установка Windows 11 Home (при переустановке)</h2>
-                <div class="info-box" style="margin-bottom: 14px;">
-                    <strong>Если система уже установлена с завода:</strong> этот шаг не требуется, переходите сразу к <a href="#step-3">Шагу 3</a>.
+                <h2><span class="step-num">1</span> Чистая установка Windows 11 Home</h2>
+                <div class="info-box" style="margin-bottom: 12px;">
+                    <strong>Если Windows установлена с завода:</strong> перейдите к <a href="#step-3">Шагу 3</a>.
                 </div>
                 <p>
-                    Установка чистой системы Windows 11 Home с установочного накопителя.
-                    Заводской ключ лицензии вшит в материнскую плату устройства (MSDM), поэтому при установке редакция Home активируется автоматически.
+                    Установите Windows 11 Home: ключ лицензии MSDM вшит в плату и активируется сам. Если на этапе OOBE не определился Wi-Fi, нажмите <code>Shift + F10</code>, введите <code>oobe\bypassnro</code> → Enter, и после перезагрузки выберите локальный вход («У меня нет интернета»).
                 </p>
-                <div class="info-box">
-                    <strong>Обход требования интернета на этапе первоначальной настройки (OOBE):</strong>
-                    Если сетевой адаптер Wi-Fi не определился автоматически и мастер установки требует подключения к сети,
-                    нажимаем комбинацию клавиш <code>Shift + F10</code> (или вызываем экранную клавиатуру), вводим команду <code>oobe\bypassnro</code> и нажимаем Enter.
-                    Консоль перезагрузится, после чего появится пункт «У меня нет интернета» для создания локальной учетной записи без привязки к сети.
-                </div>
             </section>
 
             <section id="step-2">
-                <h2><span class="step-num">2</span> Базовые драйверы и MSI Center M (при чистой установке)</h2>
-                <div class="info-box" style="margin-bottom: 14px;">
-                    <strong>Если система установлена с завода:</strong> драйверы и MSI Center M уже присутствуют. Проверьте актуальность прошивок через встроенный раздел обновления и переходите к <a href="#step-3">Шагу 3</a>.
+                <h2><span class="step-num">2</span> Базовые драйверы и MSI Center M</h2>
+                <div class="info-box" style="margin-bottom: 12px;">
+                    <strong>При заводской системе:</strong> проверьте обновления прошивок в MSI Center M и перейдите к <a href="#step-3">Шагу 3</a>.
                 </div>
                 <p>
-                    При чистой установке скачиваем официальный управляющий пакет MSI Center M и базовые драйверы оборудования с сайта технической поддержки MSI.
+                    Скачайте с сайта MSI пакет <strong>MSI Center M</strong> и драйверы чипсета, Wi-Fi, Bluetooth и звука. Через встроенный раздел обновлений MSI Center M обновите <strong>BIOS</strong> и микрокод <strong>EC</strong> (нужен для работы задних лепестков M1/M2 и кулеров).
                 </p>
-                <ul>
-                    <li>
-                        <strong>Обновление прошивок:</strong> Через встроенный раздел обновления в MSI Center M обновляем версию BIOS
-                        и микрокод контроллера EC (Embedded Controller). Это необходимо для корректной обработки сигналов задних лепестков M1/M2 и алгоритмов вентиляторов.
-                    </li>
-                    <li>
-                        <strong>Системные драйверы:</strong> Устанавливаем драйверы чипсета, Bluetooth, Wi-Fi и звукового кодека, чтобы в диспетчере устройств отсутствовали неизвестные узлы.
-                    </li>
-                </ul>
             </section>
 
             <section id="step-3">
                 <h2><span class="step-num">3</span> Центр обновлений Windows и компоненты Xbox</h2>
-                <p>
-                    Обязательный этап перед запуском любых сценариев очистки и настройки:
-                </p>
                 <ol>
-                    <li>В меню «Параметры» открываем «Центр обновления Windows» и загружаем все накопительные пакеты до статуса отсутствия новых обновлений.</li>
-                    <li>Открываем Microsoft Store, переходим в «Библиотеку» и нажимаем «Проверить обновления».</li>
-                    <li>Обязательно дожидаемся завершения обновлений для <strong>Xbox Game Bar</strong>, <strong>Gaming Services</strong> и приложения <strong>Xbox</strong>.</li>
-                    <li>Перезагружаем консоль.</li>
+                    <li>В «Параметры» → «Центр обновления Windows» установите все доступные обновления до конца.</li>
+                    <li>В <strong>Microsoft Store</strong> («Библиотека» → «Проверить обновления») обновите <strong>Xbox Game Bar</strong>, <strong>Gaming Services</strong> и приложение <strong>Xbox</strong>.</li>
+                    <li>Перезагрузите консоль.</li>
                 </ol>
             </section>
 
             <section id="step-4">
                 <h2><span class="step-num">4</span> Установка виджета ClawTweaks</h2>
                 <p>
-                    Скачиваем пакет виджета управления консолью из репозитория <a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank">enterTheVoidCode/ClawTweaks</a>.
+                    Установите <a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank">enterTheVoidCode/ClawTweaks</a>: виджет открывается поверх игр в Xbox Game Bar по нажатию <strong>правой кнопки Claw</strong> (под кнопкой Menu/Start). При ошибке доступа к регистрам отключите «Целостность памяти» (HVCI) в «Безопасность Windows» → «Безопасность устройства» и перезагрузите консоль.
                 </p>
-                <ul>
-                    <li>
-                        <strong>Аппаратная кнопка вызова:</strong> Панель виджета работает поверх любых запущенных окон через интерфейс Xbox Game Bar
-                        и открывается по нажатию <strong>правой аппаратной кнопки Claw</strong> (находится на лицевой панели под кнопкой меню / Start).
-                    </li>
-                    <li>
-                        <strong>Изоляция ядра:</strong> Если при первом запуске виджет сообщает о невозможности доступа к низкоуровневым регистрам,
-                        открываем «Безопасность Windows» → «Безопасность устройства» → «Сведения об изоляции ядра» и отключаем пункт «Целостность памяти» (HVCI),
-                        затем перезагружаем устройство.
-                    </li>
-                </ul>
             </section>
 
             <section id="step-5">
-                <h2><span class="step-num">5</span> Установка видеодрайвера Intel Arc</h2>
-                <p>
-                    Устанавливаем актуальный WHQL-драйвер Intel Arc Graphics через MSI Center M, панель Intel или виджет ClawTweaks.
-                </p>
-
-                <div class="note-box" style="border-left-color: var(--accent-blue); background: rgba(56, 189, 248, 0.05); margin: 16px 0;">
-                    <div style="font-weight: 700; color: var(--accent-blue); margin-bottom: 6px;">Рекомендуемые параметры в Intel Graphics Software:</div>
+                <h2><span class="step-num">5</span> Видеодрайвер Intel Arc</h2>
+                <p>Установите актуальный WHQL-драйвер Intel Arc через MSI Center M, панель Intel или ClawTweaks.</p>
+                <div class="note-box" style="border-left-color: var(--accent-blue); background: rgba(56, 189, 248, 0.05); margin: 14px 0;">
+                    <div style="font-weight: 700; color: var(--accent-blue); margin-bottom: 6px;">Параметры в Intel Graphics Software:</div>
                     <ul style="margin-left: 20px; color: var(--text-muted);">
-                        <li><strong>Shared GPU Memory Override:</strong> Ползунок в панели драйвера отображается в процентах. 50% шкалы на нашей 32 ГБ модели соответствуют 16 ГБ видеопамяти. По умолчанию драйвер выставляет около 57%, поэтому заводское значение оптимально и ручной корректировки не требует.</li>
-                        <li><strong>Low Latency Mode:</strong> Для повседневной игры и экономии батареи устанавливаем режим <code>On</code> (очередь в 1 кадр). Режим <code>On + Boost</code> включаем при игре от сети в тяжелых играх для удержания ядра на 1950 МГц, а также при активной генерации кадров.</li>
-                        <li><strong>Endurance Gaming:</strong> Технология работает исключительно при отключении внешнего питания от розетки (лимиты 60, 40 или 30 FPS). При игре от сети ее можно игнорировать.</li>
-                        <li><strong>Масштабирование дисплея:</strong> Выбираем <code>GPU Scaling</code> и метод <code>Preserve Aspect Ratio</code> для правильного отображения разрешений 16:10.</li>
+                        <li><strong>Shared GPU Memory Override:</strong> оставьте заводские ~57% (50% = 16 ГБ на модели 32 ГБ).</li>
+                        <li><strong>Low Latency Mode:</strong> <code>On</code> для игры и батареи; <code>On + Boost</code> (фиксация 1950 МГц) от сети и с генерацией кадров.</li>
+                        <li><strong>Endurance Gaming:</strong> работает только от батареи (лимиты 60/40/30 FPS); от сети неактивен.</li>
+                        <li><strong>Масштабирование:</strong> <code>GPU Scaling</code> + <code>Preserve Aspect Ratio</code> для 16:10.</li>
                     </ul>
                 </div>
-
                 <div class="warning-box">
-                    <strong>Порядок установки:</strong> Графический драйвер устанавливается строго до добавления кастомных разрешений 16:10.
-                    При установке драйвера поверх настроенных разрешений инсталлятор перезаписывает параметры реестра графической подсистемы.
+                    <strong>Важно:</strong> устанавливайте видеодрайвер строго ДО применения кастомных разрешений 16:10, иначе установщик затрет правки реестра.
                 </div>
             </section>
 
             <section id="step-6">
-                <h2><span class="step-num">6</span> Снятие заводского ограничения кулеров</h2>
+                <h2><span class="step-num">6</span> Снятие ограничения кулеров 75%</h2>
                 <p>
-                    По умолчанию в заводских профилях MSI максимальная скорость вентиляторов программно ограничена на 75% (на шкале из 6 точек: 0°C, 50°C, 60°C, 70°C, 80°C и 88°C).
-                    Под продолжительной игровой нагрузкой это приводит к повышенному нагреву и сбросу рабочих частот (подробный анализ в руководстве <a href="power-and-sleep.html#fan-curves">Питание и охлаждение</a>).
+                    Штатный профиль ограничивает вентиляторы на 75% (шкала 0/50/60/70/80/88°C; разбор в <a href="power-and-sleep.html#fan-curves">Питание и охлаждение</a>).
                 </p>
                 <ol>
-                    <li>В виджете ClawTweaks (вызов по правой кнопке Claw) переходим на вкладку управления вентиляторами.</li>
-                    <li>В самом низу вкладки переключаем тумблер <strong>Extended range &gt;75</strong>, чтобы разблокировать возможность выставления оборотов выше 75%.</li>
-                    <li>Поднимаем две верхние точки графика (температуры 80°C и 88°C) со стоковых 67% и 75% до <strong>85%</strong> и <strong>120%</strong> соответственно.</li>
-                    <li>Сохраняем профиль нажатием кнопки <strong>Apply Fan Curve</strong>: кривая записывается в контроллер EC, и система охлаждения получает необходимый запас продува для работы при высоких уровнях мощности.</li>
+                    <li>Откройте вкладку вентиляторов в виджете ClawTweaks (правая кнопка Claw).</li>
+                    <li>Внизу включите тумблер <strong>Extended range &gt;75</strong>.</li>
+                    <li>Поднимите точки 80°C и 88°C со стоковых 67% и 75% до <strong>85%</strong> и <strong>120%</strong>.</li>
+                    <li>Нажмите <strong>Apply Fan Curve</strong> для записи кривой в контроллер EC.</li>
                 </ol>
             </section>
 
             <section id="step-7">
-                <h2><span class="step-num">7</span> Очистка Windows: Optimize-Handheld</h2>
+                <h2><span class="step-num">7</span> Оптимизация Windows: Optimize-Handheld</h2>
                 <p>
-                    Скачиваем пакет очистки из репозитория <a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">carbonumbrella/optimize-handheld</a> и запускаем скрипт <code>Optimize-Handheld.ps1</code> с правами администратора после завершения всех обновлений Windows Update:
+                    Скачайте <a href="https://github.com/carbonumbrella/optimize-handheld" target="_blank">carbonumbrella/optimize-handheld</a> и запустите <code>Optimize-Handheld.ps1</code> от имени администратора:
                 </p>
                 <ol>
-                    <li>Выбираем профиль <strong>Standard</strong>: удаление пакетов Recall и Copilot, отключение службы телеметрии DiagTrack.</li>
-                    <li>Автоматический перевод спящего режима S0 Modern Standby в гибернацию S4 (таймаут сна 0 мин, автогибернация 10 мин от батареи / 60 мин от сети, кнопки на гибернацию, отключение таймеров пробуждения).</li>
-                    <li>Автоматическая фиксация размера файла подкачки на отметке <strong>16384 МБ (16 ГБ)</strong>: устраняет задержки дискового ввода-вывода и предотвращает сбои DirectX с кодом <code>DXGI_ERROR_DEVICE_REMOVED</code>.</li>
-                    <li>Автоматическое применение аппаратного масштабирования GPU с сохранением пропорций (Maintain Aspect Ratio) для игр в неродных разрешениях и разблокировка сенсорной клавиатуры на экране входа (ARSO).</li>
-                    <li>Отключение шифрования BitLocker через пункт 6 меню Optimize-Handheld (снимает постоянную фоновую нагрузку с SSD и процессора в играх).</li>
-                    <li>Перезагружаем консоль.</li>
+                    <li>Профиль <strong>Standard</strong>: удаление Recall и Copilot, отключение телеметрии DiagTrack.</li>
+                    <li>Перевод S0 Modern Standby в гибернацию S4 (таймаут сна 0 мин, автогибернация 10 мин от батареи / 60 мин от сети, кнопки на гибернацию, отключение wake timers).</li>
+                    <li>Фиксация pagefile на <strong>16384 МБ (16 ГБ)</strong> против вылетов <code>DXGI_ERROR_DEVICE_REMOVED</code>.</li>
+                    <li>Включение GPU Scaling (Maintain Aspect Ratio) и сенсорной клавиатуры на экране входа (ARSO).</li>
+                    <li>Пункт 6 меню: отключение BitLocker (снимает фоновую нагрузку на SSD и ЦП). Перезагрузите консоль.</li>
                 </ol>
             </section>
 
             <section id="step-8">
                 <h2><span class="step-num">8</span> Разрешения 16:10 (Handheld Resolution Pack)</h2>
                 <p>
-                    Добавляем промежуточные режимы 1536x960 (коэффициент 1.25x) и 1600x1000 (коэффициент 1.20x). Математика разгрузки видеоядра и поведение апскейлеров подробно разобраны в руководстве <a href="game-tuning.html#render-resolutions">Настройка игр</a>:
+                    Добавляет режимы 1536x960 (1.25x) и 1600x1000 (1.20x) (подробно в <a href="game-tuning.html#render-resolutions">Настройка игр</a>):
                 </p>
                 <ol>
-                    <li>Скачиваем архив из раздела <a href="../index.html#downloads">Загрузки</a> или репозитория <a href="https://github.com/carbonumbrella/handheld-resolution-pack" target="_blank">handheld-resolution-pack</a>, распаковываем и запускаем <code>Run_As_Admin.cmd</code> из папки <code>1_Universal_Auto</code> (скрипт автоматически считает активный EDID матрицы, внедрит режимы 1600x1000 и 1536x960, перезапустит видеодрайвер и пропатчит виджет ClawTweaks).</li>
-                    <li>Скрипт вносит ключи в реестр видеокарты и патчит вспомогательную службу виджета ClawTweaks.</li>
-                    <li>Перезагружаем графический драйвер комбинацией <code>Win + Ctrl + Shift + B</code> или перезагружаем консоль.</li>
-                    <li>Новые режимы доступны в настройках дисплея Windows, внутри игровых меню и в оверлее ClawTweaks по правой кнопке Claw.</li>
+                    <li>Скачайте пакет из раздела <a href="../index.html#downloads">Загрузки</a> или <a href="https://github.com/carbonumbrella/handheld-resolution-pack" target="_blank">GitHub</a>, распакуйте и запустите <code>1_Universal_Auto\Run_As_Admin.cmd</code>.</li>
+                    <li>Скрипт считает текущий EDID матрицы, добавит 1600x1000 и 1536x960, автоматически перезапустит видеодрайвер и пропатчит виджет ClawTweaks (ручной перезапуск через <code>Win + Ctrl + Shift + B</code> нужен только при сбое отображения).</li>
+                    <li>После этого режимы появятся в Windows, играх и меню ClawTweaks.</li>
                 </ol>
             </section>
 
             <section id="step-9">
-                <h2><span class="step-num">9</span> Цветовой профиль матрицы (опционально)</h2>
+                <h2><span class="step-num">9</span> Цветовой профиль 6500K (опционально)</h2>
                 <p>
-                    Заводская калибровка матрицы имеет холодный баланс белого (около 7200K).
-                    Для перехода к нейтральному кинематографичному стандарту sRGB 6500K используется штатное средство Windows:
+                    С завода экран откалиброван в холодные ~7852K (<a href="https://www.notebookcheck.net/MSI-Claw-8-AI-review-The-best-gaming-handheld-thanks-to-Intel-Lunar-Lake.974004.0.html" target="_blank">Notebookcheck</a>). Для стандарта sRGB 6500K:
                 </p>
                 <ol>
-                    <li>Скачиваем файл калибровки <a href="../assets/calib/PN8007QB1_2_cal.icm" download="PN8007QB1_2_cal.icm" style="font-weight: 600;">PN8007QB1_2_cal.icm (26 КБ)</a> (измерения лаборатории <a href="https://www.notebookcheck.net/MSI-Claw-8-AI-review-The-best-gaming-handheld-thanks-to-Intel-Lunar-Lake.974004.0.html" target="_blank">Notebookcheck</a>).</li>
-                    <li>В окне «Выполнить» (<code>Win + R</code>) запускаем <code>colorcpl.exe</code>.</li>
-                    <li>Выбираем дисплей консоли, нажимаем «Добавить», указываем загруженный файл ICC и нажимаем «Сделать профилем по умолчанию».</li>
+                    <li>Скачайте <a href="../assets/calib/PN8007QB1_2_cal.icm" download="PN8007QB1_2_cal.icm" style="font-weight: 600;">PN8007QB1_2_cal.icm (26 КБ)</a>.</li>
+                    <li>Откройте <code>Win + R</code> → <code>colorcpl.exe</code>, выберите встроенный экран → «Добавить» → «Сделать профилем по умолчанию».</li>
                 </ol>
             </section>
 
             <section id="step-10">
-                <h2><span class="step-num">10</span> Вспомогательные утилиты (по желанию)</h2>
-                <p>
-                    Открытые утилиты, подключаемые по личным предпочтениям:
-                </p>
+                <h2><span class="step-num">10</span> Дополнительные утилиты (по желанию)</h2>
                 <ul>
-                    <li><strong><a href="https://github.com/onehoon/OptiClick" target="_blank">OptiClick</a>:</strong> автоматическое внедрение OptiScaler в игры с поддержкой DLSS или FSR в один клик. Пробрасывает нативный Intel XeSS и генерацию кадров XeFG внутри движка (подробнее в <a href="game-tuning.html#native-frame-gen">руководстве по играм</a>).</li>
-                    <li><strong><a href="https://github.com/carbonumbrella/sayso" target="_blank">SaySo</a>:</strong> голосовой ввод текста и системные команды на встроенном нейропроцессоре Intel NPU по удержанию заднего лепестка M1/M2.</li>
-                    <li><strong><a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank">ClawAmbilight</a>:</strong> фоновая подсветка стиков и кнопок цветами экрана с усреднением кадров на графическом чипе.</li>
-                    <li><strong><a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank">kbdhaptic</a>:</strong> виброотклик моторов при вводе текста на экранной сенсорной клавиатуре и автоповорот экрана.</li>
+                    <li><strong><a href="../index.html#apps">ArcSyncSwitch</a>:</strong> переводит VRR с 60..120 Гц в нативный профиль <code>EXCELLENT</code> 48..120 Гц через ControlLib.dll (<a href="vrr-display.html#lfc-boundary">подробнее в VRR-гайде</a>).</li>
+                    <li><strong><a href="https://github.com/onehoon/OptiClick" target="_blank">OptiClick</a>:</strong> замена DLSS/FSR на OptiScaler в один клик для XeSS и XeFG (<a href="game-tuning.html#native-frame-gen">подробнее</a>).</li>
+                    <li><strong><a href="https://github.com/carbonumbrella/sayso" target="_blank">SaySo</a>:</strong> голосовой ввод (RU/EN) на Intel NPU по лепестку M1/M2.</li>
+                    <li><strong><a href="https://github.com/carbonumbrella/claw-ambilight" target="_blank">ClawAmbilight</a>:</strong> экранная подсветка стиков и кнопок (~1.5% нагрузки ЦП).</li>
+                    <li><strong><a href="https://github.com/carbonumbrella/kbdhaptic" target="_blank">kbdhaptic</a>:</strong> виброотклик экранной клавиатуры и автоповорот.</li>
                 </ul>
 
-                <div class="info-box" style="margin-top: 16px;">
-                    <strong>Подключение внешних видеокарт (eGPU через Thunderbolt 4):</strong>
-                    При подключении бокса с внешней видеокартой по Type-C не требуется удалять видеодрайвер Intel Arc через DDU. Windows 11 автоматически распределяет ресурсы между встроенным ядром Lunar Lake и внешней картой, системные оверлеи не ломаются.
+                <div class="info-box" style="margin-top: 14px;">
+                    <strong>Внешние видеокарты (eGPU Thunderbolt 4):</strong> при подключении eGPU по Type-C не удаляйте драйвер Intel Arc через DDU; Windows 11 сама распределяет нагрузку между iGPU и eGPU.
                 </div>
 
-                <div class="note-box" style="border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.06); margin-top: 24px;">
-                    <div style="font-weight: 700; color: var(--accent-red); margin-bottom: 6px;">Аварийная памятка: сброс питания и вход в BIOS</div>
+                <div class="note-box" style="border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.06); margin-top: 18px;">
+                    <div style="font-weight: 700; color: var(--accent-red); margin-bottom: 6px;">Аварийная памятка: EC Reset и BIOS</div>
                     <ul style="margin-left: 20px; color: var(--text-muted);">
-                        <li><strong>Сброс питания (EC Reset) при зависании:</strong> удерживайте кнопку питания ровно 20-30 секунд до отключения всех индикаторов. После сброса консоль запускается только при подключении комплектного блока питания Type-C.</li>
-                        <li><strong>Вход в BIOS без клавиатуры:</strong> на выключенной консоли зажмите комбинацию <code>RB + RT</code> и нажмите кнопку питания.</li>
+                        <li><strong>EC Reset при зависании:</strong> удерживайте кнопку питания 20-30 секунд до погасания индикаторов; консоль включится только после подключения штатного БП Type-C.</li>
+                        <li><strong>Вход в BIOS без клавиатуры:</strong> на выключенной консоли зажмите <code>RB + RT</code> и нажмите питание (работает при отключенном Fast Boot в BIOS).</li>
                     </ul>
                 </div>
             </section>

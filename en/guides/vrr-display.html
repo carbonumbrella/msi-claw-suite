@@ -513,8 +513,7 @@
             <span class="guide-badge">Hardware: Display Subsystem</span>
             <h1>Display and Variable Refresh Rate (VRR) on MSI Claw</h1>
             <p class="lead">
-                Hardware architecture of the CSW PN8007QB1-2 panel, DisplayID 2.0 descriptor breakdown,
-                why 48-120 Hz and 60-120 Hz ranges coexist, LFC framerate doubling physics, and sRGB calibration.
+                CSW PN8007QB1-2 panel, DisplayID 2.0 descriptor, 48..120 Hz vs 60..120 Hz ranges, LFC behavior, and 6500K calibration.
             </p>
             <div class="guide-meta">
                 <div class="guide-meta-item">
@@ -534,21 +533,16 @@
 
         <article>
             <section id="hardware">
-                <h2>1. Hardware Foundation: CSW PN8007QB1-2 Panel and DisplayID 2.0</h2>
+                <h2>1. CSW PN8007QB1-2 Panel and DisplayID 2.0</h2>
                 <p>
-                    The MSI Claw 8 AI+ handheld console features an 8-inch IPS panel (1920x1200, 16:10, 120 Hz).
-                    Adaptive sync parameters (VRR 48:120 Hz) are defined directly within the DisplayID 2.0 descriptor of the panel timing controller (TCON).
-                </p>
-                <p>
-                    Unlike legacy EDID 1.4 Range Limits blocks, DisplayID 2.0 descriptors under eDP dynamically manage vertical blanking intervals for tear-free gaming output.
+                    The MSI Claw 8 AI+ uses an 8" IPS panel at 1920x1200 (16:10, 120 Hz). Its 48..120 Hz VRR range is stored in the TCON's DisplayID 2.0 descriptor over eDP, bypassing legacy EDID 1.4 Range Limits restrictions.
                 </p>
             </section>
 
             <section id="ranges">
-                <h2>2. Frequency Range Split: Maximum Specification vs Windows Status</h2>
+                <h2>2. Hardware vs Active Ranges (48..120 Hz vs 60..120 Hz)</h2>
                 <p>
-                    Diagnostic tools report the 48:120 Hz hardware window, while Windows 11 Advanced Display Settings shows an active 60:120 Hz range.
-                    This reflects dynamic segregation between 2D desktop rendering and fullscreen 3D output.
+                    Panel specs specify 48..120 Hz, yet Windows 11 and the stock Intel driver operate within 60..120 Hz by default.
                 </p>
 
                 <div class="table-wrap">
@@ -556,188 +550,116 @@
                         <thead>
                             <tr>
                                 <th>Parameter</th>
-                                <th>Maximum Specification</th>
-                                <th>Current Status (2D Desktop)</th>
-                                <th>Gaming Mode (3D Fullscreen)</th>
+                                <th>Panel Spec</th>
+                                <th>Stock Intel (COMPATIBLE)</th>
+                                <th>EXCELLENT Profile (ArcSyncSwitch)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>Refresh Rates</strong></td>
-                                <td>48 to 120 Hz</td>
-                                <td>60 to 120 Hz</td>
-                                <td>48 to 120 Hz + LFC</td>
+                                <td><strong>VRR Range</strong></td>
+                                <td>48..120 Hz</td>
+                                <td>60..120 Hz</td>
+                                <td>48..120 Hz + LFC (below 48 FPS)</td>
                             </tr>
                             <tr>
-                                <td><strong>Data Origin</strong></td>
-                                <td>DisplayID 2.0 block (TCON firmware)</td>
-                                <td>Intel Graphics Driver + Windows DRR</td>
-                                <td>Direct DirectX/Vulkan output via eDP</td>
+                                <td><strong>Source</strong></td>
+                                <td>DisplayID 2.0 (TCON)</td>
+                                <td>Intel Arc driver + Windows DRR</td>
+                                <td>ControlLib.dll (native 1x VRR)</td>
                             </tr>
                             <tr>
-                                <td><strong>Design Purpose</strong></td>
-                                <td>Hardware capability ceiling</td>
-                                <td>Flicker prevention in 2D and battery saving</td>
-                                <td>Adaptive tear-free gaming synchronization</td>
+                                <td><strong>Behavior</strong></td>
+                                <td>Hardware ceiling</td>
+                                <td>Flicker-free 2D desktop; early LFC below 60 FPS</td>
+                                <td>Smooth 1x VRR pacing across 48..60 FPS in games</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <h3>Why the 2D Desktop Operates from 60 to 120 Hz:</h3>
                 <ul>
                     <li>
-                        <strong>VRR Flicker Prevention:</strong>
-                        When viewing static desktop windows or text documents, dropping refresh rates to 48 Hz
-                        triggers perceptible luminance fluctuations. IPS liquid crystal cells held at a static charge
-                        experience minor voltage drift, producing faint backlight pulsation on light backgrounds.
-                        The Intel driver locks the lower 2D floor to 60 Hz to ensure stable, eye-strain-free viewing.
+                        <strong>2D Flicker Protection:</strong> Dropping below 60 Hz on static bright backgrounds causes slight IPS capacitor voltage drift and faint flicker, so the driver locks the desktop floor at 60 Hz.
                     </li>
                     <li>
-                        <strong>Windows 11 Dynamic Refresh Rate (DRR):</strong>
-                        On supported hardware, the OS deploys a dual-tier power profile:
-                        idling at 60 Hz while reading to conserve battery,
-                        and boosting to 120 Hz during touch scrolling, cursor movement, and UI animations.
+                        <strong>Windows 11 DRR:</strong> On the desktop, Windows idles at 60 Hz for battery efficiency and ramps to 120 Hz on cursor movement, scrolling, or animations.
                     </li>
                     <li>
-                        <strong>Automatic Gaming Transition:</strong>
-                        Launching a 3D title in exclusive or borderless fullscreen switches the driver into its gaming profile.
-                        The 60 Hz floor lifts, opening the full 48-120 Hz hardware window and engaging Low Framerate Compensation (LFC).
+                        <strong>Unlocking 48 Hz in Games:</strong> The stock <code>COMPATIBLE</code> profile keeps 1x VRR clamped at 60 Hz even in 3D titles. Switching to <code>EXCELLENT</code> via <a href="../index.html#apps">ArcSyncSwitch</a> unlocks the full 48..120 Hz hardware floor.
                     </li>
                 </ul>
-
-                <div class="info-box">
-                    <strong>Summary on Range Reporting:</strong>
-                    The Maximum specification reflects the certified hardware envelope from the panel manufacturer.
-                    The Current status indicates the active flicker-protected mode in the 2D Windows desktop environment.
-                </div>
             </section>
 
             <section id="why-not-30hz">
-                <h2>3. Why Forcing VRR Down to 30 Hz is Harmful and Unnecessary</h2>
+                <h2>3. LFC Physics and Why 30 Hz VRR Mods Fail</h2>
                 <p>
-                    Handheld PC communities occasionally suggest modifying the lower VRR threshold to 30 or 36 Hz
-                    using Custom Resolution Utility (CRU), expecting smoother 30 FPS playback.
-                    On the MSI Claw panel, this intervention causes adverse physical side-effects: broken framerate compensation, severe strobing, and TCON dropouts.
+                    Lowering the VRR floor to 30 or 36 Hz via CRU breaks LFC scaling and causes visible IPS strobing.
                 </p>
 
-                <h3>Low Framerate Compensation (LFC) Physics</h3>
+                <h3>Low Framerate Compensation (LFC)</h3>
                 <p>
-                    LFC operates correctly only when the maximum refresh rate is at least double the minimum:
+                    LFC requires at least a 2x ratio between maximum and minimum refresh rates:
                 </p>
-                <pre>LFC Ratio = Maximum Refresh Rate / Minimum Refresh Rate &gt;= 2.0</pre>
+                <pre>LFC Ratio = Max / Min &gt;= 2.0  |  120 Hz / 48 Hz = 2.5x</pre>
                 <p>
-                    On the MSI Claw panel, the ratio is:
-                </p>
-                <pre>120 Hz / 48 Hz = 2.5x (condition met with comfortable margin)</pre>
-                <p>
-                    With this 2.5x headroom, the display pipeline doubles or triples frame presentations whenever performance dips below 48 FPS:
-                </p>
-                <ul>
-                    <li>At 35 FPS, the panel refreshes at 70 Hz (each frame is scanned out exactly 2 display cycles).</li>
-                    <li>At a locked 30 FPS, the panel refreshes at 60 Hz (2 cycles per frame) or 90 Hz (3 cycles per frame).</li>
-                    <li>At 40 FPS, the panel refreshes at 80 Hz.</li>
-                </ul>
-                <p>
-                    Consequently, even when render framerates dip well below 48 FPS, motion remains smooth and VRR sync remains continuously active.
+                    Below 48 FPS (with 48..120 Hz active), the driver doubles or triples scanouts cleanly: 35 FPS runs at 70 Hz (2x), 30 FPS at 60 Hz (2x) or 90 Hz (3x), and 40 FPS at 80 Hz (2x).
                 </p>
 
                 <div class="info-box" id="lfc-boundary">
-                    <strong>VRR Operational Envelope, 116 FPS Ceiling, and Micro-Stutter Fix:</strong>
+                    <strong>VRR Envelope, 116 FPS Cap, and Micro-Stutter Fix:</strong>
                     <p style="margin-top: 6px;">
-                        <strong>Upper Boundary (116 or 117 FPS Cap):</strong> Reaching 120.0 FPS instantly disengages VRR, causing tearing (without V-Sync) or buffer latency spikes (with V-Sync). Setting a hard cap at 116 FPS provides a ~0.3 ms margin, ensuring the game stays 100% within the VRR window with minimal input lag.
+                        <strong>Upper Cap (116..117 FPS):</strong> Hitting 120.0 FPS disengages VRR, triggering tearing (V-Sync off) or buffering delay (V-Sync on). Capping at 116 FPS leaves ~0.3 ms of headroom to stay locked inside VRR with minimal lag.
                     </p>
                     <p style="margin-top: 6px;">
-                        <strong>Root Cause of 60 Hz Micro-Stutter (Stock Driver):</strong> Under the default Intel Arc Sync driver profile (COMPATIBLE), the 1x sync floor is clamped to 60 Hz. Due to lack of driver hysteresis, hovering at 56:62 FPS (specifically 58, 59, and 60 FPS) causes the multiplier to rapidly oscillate between 1x (60 Hz) and 2x (116:120 Hz), causing frame pacing flutter and micro-tears.
+                        <strong>Stock Profile (COMPATIBLE) vs ArcSyncSwitch:</strong> In the stock Intel driver profile (<code>COMPATIBLE</code>), the 1x VRR floor sits at 60 Hz, pushing the driver into LFC below ~60 FPS and causing pacing flutter near the boundary. <a href="../index.html#apps">ArcSyncSwitch</a> calls <code>ControlLib.dll</code> to enable the native <code>EXCELLENT</code> profile (48..120 Hz), moving the LFC threshold down to 48 Hz so 50..60 FPS caps run smoothly, custom 16:10 modes stay intact, and a logon task restores it at sign-in.
                     </p>
                     <p style="margin-top: 6px;">
-                        <strong>Driver-Level Fix via ArcSyncSwitch:</strong> The dedicated <a href="../index.html#apps">ArcSyncSwitch</a> utility calls ControlLib.dll to switch the Intel driver into its native EXCELLENT profile (48..120 Hz). This drops the 1x VRR floor to 48 Hz, allowing 50, 54, 58, and 60 FPS caps to run with seamless frame pacing in native VRR without LFC flutter. Custom 16:10 resolutions remain fully intact, and a logon task silently restores the profile on reboot.
-                    </p>
-                    <p style="margin-top: 6px;">
-                        <strong>Impact of Statistics Overlays:</strong> Even with the 48..120 Hz profile active, running an on-screen performance or statistics overlay over the game window breaks smoothness at 60 FPS. If micro-stutter occurs around 60 FPS, completely disable the statistics overlay and verify smoothness without it.
+                        <strong>Statistics Overlays:</strong> Even under 48..120 Hz, on-screen performance telemetry overlays can break smoothness at 60 FPS. Disable any stats overlay if micro-stutter appears around 60 FPS.
                     </p>
                 </div>
 
                 <div class="warning-box">
-                    <strong>Physical Penalties of Artificially Forcing 30 Hz:</strong>
-                    <p style="margin-top: 8px;">
-                        <strong>1. Subpixel Strobing Flicker:</strong> At 30 Hz, pixel dwell time stretches to ~33.3 milliseconds.
-                        IPS capacitor cells cannot sustain charge over this duration: subpixel luminance decays before the next refresh,
-                        manifesting as heavy strobing flicker across the screen.
-                    </p>
-                    <p style="margin-top: 8px;">
-                        <strong>2. LFC Multiplier Instability:</strong> Forcing a 30-120 Hz range (4.0x ratio) causes the LFC scheduler
-                        to oscillate irregularly between 2x, 3x, and 4x multipliers, introducing stuttering and pacing irregularities.
-                    </p>
-                    <p style="margin-top: 8px;">
-                        <strong>3. TCON Black Screen Drops:</strong> Internal phase-locked loop (PLL) timings in the panel controller
-                        are tuned to a minimum pixel clock frequency. Forcing rates below 48 Hz causes phase loss, resulting in momentary 1-2 second screen blackouts.
-                    </p>
+                    <strong>Penalties of Forcing 30 Hz via CRU:</strong>
+                    <ul>
+                        <li><strong>Subpixel Strobing:</strong> at 30 Hz (~33.3 ms dwell), IPS cells lose charge before the next refresh, producing severe flicker.</li>
+                        <li><strong>Broken LFC Multipliers:</strong> a 30..120 Hz (4.0x) range causes irregular 2x/3x/4x switching and pacing stutter.</li>
+                        <li><strong>TCON Blackouts:</strong> running below the 48 Hz Pixel Clock floor causes PLL phase loss and 1-2 second black screens.</li>
+                    </ul>
                 </div>
 
-                <h3>Display Refresh Scenarios: 120 Hz with VRR vs Fixed 48 Hz</h3>
-                <p>
-                    Depending on workload characteristics and battery priorities, two distinct display configurations should be used:
-                </p>
+                <h3>120 Hz + VRR vs Fixed 48 Hz</h3>
                 <ul>
-                    <li>
-                        <strong>Fluctuating Framerate Scenario: 120 Hz + VRR.</strong> 
-                        For demanding games where framerates dip below 48 FPS, keep the display set to 120 Hz with VRR enabled. Low Framerate Compensation (LFC) automatically duplicates refresh cycles (e.g., 35 FPS displayed at 70 Hz), preventing tearing and preserving perceived motion smoothness.
-                    </li>
-                    <li>
-                        <strong>Maximum Battery Saving Scenario: 48 Hz + V-Sync.</strong> 
-                        When targeting maximum battery longevity in moderately demanding games locked to 48 FPS, set the Windows display refresh rate to 48 Hz and enable V-Sync inside the game. 48 Hz is the hardware lower boundary of the panel: at this rate, the eDP display controller draws minimal power, and the game is strictly capped at 48 FPS without energy waste.
-                    </li>
+                    <li><strong>120 Hz + VRR:</strong> for demanding titles with fluctuating framerates dipping below 48 FPS (LFC keeps motion smooth).</li>
+                    <li><strong>48 Hz + V-Sync:</strong> for maximum battery life in games holding a steady 48 FPS; lowers eDP controller draw and caps GPU output at 48 frames.</li>
                 </ul>
             </section>
 
             <section id="resolutions-vrr">
-                <h2>4. Custom 1600x1000 and 1536x960 Modes with Zero VRR Loss</h2>
+                <h2>4. Custom 1600x1000 and 1536x960 Without Losing VRR</h2>
                 <p>
-                    The <code>handheld-resolution-pack</code> suite injects 1600x1000 (1.20x ratio)
-                    and 1536x960 (1.25x ratio) modes via Windows Registry EDID overrides
-                    without touching the factory DisplayID 2.0 block.
+                    <code>handheld-resolution-pack</code> adds 1600x1000 (1.20x) and 1536x960 (1.25x) via Windows Registry <code>EDID_OVERRIDE</code> entries without modifying DisplayID 2.0, keeping 48..120 Hz TCON timing intact.
                 </p>
                 <p>
-                    This preserves full 48:120 Hz VRR capability and hardware TCON timing calibration,
-                    preventing display synchronization errors.
+                    In <strong>Intel Graphics Command Center</strong> (Display), set <strong>Scaling Mode</strong> to <code>GPU Scaling</code> and <strong>Scaling Method</strong> to <code>Preserve Aspect Ratio</code> to keep true 16:10 geometry.
                 </p>
-
-                <h3>Intel Graphics Command Center Scaling Settings</h3>
-                <p>
-                    To ensure custom 16:10 resolutions render cleanly without geometric distortion, configure the following parameters under the Display tab in Intel Graphics Command Center:
-                </p>
-                <ul>
-                    <li><strong>Scaling Mode:</strong> <code>GPU Scaling</code>. Stretching and interpolation are processed in hardware by the Arc graphics engine.</li>
-                    <li><strong>Scaling Method:</strong> <code>Preserve Aspect Ratio</code>. Guarantees true 16:10 geometry without vertical stretching.</li>
-                </ul>
-                <div class="info-box" style="margin-top: 16px;">
-                    GPU shading reduction metrics and upscaler recommendations are detailed in <a href="game-tuning.html#render-resolutions" style="font-weight: 700; color: var(--accent-cyan);">Game Tuning: Render Resolutions Without Quality Loss →</a>.
+                <div class="info-box" style="margin-top: 12px;">
+                    GPU load savings and upscaler setups are covered in <a href="game-tuning.html#render-resolutions" style="font-weight: 700; color: var(--accent-cyan);">Game Tuning: Render Resolutions →</a>.
                 </div>
             </section>
 
             <section id="calibration-icc">
-                <h2>5. Panel Color Calibration (Optional)</h2>
+                <h2>5. 6500K Color Calibration (Optional)</h2>
                 <p>
-                    The out-of-the-box white balance on MSI Claw 8 AI+ leans cool (~7200K),
-                    delivering bright whites and high contrast for fast-paced action games.
+                    Out of the box, the MSI Claw 8 AI+ white point measures cool at ~7852K (<a href="https://www.notebookcheck.net/MSI-Claw-8-AI-review-The-best-gaming-handheld-thanks-to-Intel-Lunar-Lake.974004.0.html" target="_blank">Notebookcheck review</a>). The ICC profile calibrates white balance to sRGB 6500K (D65).
                 </p>
-                <p>
-                    For users preferring a warmer cinematic palette, an ICC calibration profile was published in the <a href="https://www.notebookcheck.net/MSI-Claw-8-AI-review-The-best-gaming-handheld-thanks-to-Intel-Lunar-Lake.974004.0.html" target="_blank">Notebookcheck MSI Claw 8 AI+ laboratory review</a>,
-                    targeting the sRGB 6500K (D65) standard.
-                    This is entirely a matter of visual preference: games take on a warmer, softer tone that reduces eye strain in dark environments.
-                </p>
-
-                <h3>Installing the 6500K Calibration Profile:</h3>
                 <ol>
-                    <li>Download the verified calibration profile: <a href="../../assets/calib/PN8007QB1_2_cal.icm" download="PN8007QB1_2_cal.icm" style="font-weight: 600;">PN8007QB1_2_cal.icm (26 KB)</a>.</li>
-                    <li>Open Windows Color Management by typing <code>colorcpl.exe</code> in Run (<code>Win + R</code>).</li>
-                    <li>Select the internal display and check "Use my settings for this device".</li>
-                    <li>Click "Add", select the downloaded ICC file, and click "Set as Default Profile".</li>
+                    <li>Download <a href="../../assets/calib/PN8007QB1_2_cal.icm" download="PN8007QB1_2_cal.icm" style="font-weight: 600;">PN8007QB1_2_cal.icm (26 KB)</a>.</li>
+                    <li>Open <code>colorcpl.exe</code>, select the internal display, and enable "Use my settings for this device".</li>
+                    <li>Click "Add", choose the <code>.icm</code> file, and click "Set as Default Profile".</li>
                 </ol>
                 <p>
-                    Windows 11 maintains color profiles across borderless windowed and exclusive fullscreen games automatically,
-                    requiring no background profile loaders.
+                    In windowed and borderless fullscreen games, Windows 11 retains the profile via the built-in <code>Calibration Loader</code> task with no third-party loaders needed.
                 </p>
             </section>
         </article>

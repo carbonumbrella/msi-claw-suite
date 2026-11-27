@@ -525,156 +525,53 @@
 
         <article>
             <section id="intro">
-                <h2>Introduction: Handheld Software Constraints</h2>
-                <p>
-                    Background software on a handheld PC must not consume shared RAM from the GPU or compete for CPU power:
-                </p>
+                <h2>Handheld Software Constraints</h2>
                 <ul>
-                    <li><strong>Shared LPDDR5x Memory:</strong> The Intel Arc graphics chip allocates its frame buffer from system RAM. 300 to 500 MB occupied by background services directly reduces available VRAM in games.</li>
-                    <li><strong>Power Budget:</strong> Sensor polling cycles consume CPU time and divert milliwatts from the graphics core.</li>
-                    <li><strong>In-Game Controls:</strong> Quick settings over fullscreen 3D output must open instantly without lag or DirectX context crashes.</li>
+                    <li><strong>Shared LPDDR5x:</strong> Intel Arc allocates VRAM from system RAM, so 300:500 MB used by background apps shrinks game memory.</li>
+                    <li><strong>Power budget:</strong> frequent sensor polling drains milliwatts away from the GPU.</li>
+                    <li><strong>In-game overlay:</strong> quick settings must open instantly without disrupting DirectX fullscreen contexts.</li>
                 </ul>
             </section>
 
             <section id="handheld-companion">
-                <h2>1. Why Not HandheldCompanion: Hardware Conflict and Setup Friction</h2>
-                <p>
-                    HandheldCompanion (HC) is designed for a broad range of handheld devices, but causes operational issues on MSI Claw:
-                </p>
-
+                <h2>1. HandheldCompanion: EC Bus Conflict &amp; Friction</h2>
                 <div class="warning-box">
-                    <strong>EC (Embedded Controller) Bus Conflict:</strong>
-                    Sensor polling over ACPI WMI every 50 to 100 ms floods the motherboard EC microchip on MSI Claw.
-                    This causes microstutters in frame pacing and noticeable input delays.
+                    <strong>EC Bus Conflict:</strong> ACPI WMI sensor polling every 50:100 ms floods the MSI Claw EC microchip, provoking microstutters and input delays.
                 </div>
-
-                <h3>High Friction and Manual Setup</h3>
-                <p>
-                    After installation, the system requires extensive manual preparation:
-                </p>
                 <ul>
-                    <li>Configuring virtual controller chains (ViGEm and VIIPER) and hiding the physical gamepad.</li>
-                    <li>Calibrating stick curves, deadzones, and axis filtering.</li>
-                    <li>Creating individual profiles per game and mapping hotkeys.</li>
+                    <li>Requires manual ViGEm/VIIPER chaining, controller hiding, axis calibration, and per-game profiles.</li>
+                    <li>Runs as a separate desktop process with its own graphical overlay, creating steady CPU overhead.</li>
                 </ul>
-
-                <h3>Heavy Standalone Process</h3>
-                <p>
-                    HandheldCompanion runs as a standalone desktop application with its own graphical overlay engine, adding persistent background CPU overhead.
-                </p>
             </section>
 
             <section id="msi-center-m">
-                <h2>2. Why Not MSI Center M: Background Overhead and Quick Menu Delay</h2>
+                <h2>2. MSI Center M: Overhead &amp; Quick Menu Delay</h2>
                 <p>
-                    The official MSI Center M utility is shipped by the manufacturer as default software.
-                    While recent revisions introduced basic fan curves and manual TDP limits, the application architecture inherits the legacy structure of heavy desktop MSI Center suites.
-                </p>
-
-                <h3>Background RAM and Disk Overhead</h3>
-                <p>
-                    Installing MSI Center M registers a persistent Windows service stack:
-                    <code>MSI_Center_M_Server</code>, <code>MSI_Center_M_Updater</code>, <code>MSI Foundation Service</code> (<code>MSIAPService.exe</code>),
-                    as well as background controller processes <code>MSI_Center_M_Server_ControlMode</code> and Mystic Light RGB modules.
+                    Shipped by default, it retains heavy desktop service architecture: <code>MSI_Center_M_Server</code>, <code>MSI_Center_M_Updater</code>, <code>MSI Foundation Service</code> (<code>MSIAPService.exe</code>), <code>ControlMode</code>, and Mystic Light.
                 </p>
                 <ul>
-                    <li><strong>RAM Consumption:</strong> Services continuously hold 350 to 600+ MB of RAM in the background, shrinking available video memory for Intel Arc.</li>
-                    <li><strong>Disk Activity:</strong> The background OSD module in MSI Center M performs continuous debug logging, writing daily text log files (<code>intelGEDll_debug_*.txt</code>) of 10 to 17 MB each to the SSD.</li>
+                    <li><strong>RAM &amp; SSD cost:</strong> holds 350:600+ MB of idle RAM while the OSD service writes daily <code>intelGEDll_debug_*.txt</code> logs (10:17 MB each).</li>
+                    <li><strong>Menu lag:</strong> the <code>OEMGameBarWidget</code> handler (<code>MSIQuickSettings</code>) opens with a 1:3s delay, occasionally dropping window focus or <code>ControlMode</code> bindings.</li>
+                    <li><strong>Feature gaps:</strong> lacks full gyro-to-stick/mouse emulation, anti-deadzone curves, and Lossless Scaling integration.</li>
                 </ul>
-
-                <h3>Quick Settings Menu Latency</h3>
-                <p>
-                    The MSI quick menu registers in Windows as a system handler named <code>OEMGameBarWidget</code> (package <code>MSIQuickSettings</code>).
-                    Pressing the dedicated hardware button during demanding 3D games opens the overlay with a 1 to 3 second delay.
-                    During overlay transitions, the game window can briefly lose focus, and in rare cases the <code>ControlMode</code> service loses gamepad binding.
-                </p>
-
-                <h3>Gaming Functionality Limitations</h3>
-                <p>
-                    The official MSI Center M utility lacks gyroscope emulation for virtual mouse or stick input in arbitrary games,
-                    omits advanced anti-deadzone tuning, and provides no direct integration with third-party frame generation tools (Lossless Scaling / LSFG).
-                </p>
-
                 <div class="info-box">
-                    <strong>Coexistence Principle: Why MSI Center M is Disabled, Not Removed</strong>
-                    <p style="margin-top: 6px;">
-                        ClawTweaks does not require uninstalling MSI Center M.
-                        Official MSI software is retained in Windows for two primary purposes:
-                    </p>
-                    <ol style="margin-top: 6px; margin-bottom: 0;">
-                        <li>It registers low-level WMI system drivers and ACPI interfaces, which external tuning utilities use to manage power limits.</li>
-                        <li>It delivers embedded controller microcode and firmware updates via the Live Update module.</li>
-                    </ol>
-                    <p style="margin-top: 8px; margin-bottom: 0;">
-                        The built-in <code>MsiCenterManager</code> module in ClawTweaks (as well as the open-source <code>MsiCenterToggle</code> utility)
-                        simply disables autostart and background services, reclaiming memory without removing essential system drivers.
-                    </p>
+                    <strong>Disable, Do Not Uninstall:</strong> keep MSI Center M installed for low-level WMI/ACPI drivers and Live Update firmware flashes. <code>MsiCenterManager</code> inside ClawTweaks (or <code>MsiCenterToggle</code>) disables autostart and services cleanly while preserving drivers.
                 </div>
             </section>
 
             <section id="clawtweaks-advantages">
-                <h2>3. ClawTweaks Advantages: Native Overlay, FSE Launcher, and Ready-to-Play Stack</h2>
+                <h2>3. ClawTweaks: Native Widget, FSE Launcher &amp; Controls</h2>
                 <p>
-                    The open-source suite <a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank">ClawTweaks</a> (developed by enterTheVoidCode)
-                    is built exclusively for MSI Claw handhelds and optimized around their specific hardware platform.
-                </p>
-
-                <h3>1. Out-of-the-Box Readiness</h3>
-                <p>
-                    Unlike generic utilities requiring hours of calibration, ClawTweaks comes pre-configured for factory Claw hardware:
-                    optimal fan curves, accurate TDP limits, tuned stick curves, and standard button mappings are ready out of the box.
-                    The console is ready for gaming immediately after installation.
-                </p>
-
-                <h3>2. Instant Invocation via Native Xbox Game Bar Widget</h3>
-                <p>
-                    ClawTweaks clears the <code>OEMGameBarWidget</code> hook and occupies the primary slot in the native Windows Game Bar layer.
-                    Pressing the hardware quick settings button brings up the menu instantly.
-                    Rendering is handled by Windows DWM: input focus is maintained, and DirectX exclusive fullscreen mode is protected from crashes.
-                </p>
-
-                <h3>3. Console Launcher with Full Screen Experience (FSE) Mode</h3>
-                <p>
-                    The package includes a dedicated library application named <code>ClawTweaksCenterFSE</code>:
+                    <a href="https://github.com/enterTheVoidCode/ClawTweaks" target="_blank">ClawTweaks</a> (by enterTheVoidCode) is built specifically around MSI Claw hardware.
                 </p>
                 <ul>
-                    <li><strong>FSE Mode:</strong> Launches a fullscreen console interface on boot or button press, transforming the device into a streamlined console experience without navigating the Windows desktop.</li>
-                    <li><strong>All-in-One Game Store Aggregation:</strong> Automatically scans installed games and consolidates libraries across Steam (with direct Steam Big Picture support), Epic Games Store, Xbox, GOG Galaxy, EA App, Ubisoft Connect, Battle.net, and retro collections via Playnite.</li>
+                    <li><strong>Ready out of the box:</strong> ships with calibrated fan curves, accurate TDP limits, stick curves, and Claw bindings.</li>
+                    <li><strong>Instant Game Bar:</strong> clears <code>OEMGameBarWidget</code> and takes slot #1 in native Windows Game Bar via DWM with zero focus loss.</li>
+                    <li><strong><code>ClawTweaksCenterFSE</code> (FSE):</strong> fullscreen library on startup aggregating Steam (incl. Big Picture), Epic, Xbox, GOG, EA App, Ubisoft Connect, Battle.net, and Playnite.</li>
+                    <li><strong>Gamepad &amp; Gyro (ViGEm + <code>HidHide</code>):</strong> emulates <strong>Xbox 360</strong>, <strong>DualShock</strong> (native gyro channel for RPCS3/Ryujinx/Cemu and Sony PC ports), and <strong>Steam Controller</strong> (Steam Input); supports <strong>Gyro-to-Stick</strong>, raw passthrough, Hall-stick deadzones, trigger curves, M1/M2 rear paddles, and double-input prevention via <code>HidHide</code>.</li>
+                    <li><strong>Battery &amp; LEDs:</strong> <strong>60% / 80%</strong> charge limit for docked play plus built-in thumbstick ring modes (Static, Breathing, Color Cycle, Wave, Battery, Rainbow; use <a href="../index.html#apps">ClawAmbilight</a> for screen-synced Ambilight).</li>
+                    <li><strong>Per-Game Profiles:</strong> automatically applies PL1/PL2, 60/120 Hz, FPS caps, and Lossless Scaling per process.</li>
                 </ul>
-
-                <h3>4. Advanced Gamepad Tuning and Gyroscope Emulation</h3>
-                <p>
-                    Controller emulation operates via ViGEm and <code>HidHide</code> drivers:
-                </p>
-                <ul>
-                    <li>
-                        <strong>Virtual Controller Emulation Targets:</strong>
-                        Switch target controller emulation profiles to match specific games:
-                        <ul style="margin: 6px 0 6px 18px;">
-                            <li><strong>Xbox 360 (XInput):</strong> Baseline standard ensuring 100% compatibility across all Windows PC games.</li>
-                            <li><strong>DualShock:</strong> Sony layout providing a native gyroscope data stream for emulators (RPCS3, Ryujinx, Cemu) and PlayStation PC ports.</li>
-                            <li><strong>Steam Controller:</strong> Native Steam Input integration supporting action layers, radial menus, and community controller templates.</li>
-                        </ul>
-                    </li>
-                    <li>
-                        <strong>Gyroscope Operation Modes:</strong>
-                        <ul style="margin: 6px 0 6px 18px;">
-                            <li><strong>Right Stick Emulation (Gyro-to-Stick):</strong> Direct hardware mapping translating handheld tilt into right analog stick deflection, enabling gyro aiming in any controller-supported game without needing mouse emulation.</li>
-                            <li><strong>Native Passthrough:</strong> Streams raw high-polling gyroscope telemetry into supported games and emulators in DualShock and Steam Controller modes.</li>
-                        </ul>
-                    </li>
-                    <li><strong>Stick and Trigger Calibration:</strong> Configurable deadzones for Hall-effect sticks, hand tremor smoothing, and custom analog trigger response curves.</li>
-                    <li><strong>Battery Health Management:</strong> Battery Charge Limit threshold (capped at 60% or 80%) preventing cell degradation during prolonged sessions on AC or dock power.</li>
-                    <li><strong>Double Input Protection:</strong> The physical gamepad is hidden via <code>HidHide</code>, preventing duplicate controller conflicts in games.</li>
-                    <li><strong>Rear M1 and M2 Paddles:</strong> Freely assignable to any keyboard combination, mouse click, or system macro.</li>
-                    <li><strong>Stick Ambilight:</strong> Dynamic RGB effects for the LED rings around the analog sticks, rendered by the GPU without CPU overhead.</li>
-                </ul>
-
-                <h3>5. Per-Game Profiles</h3>
-                <p>
-                    ClawTweaks detects the active game process and automatically applies saved configurations:
-                    PL1 and PL2 power limits, screen refresh rate (60 or 120 Hz), FPS limits, and Lossless Scaling parameters.
-                </p>
             </section>
 
             <section id="comparison-table">
@@ -692,57 +589,56 @@
                         <tbody>
                             <tr>
                                 <td><strong>Out-of-the-Box Readiness</strong></td>
-                                <td><span style="color: var(--accent-green);">Complete:</span> factory bindings and curves pre-calibrated</td>
-                                <td><span style="color: var(--accent-green);">Complete:</span> installed by default</td>
-                                <td><span style="color: var(--accent-red);">Low:</span> requires extensive manual profile setup</td>
+                                <td><span style="color: var(--accent-green);">Complete:</span> Claw profiles included</td>
+                                <td><span style="color: var(--accent-green);">Complete:</span> preinstalled</td>
+                                <td><span style="color: var(--accent-red);">Low:</span> tedious manual setup</td>
                             </tr>
                             <tr>
                                 <td><strong>Idle RAM Footprint</strong></td>
-                                <td>Near 0 MB (active only when widget is opened)</td>
-                                <td>350 to 600+ MB (continuous service stack)</td>
-                                <td>150 to 300 MB (standalone overlay process)</td>
+                                <td>~0 MB (active only on call)</td>
+                                <td>350:600+ MB (services + OSD logs)</td>
+                                <td>150:300 MB (standalone overlay)</td>
                             </tr>
                             <tr>
-                                <td><strong>EC Bus Impact and Frame Pacing</strong></td>
-                                <td><span style="color: var(--accent-green);">Zero:</span> event-driven one-time register writes</td>
-                                <td><span style="color: var(--accent-green);">Proper:</span> moderate polling via vendor driver</td>
-                                <td><span style="color: var(--accent-red);">Negative:</span> continuous bus polling causing microstutters</td>
+                                <td><strong>EC Bus Impact</strong></td>
+                                <td><span style="color: var(--accent-green);">Zero:</span> event-driven writes</td>
+                                <td><span style="color: var(--accent-green);">Proper:</span> vendor driver</td>
+                                <td><span style="color: var(--accent-red);">Negative:</span> polling, microstutters</td>
                             </tr>
                             <tr>
-                                <td><strong>Quick Access Interface</strong></td>
-                                <td>Native Windows Game Bar widget</td>
-                                <td>Custom <code>OEMGameBarWidget</code> with 1 to 3s delay</td>
-                                <td>Third-party application overlay</td>
+                                <td><strong>Quick Menu</strong></td>
+                                <td>Native Xbox Game Bar</td>
+                                <td><code>OEMGameBarWidget</code> (1:3s)</td>
+                                <td>Third-party overlay</td>
                             </tr>
                             <tr>
-                                <td><strong>Console Launcher (FSE Mode)</strong></td>
-                                <td>Integrated <code>ClawTweaksCenterFSE</code> (Steam, Epic, Xbox, GOG, EA, Playnite)</td>
-                                <td>Basic MSI Center launcher</td>
-                                <td>None (configuration panel only)</td>
+                                <td><strong>FSE Launcher</strong></td>
+                                <td><code>ClawTweaksCenterFSE</code> (all stores + Playnite)</td>
+                                <td>Basic MSI launcher</td>
+                                <td>None</td>
                             </tr>
                             <tr>
-                                <td><strong>Gyroscope Emulation (Mouse/Stick)</strong></td>
-                                <td>Comprehensive (Right stick emulation, Steam Controller, DualShock, Gyro-to-Mouse)</td>
-                                <td>None or basic vendor presets</td>
-                                <td>Available, but requires tedious manual calibration</td>
+                                <td><strong>Gyro Emulation</strong></td>
+                                <td>Gyro-to-Stick, DualShock, Steam Controller, Gyro-to-Mouse</td>
+                                <td>None / basic presets</td>
+                                <td>Manual calibration required</td>
                             </tr>
                             <tr>
                                 <td><strong>Per-Game Profiles</strong></td>
-                                <td>Automatic application on process launch</td>
+                                <td>Automatic per process</td>
                                 <td>Basic user scenarios</td>
-                                <td>Manual profile linkage</td>
+                                <td>Manual linkage</td>
                             </tr>
                             <tr>
                                 <td><strong>System Role</strong></td>
-                                <td>Primary daily handheld management tool</td>
-                                <td>Kept disabled for WMI drivers and Live Update</td>
-                                <td>Not recommended for MSI Claw hardware</td>
+                                <td>Primary management tool</td>
+                                <td>Autostart disabled (drivers &amp; Live Update kept)</td>
+                                <td>Not recommended</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </section>
-
         </article>
 
         <div class="guide-nav-grid">
