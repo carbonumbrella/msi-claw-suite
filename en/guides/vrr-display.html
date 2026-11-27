@@ -653,6 +653,9 @@
                     <p style="margin-top: 6px;">
                         <strong>Driver-Level Fix via ArcSyncSwitch:</strong> The dedicated <a href="../index.html#apps">ArcSyncSwitch</a> utility calls ControlLib.dll to switch the Intel driver into its native EXCELLENT profile (48..120 Hz). This drops the 1x VRR floor to 48 Hz, allowing 50, 54, 58, and 60 FPS caps to run with seamless frame pacing in native VRR without LFC flutter. Custom 16:10 resolutions remain fully intact, and a logon task silently restores the profile on reboot.
                     </p>
+                    <p style="margin-top: 6px;">
+                        <strong>Impact of Statistics Overlays:</strong> Even with the 48..120 Hz profile active, running an on-screen performance or statistics overlay over the game window breaks smoothness at 60 FPS. If micro-stutter occurs around 60 FPS, completely disable the statistics overlay and verify smoothness without it.
+                    </p>
                 </div>
 
                 <div class="warning-box">

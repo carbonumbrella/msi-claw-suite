@@ -2,6 +2,12 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-27: Document Verified Performance Overlay Impact on 60 FPS Smoothness
+- **Decision:** Document the verified hardware and driver interaction regarding performance overlays:
+  - VRR and Display guide (`guides/vrr-display.html`): in `#lfc-boundary`, document that active on-screen performance/statistics overlays over the game window disrupt frame delivery smoothness at 60 FPS, advising users to disable overlays if 60 FPS stutter occurs.
+  - Game tuning guide (`guides/game-tuning.html`): add a targeted note under 60 FPS capping to disable on-screen telemetry overlays.
+- **Reason:** Accurately convey verified user findings on how active telemetry overlays affect frame pacing at 60 FPS on MSI Claw 8 AI+.
+
 ### 2026-11-27: Integrate ArcSyncSwitch and Document Suite-Wide Bilingual Support
 - **Decision:** Integrate ArcSyncSwitch into the portal and document bilingual (RU / EN) support across all suite applications:
   - Portal showcase (`#apps`): add dedicated ArcSyncSwitch application card with ControlLib.dll driver integration, D3DKMT LFC controls, 48..120 Hz range unlocking, and preview screenshot in Russian and English index pages.
