@@ -7,10 +7,10 @@
   - Portal showcase (`#apps`): add dedicated ArcSyncSwitch application card with ControlLib.dll driver integration, D3DKMT LFC controls, 48..120 Hz range unlocking, and preview screenshot in Russian and English index pages.
   - Bilingual localization: document official RU / EN bilingual support with automatic Windows language matching across all suite tools (SaySo, ClawAmbilight, kbdhaptic, ArcSyncSwitch).
   - Downloads catalog (`#downloads`): add ArcSyncSwitch v1.0.0 with direct installer and repository links.
-  - VRR and Display guide (`guides/vrr-display.html`): update `#lfc-boundary` to document the root cause of 60 Hz micro-stutter (stock COMPATIBLE 60..120 Hz clamp) and the permanent fix via ArcSyncSwitch (EXCELLENT 48..120 Hz profile), along with ClawTweaks VRR toggle guidance and borderless overlay MPO notes.
+  - VRR and Display guide (`guides/vrr-display.html`): update `#lfc-boundary` to document the root cause of 60 Hz micro-stutter (stock COMPATIBLE 60..120 Hz clamp) and the permanent fix via ArcSyncSwitch (EXCELLENT 48..120 Hz profile).
   - Game tuning guide (`guides/game-tuning.html`): update 60 FPS capping strategy in Section 5 with ArcSyncSwitch integration.
-  - Software choice guide (`guides/software-choice.html`): document keeping the ClawTweaks VRR toggle disabled when using ArcSyncSwitch to prevent driver profile resets on game launch.
-- **Reason:** Provide users with the driver-level solution for smooth 60 FPS gameplay on Lunar Lake, prevent tool conflicts, and advertise bilingual software capabilities.
+  - Pruned unverified warnings: removed speculative ClawTweaks VRR toggle and MPO overlay warnings from guides.
+- **Reason:** Provide users with the driver-level solution for smooth 60 FPS gameplay on Lunar Lake and advertise bilingual software capabilities without unverified assumptions.
 
 ### 2026-11-22: Align Header Controls Geometry and Catalog Third-Party Utilities
 - **Decision:** Perfect header layout geometry and expand the downloads catalog across the portal:
