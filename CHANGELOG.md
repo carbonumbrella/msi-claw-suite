@@ -2,6 +2,16 @@
 
 ## Decisions and Architectural Rules
 
+### 2026-11-27: Compile Comprehensive Context Facts and Eliminate Speculative Deductions
+- **Decision:** Compile a comprehensive, strictly empirical `CONTEXT_FACTS.md` document covering:
+  - Hardware specifications and environmental constraints for MSI Claw 8 AI+.
+  - Intel Arc Sync driver profiles (`EXCELLENT` vs `COMPATIBLE` vs `OFF`) and verified driver behavior.
+  - Low Framerate Compensation (LFC) control flags via `D3DKMTEscape`.
+  - Impact of performance telemetry overlays on 60 FPS smoothness.
+  - Explicit pruning of speculative deductions (ClawTweaks VRR toggle warning and stock LFC frequency threshold speculation).
+  - Portal architecture, design checklist standards (32px controls, SVG arrow centering, zero em/en dashes), and suite application catalog.
+- **Reason:** Provide an authoritative, detailed factual memory file prior to context compaction, eliminating all unverified claims.
+
 ### 2026-11-27: Document Verified Performance Overlay Impact on 60 FPS Smoothness
 - **Decision:** Document the verified hardware and driver interaction regarding performance overlays:
   - VRR and Display guide (`guides/vrr-display.html`): in `#lfc-boundary`, document that active on-screen performance/statistics overlays over the game window disrupt frame delivery smoothness at 60 FPS, advising users to disable overlays if 60 FPS stutter occurs.
